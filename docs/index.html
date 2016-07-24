@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>Grafika</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" media="screen">
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen">
+</head>
+<body>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>What is Grafika?</h1>
+        <p>Grafika is an image processing library for PHP. It can be used to resize, crop, compare, and add watermark on images. It can also create texts, geometric shapes, and apply filters. Its built on top of Imagick and GD.</p>
+
+        <a href="https://github.com/kosinix/grafika/archive/master.zip" class="button">Download .zip</a>
+        <a href="https://github.com/kosinix/grafika/" class="button">Github</a>
+        <h2>Features</h2>
+        <ul>
+            <li>Smart crop</li>
+            <li>Image compare</li>
+            <li>Perceptual hash</li>
+            <li>Advance image processing filters</li>
+            <li>Bezier curves</li>
+        </ul>
+        <h2>Why You Might Need It?</h2>
+        <p>Grafika makes it easier to do image manipulation in PHP.</p>
+        <p>Consider the following code using PHP's default built-in image lib, GD. <br>It will resize a jpeg image to exactly 200x200 pixels:</p>
+        <pre><code>$gd = imagecreatefromjpeg( 'path/to/jpeg/image.jpg' ); // Open jpeg file
+
+$newImage = imagecreatetruecolor(200, 200); // Create a blank image
+
+// Resize image to 200x200
+imagecopyresampled(
+    $newImage,
+    $gd,
+    0,
+    0,
+    0,
+    0,
+    200,
+    200,
+    imagesx($gd),
+    imagesy($gd)
+);
+
+imagedestroy($gd); // Free up memory
+
+imagejpeg( $newImage, 'path/to/edited.jpg', 90 ); // Save resized image with 90% quality
+
+imagedestroy($newImage); // Free up memory
+            </code></pre>
+
+        <p>Now consider doing the same using grafika:</p>
+        <pre><code>use Grafika\Grafika;
+
+$editor = Grafika::createEditor();
+
+$editor->open( "path/to/jpeg/image.jpg" );
+$editor->resizeExact( 200, 200 );
+$editor->save( "path/to/edited.jpg", null, 90 );</code></pre>
+
+        <p>You can even chain the api calls (think jQuery):</p>
+<pre><code>use Grafika\Grafika;
+
+Grafika::createEditor()
+        ->open( "path/to/jpeg/image.jpg" )
+        ->resizeExact( 200, 200 )
+        ->save( "path/to/edited.jpg", null, 90 );</code></pre>
+
+        <p>Other than resizing to exact width and height, Grafika has many more modes for resizing an image. See docs for more info.</p>
+
+
+        <ul class="pager">
+            <li class="next"><a href="requirements.html">Requirements</a></li>
+        </ul>
+    </div>
+    <div id="sidebar" class="sidebar">
+    <div class="scrollable">
+        <ul class="menu">
+            <li>Getting Started</li>
+            <li>
+                <ul>
+                    <li><a href="index.html">What is Grafika?</a></li>
+                    <li><a href="requirements.html">Requirements</a></li>
+                    <li><a href="installation.html">Installation</a></li>
+                </ul>
+            </li>
+            <li>Examples</li>
+            <li>
+                <ul>
+                    <li><a href="creating-editors.html">Creating Editors</a></li>
+                    <li><a href="resizing.html">Resizing</a></li>
+                    <li><a href="compare-images.html">Compare Images</a></li>
+                    <li><a href="smart-crop.html">Smart Crop</a></li>
+                </ul>
+            </li>
+            <li>Editor Functions</li>
+            <li>
+                <ul>
+                    <li><a href="editor/apply.html">apply</a></li>
+                    <li><a href="editor/blank.html">blank</a></li>
+                    <li><a href="editor/compare.html">compare</a></li>
+                    <li><a href="editor/crop.html">crop</a></li>
+                    <li><a href="editor/draw.html">draw</a></li>
+                    <li><a href="editor/equal.html">equal</a></li>
+                    <li><a href="editor/fill.html">fill</a></li>
+                    <li><a href="editor/free.html">free</a></li>
+                    <li><a href="editor/getImage.html">getImage</a></li>
+                    <li><a href="editor/isAvailable.html">isAvailable</a></li>
+                    <li><a href="editor/opacity.html">opacity</a></li>
+                    <li><a href="editor/open.html">open</a></li>
+                    <li><a href="editor/overlay.html">overlay</a></li>
+                    <li><a href="editor/resize.html">resize</a></li>
+                    <li><a href="editor/resizeExact.html">resizeExact</a></li>
+                    <li><a href="editor/resizeExactHeight.html">resizeExactHeight</a></li>
+                    <li><a href="editor/resizeExactWidth.html">resizeExactWidth</a></li>
+                    <li><a href="editor/resizeFill.html">resizeFill</a></li>
+                    <li><a href="editor/resizeFit.html">resizeFit</a></li>
+                    <li><a href="editor/rotate.html">rotate</a></li>
+                    <li><a href="editor/save.html">save</a></li>
+                    <li><a href="editor/setImage.html">setImage</a></li>
+                    <li><a href="editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Filters</li>
+            <li>
+                <ul>
+                    <li><a href="filters/Dither.html">Dither</a></li>
+                    <li><a href="filters/Grayscale.html">Grayscale</a></li>
+                    <li><a href="filters/Sobel.html">Sobel</a></li>
+                </ul>
+            </li>
+            <li>Drawing Objects</li>
+            <li>
+                <ul>
+                    <li><a href="draw/CubicBezier.html">CubicBezier</a></li>
+                    <li><a href="draw/Ellipse.html">Ellipse</a></li>
+                    <li><a href="draw/Line.html">Line</a></li>
+                    <li><a href="draw/Polygon.html">Polygon</a></li>
+                    <li><a href="draw/QuadraticBezier.html">QuadraticBezier</a></li>
+                    <li><a href="draw/Rectangle.html">Rectangle</a></li>
+                </ul>
+            </li>
+            <li>Additional Info</li>
+            <li>
+                <ul>
+                    <li><a href="license.html">License</a></li>
+                    <li><a href="development.html">Development</a></li>
+                </ul>
+            </li>
+        </ul>
+        <p class="credit">Grafika by Kosinix - Nico Amarilla</p>
+    </div>
+    <button id="sidebar-x" class="sidebar-x"></button>
+    <div id="handle" class="handle"></div>
+</div>    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="js/site.js"></script>
+</body>

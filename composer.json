@@ -1,0 +1,25 @@
+{
+    "name": "kosinix/grafika",
+    "description": "An image manipulation library for PHP.",
+    "keywords": ["grafika"],
+    "homepage": "https://github.com/kosinix/grafika",
+    "type": "library",
+    "license": [
+        "MIT",
+        "GPL-2.0+"
+    ],
+    "authors": [
+        {
+            "name": "Nico Amarilla",
+            "homepage": "https://www.kosinix.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Grafika\\": "src/Grafika"
+        }
+    }
+}

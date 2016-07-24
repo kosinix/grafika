@@ -1,0 +1,276 @@
+/**
+ * Set all element box sizing to border box
+ */
+html {
+    box-sizing: border-box;
+}
+/* Cascade the box-sizing */
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+/**
+ * Clear floats
+ */
+.clearfix:after,
+.pager:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+.clear{
+    clear:both
+}
+
+/* Screen reader only texts - taken from Bootstrap 3.x */
+.screen-reader-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+/* Responsive img */
+img {
+    max-width: 100%;
+    height: auto;
+}
+/**
+ * Font Assignments
+ */
+body,
+h1,
+h2 {
+    font-family: Roboto, Georgia, serif;
+}
+.credit,
+.content {
+    font-family: Arial, sans-serif;
+}
+pre {
+    font-family: "Courier New", monospace;
+}
+
+
+/* Typography */
+html {
+    font-size: 10px; /* For easy px to rem conversion. Now 1.0rem = 10px */
+    line-height: 1.75;
+}
+
+body {
+    font-size: 16px;
+    color: #333333;
+    background: #fcfcfc;
+}
+
+h1 {
+    font-size: 38px;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+h3 {
+    font-size: 28px;
+}
+
+h4 {
+    font-size: 26px;
+}
+
+h5 {
+    font-size: 24px;
+    margin: 40px 0 20px 0;
+}
+
+h6 {
+    font-size: 18px;
+    margin: 40px 0 15px 0;
+}
+
+.sidebar {
+    background: #333333;
+    color: #eeeeee;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    min-width: 250px;
+    max-width: 50%;
+}
+.hide .sidebar {
+    left: -100%;
+}
+.sidebar a {
+    color: #eeeeee;
+    text-decoration: none;
+}
+.sidebar a:hover {
+    color: #FF6600;
+}
+.sidebar-x {
+    position: absolute;
+    top: 3px;
+    right: 23px;
+    z-index: 2;
+    background: url('../images/close.svg') no-repeat left center;
+    width: 24px;
+    height: 24px;
+    display: block;
+    border:0;
+}
+.sidebar-show{
+    position: fixed;
+    top: 3px;
+    left: 3px;
+    z-index: 2;
+    background: url('../images/menu.svg') no-repeat left center;
+    width: 24px;
+    height: 24px;
+    display: none;
+    border:0;
+}
+.hide .sidebar-show {
+    display: block;
+}
+.menu {
+    list-style: none inside;
+    margin: 0;
+    padding: 0;
+}
+.menu > li {
+    margin-bottom: 15px;
+}
+.menu ul ul {
+    padding: 0 20px;
+}
+.scrollable {
+    padding: 30px 25px 20px 20px;
+    position: absolute;
+    left: 0;
+    right: 5px;
+    height: 100%;
+    overflow: auto;
+}
+.credit {
+    font-size: 12px;
+    text-align: center;
+    padding-top: 100px;
+}
+.handle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: #dddddd;
+    z-index: 1;
+    cursor: col-resize;
+}
+.content {
+    margin-left: 300px;
+    padding: 20px 100px 20px 150px;
+}
+.hide .content {
+    margin-left: 0;
+}
+.content a {
+    color: #1e6bb8;
+    text-decoration: none;
+}
+.content a:hover,
+.content a:focus {
+    color: #159957;
+}
+pre {
+    color: #567482;
+    background: #F3F6FA;
+    word-break: normal;
+    white-space: pre;
+    overflow: auto;
+    padding: 12px;
+    border: solid 1px #dce6f0;
+    line-height: 1.4;
+    border-radius: 5px;
+}
+.params > * {
+    padding-left: 30px;
+}
+.params p {
+    padding-left: 60px;
+}
+.content a.button,
+.button {
+    padding: 6px 15px;
+    background: #2196f3;
+    color: #ffffff;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 3px;
+}
+.content a.button:hover,
+.content a.button:active,
+.button:hover,
+.button:active {
+    background: #0c7abf;
+}
+.pager {
+    list-style: none inside;
+    margin: 0;
+    padding: 100px 0 0 0;
+}
+.pager a {
+    display: block;
+    text-decoration: none;
+    color: #333333;
+    padding: 5px 10px;
+    font-style: italic;
+}
+.pager .prev {
+    float: left;
+}
+.pager .prev a {
+    background: url('../images/arrow-left.svg') no-repeat center left;
+    padding-left: 30px;
+}
+
+.pager .next {
+    float: right;
+}
+.pager .next a {
+    background: url('../images/arrow-right.svg') no-repeat center right;
+    padding-right: 30px;
+}
+
+table td {
+    padding: 10px;
+}
+/*** BREAKOUTS ***/
+
+/* Responsive breakout at <= 450 */
+/* Ideal for mobile devices */
+@media ( max-width: 900px ) {
+
+    .content {
+        padding-left: 30px;
+        padding-right: 25px;
+    }
+}
+
+/* Responsive breakout at <= 450 */
+/* Ideal for mobile devices */
+@media ( max-width: 450px ) {
+
+    .content {
+        margin-left: 0;
+    }
+}

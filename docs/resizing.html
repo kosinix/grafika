@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>Grafika</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" media="screen">
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen">
+</head>
+<body>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>Resizing</h1>
+        <p>Grafika support 5 ways of resizing an image: fit, fill, exact, exactWidth, and exactHeight.</p>
+        <h2>Open an Image</h2>
+        <p>To open an existing image, all you need is to create an editor instance and call the open method:</p>
+
+        <pre><code>require_once 'path/to/grafika/src/autoloader.php'; // Automatically load our needed classes
+
+use Grafika\Grafika; // Import package
+
+$editor = Grafika::createEditor(); // Create editor
+
+$editor->open( "images/sample-jpeg.jpg" ); // Open jpeg image for editing</code></pre>
+
+        <h2>Resize Fit</h2>
+        <p>Resize Fit will fit the image within the given dimension:</p>
+
+        <pre><code>require_once 'path/to/grafika/src/autoloader.php'; // Automatically load our needed classes
+
+use Grafika\Grafika; // Import package
+
+$editor = Grafika::createEditor(); // Create editor
+
+$editor->open( "images/sample.jpg" ); // Open jpeg image for editing
+$editor->resizeFit( 200, 200 ); // Fit an image to 200 x 200 box
+$editor->save("images/testResizeFit.jpg"); // Save the image as jpeg
+
+$editor->open( "images/portrait.jpg" ); // Open jpeg image for editing
+$editor->resizeFit( 200, 200 ); // Fit an image to 200 x 200 box
+$editor->save("images/testResizeFitPortrait.jpg"); // Save the image as jpeg</code></pre>
+
+        <p>The gray box shows the 200x200 dimension that the images fit in.</p>
+        <div>
+            <div style="float: left; background: #ccc; width: 200px; height: 200px; margin-right: 5px;"><img src="images/testResizeFit.jpg" alt="testResizeFit"></div>
+            <div style="float: left; background: #ccc; width: 200px; height: 200px; text-align: center"><img src="images/testResizeFitPortrait.jpg" alt="testResizeFitPortrait"></div>
+            <div style="clear: both"></div>
+        </div>
+
+        <h2>Resize Exact</h2>
+        <p>Resize Exact will use the exact dimensions given, ignoring the aspect ratio. Here images appear squashed. It is useful if you want to force exact dimensions:</p>
+
+        <pre><code>use Grafika\Grafika;
+
+$editor = Grafika::createEditor();
+
+$editor->open( "images/sample.jpg" );
+$editor->resizeExact( 200, 200 );
+$editor->save("images/testResizeExact.jpg");
+
+$editor->open( "images/portrait.jpg" );
+$editor->resizeExact( 200, 200 );
+$editor->save("images/testResizeExactPortrait.jpg");</code></pre>
+
+        <div>
+            <img src="images/testResizeExact.jpg" alt="testResizeExact">
+            <img src="images/testResizeExactPortrait.jpg" alt="testResizeExactPortrait">
+        </div>
+
+        <h2>Resize Fill</h2>
+        <p>Resize Fill will fill the entire dimension given. Excess parts are cropped:</p>
+
+        <pre><code>use Grafika\Grafika;
+
+$editor = Grafika::createEditor();
+
+$editor->open( "images/sample.jpg" );
+$editor->resizeFill( 200, 200 );
+$editor->save("images/testResizeFill.jpg");
+
+$editor->open( "images/portrait.jpg" );
+$editor->resizeFill( 200, 200 );
+$editor->save("images/testResizeFillPortrait.jpg");</code></pre>
+
+        <div>
+            <img src="images/testResizeFill.jpg" alt="testResizeFill">
+            <img src="images/testResizeFillPortrait.jpg" alt="testResizeFillPortrait">
+        </div>
+
+        <h2>Resize Exact Width</h2>
+        <p>With resizeExactWidth, the height is auto calculated. Useful if you want column of images to be exactly the same width:</p>
+        <pre><code>use Grafika\Grafika;
+
+$editor = Grafika::createEditor();
+
+$editor->open( "images/sample.jpg" );
+$editor->resizeExactWidth( 100 );
+$editor->save("images/testResizeExactWidth.jpg");
+
+$editor->open( "images/portrait.jpg" );
+$editor->resizeExactWidth( 100 );
+$editor->save("images/testResizeExactWidthPortrait.jpg");</code></pre>
+
+        <div>
+            <div><img src="images/testResizeExactWidth.jpg" alt="testResizeExactWidth"></div>
+            <div><img src="images/testResizeExactWidthPortrait.jpg" alt="testResizeExactWidthPortrait"></div>
+        </div>
+
+
+        <h2>Resize Exact Height</h2>
+        <p>With resizeExactHeight, the width is auto calculated. Useful if you want row of images to be exactly the same height:</p>
+        <pre><code>use Grafika\Grafika;
+
+$editor = Grafika::createEditor();
+
+$editor->open( "images/sample.jpg" );
+$editor->resizeExactHeight( 100 );
+$editor->save("images/testResizeExactHeight.jpg");
+
+$editor->open( "images/portrait.jpg" );
+$editor->resizeExactHeight( 100 );
+$editor->save("images/testResizeExactHeightPortrait.jpg");</code></pre>
+
+        <div>
+            <img src="images/testResizeExactHeight.jpg" alt="testResizeExactHeight">
+            <img src="images/testResizeExactHeightPortrait.jpg" alt="testResizeExactHeightPortrait">
+        </div>
+
+        <ul class="pager">
+            <li class="prev"><a href="creating-editors.html">Creating Editors</a></li>
+        </ul>
+    </div>
+<div id="sidebar" class="sidebar">
+    <div class="scrollable">
+        <ul class="menu">
+            <li>Getting Started</li>
+            <li>
+                <ul>
+                    <li><a href="index.html">What is Grafika?</a></li>
+                    <li><a href="requirements.html">Requirements</a></li>
+                    <li><a href="installation.html">Installation</a></li>
+                </ul>
+            </li>
+            <li>Examples</li>
+            <li>
+                <ul>
+                    <li><a href="creating-editors.html">Creating Editors</a></li>
+                    <li><a href="resizing.html">Resizing</a></li>
+                    <li><a href="compare-images.html">Compare Images</a></li>
+                    <li><a href="smart-crop.html">Smart Crop</a></li>
+                </ul>
+            </li>
+            <li>Editor Functions</li>
+            <li>
+                <ul>
+                    <li><a href="editor/apply.html">apply</a></li>
+                    <li><a href="editor/blank.html">blank</a></li>
+                    <li><a href="editor/compare.html">compare</a></li>
+                    <li><a href="editor/crop.html">crop</a></li>
+                    <li><a href="editor/draw.html">draw</a></li>
+                    <li><a href="editor/equal.html">equal</a></li>
+                    <li><a href="editor/fill.html">fill</a></li>
+                    <li><a href="editor/free.html">free</a></li>
+                    <li><a href="editor/getImage.html">getImage</a></li>
+                    <li><a href="editor/isAvailable.html">isAvailable</a></li>
+                    <li><a href="editor/opacity.html">opacity</a></li>
+                    <li><a href="editor/open.html">open</a></li>
+                    <li><a href="editor/overlay.html">overlay</a></li>
+                    <li><a href="editor/resize.html">resize</a></li>
+                    <li><a href="editor/resizeExact.html">resizeExact</a></li>
+                    <li><a href="editor/resizeExactHeight.html">resizeExactHeight</a></li>
+                    <li><a href="editor/resizeExactWidth.html">resizeExactWidth</a></li>
+                    <li><a href="editor/resizeFill.html">resizeFill</a></li>
+                    <li><a href="editor/resizeFit.html">resizeFit</a></li>
+                    <li><a href="editor/rotate.html">rotate</a></li>
+                    <li><a href="editor/save.html">save</a></li>
+                    <li><a href="editor/setImage.html">setImage</a></li>
+                    <li><a href="editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Filters</li>
+            <li>
+                <ul>
+                    <li><a href="filters/Dither.html">Dither</a></li>
+                    <li><a href="filters/Grayscale.html">Grayscale</a></li>
+                    <li><a href="filters/Sobel.html">Sobel</a></li>
+                </ul>
+            </li>
+            <li>Drawing Objects</li>
+            <li>
+                <ul>
+                    <li><a href="draw/CubicBezier.html">CubicBezier</a></li>
+                    <li><a href="draw/Ellipse.html">Ellipse</a></li>
+                    <li><a href="draw/Line.html">Line</a></li>
+                    <li><a href="draw/Polygon.html">Polygon</a></li>
+                    <li><a href="draw/QuadraticBezier.html">QuadraticBezier</a></li>
+                    <li><a href="draw/Rectangle.html">Rectangle</a></li>
+                </ul>
+            </li>
+            <li>Additional Info</li>
+            <li>
+                <ul>
+                    <li><a href="license.html">License</a></li>
+                    <li><a href="development.html">Development</a></li>
+                </ul>
+            </li>
+        </ul>
+        <p class="credit">Grafika by Kosinix - Nico Amarilla</p>
+    </div>
+    <button id="sidebar-x" class="sidebar-x"></button>
+    <div id="handle" class="handle"></div>
+</div>    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="js/site.js"></script>
+</body>

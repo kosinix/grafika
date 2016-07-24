@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>Grafika</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" media="screen">
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen">
+</head>
+<body>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>Comparing Images</h1>
+        <p>Grafika can compare how similar two images are and can also determine if two images are equal.</p>
+        <h2>Finding Similarity</h2>
+        <p>Finding similarity between two images using the compare() method:</p>
+
+        <pre><code>require_once 'path/to/grafika/src/autoloader.php'; // Automatically load our needed classes
+
+use Grafika\Grafika; // Import package
+
+$editor = Grafika::createEditor(); // Create editor
+
+$hammingDistance = $editor->compare( "image1.jpg", "image-2.jpg" );</code></pre>
+
+        <p>The compare method will return a hamming distance. The hamming distance determines how similar two images are. A value of 0 indicates a likely similar picture. A value between 1 and 10 is potentially a variation. A value greater than 10 is likely a different image.</p>
+
+        <h5>Examples:</h5>
+        <table style="min-width: 60%; max-width: 70%">
+            <tbody><tr>
+                <th width="20%">Type</th>
+                <th width="50%">Image</th>
+                <th width="10%">Hamming Distance</th>
+            </tr>
+            <tr>
+                <td>Base Image</td>
+                <td><img src="images/testSimilarityBase.jpg" alt="base"></td>
+                <td>N/A</td>
+            </tr>
+            <tr>
+                <td>Grayscaled</td>
+                <td><img src="images/testSimilarityGray.jpg" alt="gray"></td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Dithered</td>
+                <td><img src="images/testSimilarityDithered.jpg" alt="dither"></td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Smaller, <br> Watermarked</td>
+                <td><img src="images/testSimilarityWatermarked.jpg" alt="water"></td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>Cropped <br> Note: If you wish to test if an image is cropped try setting the threshold to 26. That means check if the hamming distance is <= 26.</td>
+                <td><img src="images/testSimilarityCropped.jpg" alt="cropped"></td>
+                <td>23</td>
+            </tr>
+            <tr>
+                <td>Totally Different Image</td>
+                <td><img src="images/testSimilarityDiff.jpg" alt="diff"></td>
+                <td>35</td>
+            </tr>
+            </tbody>
+        </table>
+        <h2>Checking Equality</h2>
+        <p>Grafika can also do a pixel by pixel comparison to determine if two images are exactly the same using the equal() method:</p>
+        <pre><code>require_once 'path/to/grafika/src/autoloader.php'; // Automatically load our needed classes
+
+use Grafika\Grafika; // Import package
+
+$editor = Grafika::createEditor(); // Create editor
+
+$result = $editor-&gt;equal( "image1.jpg", "image-2.jpg" ); // Returns true if images are equal or false if not</code></pre>
+        <p>This will return true if both images have exactly the same pixels.</p>
+        <p>It will compare if the two images are of the same width and height. If the dimensions differ, it will return false. If the dimensions are equal, it will loop through each pixels. If one of the pixel don't match, it will return false. The pixels are compared using their RGB (Red, Green, Blue) values.</p>
+        <p>equal() is expensive the larger the image. Use it when you absolutely need to check if two images are exactly the same. Otherwise you're better off using compare()</p>
+    </div>
+<div id="sidebar" class="sidebar">
+    <div class="scrollable">
+        <ul class="menu">
+            <li>Getting Started</li>
+            <li>
+                <ul>
+                    <li><a href="index.html">What is Grafika?</a></li>
+                    <li><a href="requirements.html">Requirements</a></li>
+                    <li><a href="installation.html">Installation</a></li>
+                </ul>
+            </li>
+            <li>Examples</li>
+            <li>
+                <ul>
+                    <li><a href="creating-editors.html">Creating Editors</a></li>
+                    <li><a href="resizing.html">Resizing</a></li>
+                    <li><a href="compare-images.html">Compare Images</a></li>
+                    <li><a href="smart-crop.html">Smart Crop</a></li>
+                </ul>
+            </li>
+            <li>Editor Functions</li>
+            <li>
+                <ul>
+                    <li><a href="editor/apply.html">apply</a></li>
+                    <li><a href="editor/blank.html">blank</a></li>
+                    <li><a href="editor/compare.html">compare</a></li>
+                    <li><a href="editor/crop.html">crop</a></li>
+                    <li><a href="editor/draw.html">draw</a></li>
+                    <li><a href="editor/equal.html">equal</a></li>
+                    <li><a href="editor/fill.html">fill</a></li>
+                    <li><a href="editor/free.html">free</a></li>
+                    <li><a href="editor/getImage.html">getImage</a></li>
+                    <li><a href="editor/isAvailable.html">isAvailable</a></li>
+                    <li><a href="editor/opacity.html">opacity</a></li>
+                    <li><a href="editor/open.html">open</a></li>
+                    <li><a href="editor/overlay.html">overlay</a></li>
+                    <li><a href="editor/resize.html">resize</a></li>
+                    <li><a href="editor/resizeExact.html">resizeExact</a></li>
+                    <li><a href="editor/resizeExactHeight.html">resizeExactHeight</a></li>
+                    <li><a href="editor/resizeExactWidth.html">resizeExactWidth</a></li>
+                    <li><a href="editor/resizeFill.html">resizeFill</a></li>
+                    <li><a href="editor/resizeFit.html">resizeFit</a></li>
+                    <li><a href="editor/rotate.html">rotate</a></li>
+                    <li><a href="editor/save.html">save</a></li>
+                    <li><a href="editor/setImage.html">setImage</a></li>
+                    <li><a href="editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Filters</li>
+            <li>
+                <ul>
+                    <li><a href="filters/Dither.html">Dither</a></li>
+                    <li><a href="filters/Grayscale.html">Grayscale</a></li>
+                    <li><a href="filters/Sobel.html">Sobel</a></li>
+                </ul>
+            </li>
+            <li>Drawing Objects</li>
+            <li>
+                <ul>
+                    <li><a href="draw/CubicBezier.html">CubicBezier</a></li>
+                    <li><a href="draw/Ellipse.html">Ellipse</a></li>
+                    <li><a href="draw/Line.html">Line</a></li>
+                    <li><a href="draw/Polygon.html">Polygon</a></li>
+                    <li><a href="draw/QuadraticBezier.html">QuadraticBezier</a></li>
+                    <li><a href="draw/Rectangle.html">Rectangle</a></li>
+                </ul>
+            </li>
+            <li>Additional Info</li>
+            <li>
+                <ul>
+                    <li><a href="license.html">License</a></li>
+                    <li><a href="development.html">Development</a></li>
+                </ul>
+            </li>
+        </ul>
+        <p class="credit">Grafika by Kosinix - Nico Amarilla</p>
+    </div>
+    <button id="sidebar-x" class="sidebar-x"></button>
+    <div id="handle" class="handle"></div>
+</div>    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="js/site.js"></script>
+</body>

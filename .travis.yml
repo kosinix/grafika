@@ -1,0 +1,34 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+
+matrix:
+    allow_failures:
+        - php: 7.0
+
+before_install:
+  - sudo add-apt-repository -y ppa:moti-p/cc
+  - sudo apt-get update
+  - sudo apt-get -y --reinstall install imagemagick
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.3" ]]; then printf "\n" | pecl install imagick-3.3.0; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.4" ]]; then printf "\n" | pecl install imagick-3.3.0; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.5" ]]; then printf "\n" | pecl install imagick-3.3.0; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" ]]; then printf "\n" | pecl install imagick-3.3.0; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then printf "\n" | pecl install imagick-beta; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" ]]; then phpunit --self-upgrade; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then phpunit --self-upgrade; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.4" ]]; then echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
+
+before_script:
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+  - sudo mkdir -p /home/travis/build/kosinix/grafika/tests/tmp
+  - sudo chmod -R 0777 /home/travis/build/kosinix/grafika/tests/
+
+
+script: phpunit

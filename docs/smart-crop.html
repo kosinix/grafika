@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>Grafika</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" media="screen">
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen">
+</head>
+<body>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>Smart Crop</h1>
+        <p>Image crop or cropping refers to the removal of the outer parts of an image to improve framing, accentuate subject matter or change aspect ratio.</p>
+        <h2>Basic Crop</h2>
+        <p>Grafika accepts the following crop position:</p>
+        <ul>
+            <li>top-left</li>
+            <li>top-center</li>
+            <li>top-right</li>
+            <li>center-left</li>
+            <li>center</li>
+            <li>center-right</li>
+            <li>bottom-left</li>
+            <li>bottom-center</li>
+            <li>bottom-right</li>
+        </ul>
+
+        <h5>Examples</h5>
+        <p>Given this input image and the code below:</p>
+        <p><img src="images/crop-test.jpg" alt=""></p>
+        <pre><code>// ...
+
+$input = 'crop-test.jpg';
+
+// Top
+$editor->open($input);
+$editor->crop(260, 150, 'top-left');
+$editor->save('testCrop1.jpg');
+
+$editor->open($input);
+$editor->crop(260, 150, 'top-center');
+$editor->save('testCrop2.jpg');
+
+$editor->open($input);
+$editor->crop(260, 150, 'top-right');
+$editor->save('testCrop3.jpg');
+
+// Middle row
+$editor->open($input);
+$editor->crop(260, 150, 'center-left');
+$editor->save('testCrop4.jpg');
+
+$editor->open($input);
+$editor->crop(260, 150, 'center');
+$editor->save('testCrop5.jpg');
+
+$editor->open($input);
+$editor->crop(260, 150, 'center-right');
+$editor->save('testCrop6.jpg');
+
+// Bottom row
+$editor->open($input);
+$editor->crop(260, 150, 'bottom-left');
+$editor->save('testCrop7.jpg');
+
+$editor->open($input);
+$editor->crop(260, 150, 'bottom-center');
+$editor->save('testCrop8.jpg');
+
+$editor->open($input);
+$editor->crop(260, 150, 'bottom-right');
+$editor->save('testCrop9.jpg');</code></pre>
+
+        <p>The above code would look like this if arrange in 3x3 grid:</p>
+
+        <table>
+            <tr>
+                <td><img src="images/testCrop1.jpg" alt="crop"></td>
+                <td><img src="images/testCrop2.jpg" alt="crop"></td>
+                <td><img src="images/testCrop3.jpg" alt="crop"></td>
+            </tr>
+            <tr>
+                <td><img src="images/testCrop4.jpg" alt="crop"></td>
+                <td><img src="images/testCrop5.jpg" alt="crop"></td>
+                <td><img src="images/testCrop6.jpg" alt="crop"></td>
+            </tr>
+            <tr>
+                <td><img src="images/testCrop7.jpg" alt="crop"></td>
+                <td><img src="images/testCrop8.jpg" alt="crop"></td>
+                <td><img src="images/testCrop9.jpg" alt="crop"></td>
+            </tr>
+        </table>
+
+        <h5>Smart Crop</h5>
+        <p>Grafika can also do smart cropping wherein it decides the crop position with the important regions of the images preserved.</p>
+        <table style="min-width: 60%; max-width: 70%">
+            <tbody><tr>
+                <th width="10%">Type</th>
+                <th width="45%">Image</th>
+                <th width="45%">Result</th>
+            </tr>
+            <tr>
+                <td>Face</td>
+                <td><img src="images/lena.png" alt="face"></td>
+                <td><img src="images/testSmartCrop1.jpg" alt="face"></td>
+            </tr>
+            <tr>
+                <td>Tower</td>
+                <td><img src="images/tower.jpg" alt="tower"></td>
+                <td><img src="images/testSmartCrop2.jpg" alt="tower"></td>
+            </tr>
+            <tr>
+                <td>Cube</td>
+                <td><img src="images/portal-companion-cube.jpg" alt=""></td>
+                <td><img src="images/testSmartCrop3.jpg" alt=""></td>
+            </tr>
+            <tr>
+                <td>Strawberries</td>
+                <td><img src="images/sample.jpg" alt=""></td>
+                <td><img src="images/testSmartCrop4.jpg" alt=""></td>
+            </tr>
+            <tr>
+                <td>Anime</td>
+                <td><img src="images/sample.png" alt=""></td>
+                <td><img src="images/testSmartCrop5.jpg" alt=""></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p>Note: This feature is currently experimental and will be continuously improve in future releases.</p>
+
+        <p>See the <a href="editor/crop.html">crop</a> API for more info.</p>
+    </div>
+<div id="sidebar" class="sidebar">
+    <div class="scrollable">
+        <ul class="menu">
+            <li>Getting Started</li>
+            <li>
+                <ul>
+                    <li><a href="index.html">What is Grafika?</a></li>
+                    <li><a href="requirements.html">Requirements</a></li>
+                    <li><a href="installation.html">Installation</a></li>
+                </ul>
+            </li>
+            <li>Examples</li>
+            <li>
+                <ul>
+                    <li><a href="creating-editors.html">Creating Editors</a></li>
+                    <li><a href="resizing.html">Resizing</a></li>
+                    <li><a href="compare-images.html">Compare Images</a></li>
+                    <li><a href="smart-crop.html">Smart Crop</a></li>
+                </ul>
+            </li>
+            <li>Editor Functions</li>
+            <li>
+                <ul>
+                    <li><a href="editor/apply.html">apply</a></li>
+                    <li><a href="editor/blank.html">blank</a></li>
+                    <li><a href="editor/compare.html">compare</a></li>
+                    <li><a href="editor/crop.html">crop</a></li>
+                    <li><a href="editor/draw.html">draw</a></li>
+                    <li><a href="editor/equal.html">equal</a></li>
+                    <li><a href="editor/fill.html">fill</a></li>
+                    <li><a href="editor/free.html">free</a></li>
+                    <li><a href="editor/getImage.html">getImage</a></li>
+                    <li><a href="editor/isAvailable.html">isAvailable</a></li>
+                    <li><a href="editor/opacity.html">opacity</a></li>
+                    <li><a href="editor/open.html">open</a></li>
+                    <li><a href="editor/overlay.html">overlay</a></li>
+                    <li><a href="editor/resize.html">resize</a></li>
+                    <li><a href="editor/resizeExact.html">resizeExact</a></li>
+                    <li><a href="editor/resizeExactHeight.html">resizeExactHeight</a></li>
+                    <li><a href="editor/resizeExactWidth.html">resizeExactWidth</a></li>
+                    <li><a href="editor/resizeFill.html">resizeFill</a></li>
+                    <li><a href="editor/resizeFit.html">resizeFit</a></li>
+                    <li><a href="editor/rotate.html">rotate</a></li>
+                    <li><a href="editor/save.html">save</a></li>
+                    <li><a href="editor/setImage.html">setImage</a></li>
+                    <li><a href="editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Filters</li>
+            <li>
+                <ul>
+                    <li><a href="filters/Dither.html">Dither</a></li>
+                    <li><a href="filters/Grayscale.html">Grayscale</a></li>
+                    <li><a href="filters/Sobel.html">Sobel</a></li>
+                </ul>
+            </li>
+            <li>Drawing Objects</li>
+            <li>
+                <ul>
+                    <li><a href="draw/CubicBezier.html">CubicBezier</a></li>
+                    <li><a href="draw/Ellipse.html">Ellipse</a></li>
+                    <li><a href="draw/Line.html">Line</a></li>
+                    <li><a href="draw/Polygon.html">Polygon</a></li>
+                    <li><a href="draw/QuadraticBezier.html">QuadraticBezier</a></li>
+                    <li><a href="draw/Rectangle.html">Rectangle</a></li>
+                </ul>
+            </li>
+            <li>Additional Info</li>
+            <li>
+                <ul>
+                    <li><a href="license.html">License</a></li>
+                    <li><a href="development.html">Development</a></li>
+                </ul>
+            </li>
+        </ul>
+        <p class="credit">Grafika by Kosinix - Nico Amarilla</p>
+    </div>
+    <button id="sidebar-x" class="sidebar-x"></button>
+    <div id="handle" class="handle"></div>
+</div>    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="js/site.js"></script>
+</body>

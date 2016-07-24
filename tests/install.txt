@@ -1,0 +1,2 @@
+You need PhpUnit to run the tests:
+https://phpunit.de/manual/current/en/installation.html
