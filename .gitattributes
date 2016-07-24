@@ -7,5 +7,5 @@
 /.travis.yml export-ignore
 /README.md export-ignore
 /phpunit.xml export-ignore
-/sami-phar export-ignore
+/sami.phar export-ignore
 /samiconf.php export-ignore
