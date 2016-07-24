@@ -76,6 +76,21 @@ try {
     echo $e->getMessage();
 }</pre>
         <p>However, you might not need the code above as GD is mostly available. You can just create a GD editor directly.</p>
+        <h3>Change Editor Order Globally</h3>
+        <p>The previous code will only change the order of editor evaluation one time for that function call. Sometimes it is useful to change the order of evaluation globally. For example if you prefer GD to be use when creating drawing objects or filters.</p>
+        <pre><code></code>use Grafika\Grafika; // Import package
+
+try {
+
+    Grafika::setEditorList(array('Gd', 'Imagick')); // Change order globally
+
+    // createFilter and createDrawingObject will now use the new order
+    $dither = Grafika::createFilter('Dither');
+    $line = Grafika::createDrawingObject('Line', array(100, 0), array(100, 200))
+
+} catch (Exception $e){ // Catch exceptions for safety
+    echo $e->getMessage();
+}</pre>
         <ul class="pager">
             <li class="prev"><a href="installation.html">Installation</a></li>
             <li class="next"><a href="resizing.html">Resizing</a></li>
