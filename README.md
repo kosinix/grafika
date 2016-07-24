@@ -1,4 +1,7 @@
 # Grafika
+
+[![Build Status](https://travis-ci.org/kosinix/grafika.svg?branch=master)](https://travis-ci.org/kosinix/grafika)
+
 An image processing library for PHP
 
 ## Documentation 
