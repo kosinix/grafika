@@ -167,6 +167,7 @@ class Grafika
     public static function createFilter($filterName)
     {
         $editorName = self::detectAvailableEditor();
+        $p = func_get_args();
         if ('Imagick' === $editorName) {
             switch ($filterName){
                 case 'Dither':
@@ -180,7 +181,9 @@ class Grafika
         } else {
             switch ($filterName){
                 case 'Blur':
-                    return new GdBlur();
+                    return new GdBlur(
+                        (array_key_exists(1,$p) ? $p[1] : 1)
+                    );
                 case 'Dither':
                     return new GdDither();
                 case 'Grayscale':
