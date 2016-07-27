@@ -22,6 +22,7 @@ use Grafika\Imagick\DrawingObject\QuadraticBezier as ImagickQuadraticBezier;
 use Grafika\Imagick\DrawingObject\Rectangle as ImagickRectangle;
 use Grafika\Imagick\Editor as ImagickEditor;
 use Grafika\Imagick\Filter\Blur as ImagickBlur;
+use Grafika\Imagick\Filter\Brightness as ImagickBrightness;
 use Grafika\Imagick\Filter\Dither as ImagickDither;
 use Grafika\Imagick\Filter\Grayscale as ImagickGrayscale;
 use Grafika\Imagick\Filter\Sobel as ImagickSobel;
@@ -173,6 +174,10 @@ class Grafika
             switch ($filterName){
                 case 'Blur':
                     return new ImagickBlur(
+                        (array_key_exists(1,$p) ? $p[1] : 1)
+                    );
+                case 'Brightness':
+                    return new ImagickBrightness(
                         (array_key_exists(1,$p) ? $p[1] : 1)
                     );
                 case 'Dither':
