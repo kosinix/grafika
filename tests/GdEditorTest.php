@@ -582,13 +582,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        //$start = microtime(true);
         $editor->open($input);
         $editor->apply( new Blur(10) );
         $editor->save($output);
-        //$end = microtime(true);
-        //$duration = number_format(($end - $start) * 1000, 3) . "ms";
-        //var_dump($duration);
         
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
