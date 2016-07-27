@@ -3,6 +3,7 @@ use Grafika\Color;
 use Grafika\EditorInterface;
 use Grafika\Grafika;
 use Grafika\Imagick\Editor;
+use Grafika\Imagick\Filter\Blur;
 use Grafika\Imagick\Image;
 
 /**
@@ -553,6 +554,24 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
         $editor->save($output);
 
         //$this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+
+    }
+
+    /**
+     * @depends testEqualFalse
+     * @param EditorInterface $editor
+     */
+    public function testBlur($editor)
+    {
+        $input = DIR_TEST_IMG . '/lena.png';
+        $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
+
+        $editor->open($input);
+        $editor->apply( new Blur(10) );
+        $editor->save($output);
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
 

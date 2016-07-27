@@ -21,6 +21,7 @@ use Grafika\Imagick\DrawingObject\Polygon as ImagickPolygon;
 use Grafika\Imagick\DrawingObject\QuadraticBezier as ImagickQuadraticBezier;
 use Grafika\Imagick\DrawingObject\Rectangle as ImagickRectangle;
 use Grafika\Imagick\Editor as ImagickEditor;
+use Grafika\Imagick\Filter\Blur as ImagickBlur;
 use Grafika\Imagick\Filter\Dither as ImagickDither;
 use Grafika\Imagick\Filter\Grayscale as ImagickGrayscale;
 use Grafika\Imagick\Filter\Sobel as ImagickSobel;
@@ -170,6 +171,10 @@ class Grafika
         $p = func_get_args();
         if ('Imagick' === $editorName) {
             switch ($filterName){
+                case 'Blur':
+                    return new ImagickBlur(
+                        (array_key_exists(1,$p) ? $p[1] : 1)
+                    );
                 case 'Dither':
                     return new ImagickDither();
                 case 'Grayscale':
