@@ -10,6 +10,7 @@ use Grafika\Gd\DrawingObject\QuadraticBezier as GdQuadraticBezier;
 use Grafika\Gd\DrawingObject\Rectangle as GdRectangle;
 use Grafika\Gd\Editor as GdEditor;
 use Grafika\Gd\Filter\Dither as GdDither;
+use Grafika\Gd\Filter\Blur as GdBlur;
 use Grafika\Gd\Filter\Grayscale as GdGrayscale;
 use Grafika\Gd\Filter\Sobel as GdSobel;
 use Grafika\Gd\Image as GdImage;
@@ -178,6 +179,8 @@ class Grafika
             throw new \Exception('Invalid filter name.');
         } else {
             switch ($filterName){
+                case 'Blur':
+                    return new GdBlur();
                 case 'Dither':
                     return new GdDither();
                 case 'Grayscale':
