@@ -25,6 +25,7 @@ use Grafika\Imagick\DrawingObject\Rectangle as ImagickRectangle;
 use Grafika\Imagick\Editor as ImagickEditor;
 use Grafika\Imagick\Filter\Blur as ImagickBlur;
 use Grafika\Imagick\Filter\Brightness as ImagickBrightness;
+use Grafika\Imagick\Filter\Colorize as ImagickColorize;
 use Grafika\Imagick\Filter\Dither as ImagickDither;
 use Grafika\Imagick\Filter\Grayscale as ImagickGrayscale;
 use Grafika\Imagick\Filter\Sobel as ImagickSobel;
@@ -181,6 +182,10 @@ class Grafika
                 case 'Brightness':
                     return new ImagickBrightness(
                         $p[1]
+                    );
+                case 'Colorize':
+                    return new ImagickColorize(
+                        $p[1], $p[2], $p[3]
                     );
                 case 'Dither':
                     return new ImagickDither();
