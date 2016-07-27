@@ -12,6 +12,7 @@ use Grafika\Gd\Editor as GdEditor;
 use Grafika\Gd\Filter\Dither as GdDither;
 use Grafika\Gd\Filter\Blur as GdBlur;
 use Grafika\Gd\Filter\Brightness as GdBrightness;
+use Grafika\Gd\Filter\Colorize as GdColorize;
 use Grafika\Gd\Filter\Grayscale as GdGrayscale;
 use Grafika\Gd\Filter\Sobel as GdSobel;
 use Grafika\Gd\Image as GdImage;
@@ -198,6 +199,10 @@ class Grafika
                 case 'Brightness':
                     return new GdBrightness(
                         $p[1]
+                    );
+                case 'Colorize':
+                    return new GdColorize(
+                        $p[1], $p[2], $p[3]
                     );
                 case 'Dither':
                     return new GdDither();

@@ -4,6 +4,7 @@ use Grafika\EditorInterface;
 use Grafika\Gd\Editor;
 use Grafika\Gd\Filter\Blur;
 use Grafika\Gd\Filter\Brightness;
+use Grafika\Gd\Filter\Colorize;
 use Grafika\Gd\Image;
 use Grafika\Grafika;
 
@@ -603,6 +604,24 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
 
         $editor->open($input);
         $editor->apply( new Brightness(50) );
+        $editor->save($output);
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+
+    }
+
+    /**
+     * @depends testEqualFalse
+     * @param EditorInterface $editor
+     */
+    public function testColorize($editor)
+    {
+        $input = DIR_TEST_IMG . '/lena.png';
+        $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
+
+        $editor->open($input);
+        $editor->apply( new Colorize(-50, -50, -50) );
         $editor->save($output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
