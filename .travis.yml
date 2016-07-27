@@ -11,6 +11,11 @@ matrix:
     allow_failures:
         - php: 7.0
 
+branches:
+  only:
+  - master
+  - develop
+
 before_install:
   - sudo add-apt-repository -y ppa:moti-p/cc
   - sudo apt-get update
