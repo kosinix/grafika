@@ -11,6 +11,7 @@ use Grafika\Gd\DrawingObject\Rectangle as GdRectangle;
 use Grafika\Gd\Editor as GdEditor;
 use Grafika\Gd\Filter\Dither as GdDither;
 use Grafika\Gd\Filter\Blur as GdBlur;
+use Grafika\Gd\Filter\Brightness as GdBrightness;
 use Grafika\Gd\Filter\Grayscale as GdGrayscale;
 use Grafika\Gd\Filter\Sobel as GdSobel;
 use Grafika\Gd\Image as GdImage;
@@ -178,7 +179,7 @@ class Grafika
                     );
                 case 'Brightness':
                     return new ImagickBrightness(
-                        (array_key_exists(1,$p) ? $p[1] : 1)
+                        $p[1]
                     );
                 case 'Dither':
                     return new ImagickDither();
@@ -193,6 +194,10 @@ class Grafika
                 case 'Blur':
                     return new GdBlur(
                         (array_key_exists(1,$p) ? $p[1] : 1)
+                    );
+                case 'Brightness':
+                    return new GdBrightness(
+                        $p[1]
                     );
                 case 'Dither':
                     return new GdDither();
