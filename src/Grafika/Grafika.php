@@ -29,6 +29,7 @@ use Grafika\Imagick\Filter\Blur as ImagickBlur;
 use Grafika\Imagick\Filter\Brightness as ImagickBrightness;
 use Grafika\Imagick\Filter\Colorize as ImagickColorize;
 use Grafika\Imagick\Filter\Contrast as ImagickContrast;
+use Grafika\Imagick\Filter\Gamma as ImagickGamma;
 use Grafika\Imagick\Filter\Dither as ImagickDither;
 use Grafika\Imagick\Filter\Grayscale as ImagickGrayscale;
 use Grafika\Imagick\Filter\Sobel as ImagickSobel;
@@ -196,6 +197,10 @@ class Grafika
                     );
                 case 'Dither':
                     return new ImagickDither();
+                case 'Gamma':
+                    return new ImagickGamma(
+                        $p[1]
+                    );
                 case 'Grayscale':
                     return new ImagickGrayscale();
                 case 'Sobel':
