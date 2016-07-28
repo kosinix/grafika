@@ -16,6 +16,7 @@ use Grafika\Gd\Filter\Colorize as GdColorize;
 use Grafika\Gd\Filter\Contrast as GdContrast;
 use Grafika\Gd\Filter\Gamma as GdGamma;
 use Grafika\Gd\Filter\Grayscale as GdGrayscale;
+use Grafika\Gd\Filter\Invert as GdInvert;
 use Grafika\Gd\Filter\Sobel as GdSobel;
 use Grafika\Gd\Image as GdImage;
 use Grafika\Imagick\DrawingObject\CubicBezier as ImagickCubicBezier;
@@ -233,6 +234,8 @@ class Grafika
                     );
                 case 'Grayscale':
                     return new GdGrayscale();
+                case 'Invert':
+                    return new GdInvert();
                 case 'Sobel':
                     return new GdSobel();
             }
