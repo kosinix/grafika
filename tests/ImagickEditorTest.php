@@ -544,6 +544,7 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
     /**
      * @depends testEqualFalse
      * @param EditorInterface $editor
+     * TODO: Check why this is failing on travis
      */
     public function testSobel($editor)
     {
@@ -607,6 +608,24 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
 
         $editor->open($input);
         $editor->apply( new Colorize(-50, -50, -50) );
+        $editor->save($output);
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+
+    }
+
+    /**
+     * @depends testEqualFalse
+     * @param EditorInterface $editor
+     */
+    public function testContrast($editor)
+    {
+        $input = DIR_TEST_IMG . '/lena.png';
+        $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
+
+        $editor->open($input);
+        $editor->apply( Grafika::createFilter('Contrast', 50) );
         $editor->save($output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
