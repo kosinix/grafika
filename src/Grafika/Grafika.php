@@ -35,6 +35,7 @@ use Grafika\Imagick\Filter\Gamma as ImagickGamma;
 use Grafika\Imagick\Filter\Dither as ImagickDither;
 use Grafika\Imagick\Filter\Grayscale as ImagickGrayscale;
 use Grafika\Imagick\Filter\Invert as ImagickInvert;
+use Grafika\Imagick\Filter\Pixelate as ImagickPixelate;
 use Grafika\Imagick\Filter\Sobel as ImagickSobel;
 use Grafika\Imagick\Image as ImagickImage;
 
@@ -208,6 +209,10 @@ class Grafika
                     return new ImagickGrayscale();
                 case 'Invert':
                     return new ImagickInvert();
+                case 'Pixelate':
+                    return new ImagickPixelate(
+                        $p[1]
+                    );
                 case 'Sobel':
                     return new ImagickSobel();
             }
