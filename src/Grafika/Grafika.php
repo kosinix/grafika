@@ -33,6 +33,7 @@ use Grafika\Imagick\Filter\Contrast as ImagickContrast;
 use Grafika\Imagick\Filter\Gamma as ImagickGamma;
 use Grafika\Imagick\Filter\Dither as ImagickDither;
 use Grafika\Imagick\Filter\Grayscale as ImagickGrayscale;
+use Grafika\Imagick\Filter\Invert as ImagickInvert;
 use Grafika\Imagick\Filter\Sobel as ImagickSobel;
 use Grafika\Imagick\Image as ImagickImage;
 
@@ -204,6 +205,8 @@ class Grafika
                     );
                 case 'Grayscale':
                     return new ImagickGrayscale();
+                case 'Invert':
+                    return new ImagickInvert();
                 case 'Sobel':
                     return new ImagickSobel();
             }
