@@ -10,7 +10,15 @@ use Grafika\Gd\DrawingObject\QuadraticBezier as GdQuadraticBezier;
 use Grafika\Gd\DrawingObject\Rectangle as GdRectangle;
 use Grafika\Gd\Editor as GdEditor;
 use Grafika\Gd\Filter\Dither as GdDither;
+use Grafika\Gd\Filter\Blur as GdBlur;
+use Grafika\Gd\Filter\Brightness as GdBrightness;
+use Grafika\Gd\Filter\Colorize as GdColorize;
+use Grafika\Gd\Filter\Contrast as GdContrast;
+use Grafika\Gd\Filter\Gamma as GdGamma;
 use Grafika\Gd\Filter\Grayscale as GdGrayscale;
+use Grafika\Gd\Filter\Invert as GdInvert;
+use Grafika\Gd\Filter\Pixelate as GdPixelate;
+use Grafika\Gd\Filter\Sharpen as GdSharpen;
 use Grafika\Gd\Filter\Sobel as GdSobel;
 use Grafika\Gd\Image as GdImage;
 use Grafika\Imagick\DrawingObject\CubicBezier as ImagickCubicBezier;
@@ -20,8 +28,16 @@ use Grafika\Imagick\DrawingObject\Polygon as ImagickPolygon;
 use Grafika\Imagick\DrawingObject\QuadraticBezier as ImagickQuadraticBezier;
 use Grafika\Imagick\DrawingObject\Rectangle as ImagickRectangle;
 use Grafika\Imagick\Editor as ImagickEditor;
+use Grafika\Imagick\Filter\Blur as ImagickBlur;
+use Grafika\Imagick\Filter\Brightness as ImagickBrightness;
+use Grafika\Imagick\Filter\Colorize as ImagickColorize;
+use Grafika\Imagick\Filter\Contrast as ImagickContrast;
+use Grafika\Imagick\Filter\Gamma as ImagickGamma;
 use Grafika\Imagick\Filter\Dither as ImagickDither;
 use Grafika\Imagick\Filter\Grayscale as ImagickGrayscale;
+use Grafika\Imagick\Filter\Invert as ImagickInvert;
+use Grafika\Imagick\Filter\Pixelate as ImagickPixelate;
+use Grafika\Imagick\Filter\Sharpen as ImagickSharpen;
 use Grafika\Imagick\Filter\Sobel as ImagickSobel;
 use Grafika\Imagick\Image as ImagickImage;
 
@@ -166,22 +182,83 @@ class Grafika
     public static function createFilter($filterName)
     {
         $editorName = self::detectAvailableEditor();
+        $p = func_get_args();
         if ('Imagick' === $editorName) {
             switch ($filterName){
+                case 'Blur':
+                    return new ImagickBlur(
+                        (array_key_exists(1,$p) ? $p[1] : 1)
+                    );
+                case 'Brightness':
+                    return new ImagickBrightness(
+                        $p[1]
+                    );
+                case 'Colorize':
+                    return new ImagickColorize(
+                        $p[1], $p[2], $p[3]
+                    );
+                case 'Contrast':
+                    return new ImagickContrast(
+                        $p[1]
+                    );
                 case 'Dither':
                     return new ImagickDither();
+                case 'Gamma':
+                    return new ImagickGamma(
+                        $p[1]
+                    );
                 case 'Grayscale':
                     return new ImagickGrayscale();
+                case 'Invert':
+                    return new ImagickInvert();
+                case 'Pixelate':
+                    return new ImagickPixelate(
+                        $p[1]
+                    );
+                case 'Sharpen':
+                    return new ImagickSharpen(
+                        $p[1]
+                    );
                 case 'Sobel':
                     return new ImagickSobel();
             }
             throw new \Exception('Invalid filter name.');
         } else {
             switch ($filterName){
+                case 'Blur':
+                    return new GdBlur(
+                        (array_key_exists(1,$p) ? $p[1] : 1)
+                    );
+                case 'Brightness':
+                    return new GdBrightness(
+                        $p[1]
+                    );
+                case 'Colorize':
+                    return new GdColorize(
+                        $p[1], $p[2], $p[3]
+                    );
+                case 'Contrast':
+                    return new GdContrast(
+                        $p[1]
+                    );
                 case 'Dither':
                     return new GdDither();
+                case 'Gamma':
+                    return new GdGamma(
+                        $p[1]
+                    );
                 case 'Grayscale':
                     return new GdGrayscale();
+                case 'Invert':
+                    return new GdInvert();
+                case 'Pixelate':
+                    return new GdPixelate(
+                        $p[1]
+                    );
+                case 'Sharpen':
+                    return new GdSharpen(
+                        $p[1]
+                    );
                 case 'Sobel':
                     return new GdSobel();
             }
