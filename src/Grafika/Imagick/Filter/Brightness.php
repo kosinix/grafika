@@ -23,7 +23,8 @@ class Brightness implements FilterInterface{
      * @return Image
      */
     public function apply( $image ) {
-        return $image->getCore()->modulateImage(100 + $this->amount, 100, 100);
+        $image->getCore()->modulateImage(100 + $this->amount, 100, 100);
+        return $image;
     }
 
 }

@@ -23,7 +23,8 @@ class Blur implements FilterInterface{
      * @return Image
      */
     public function apply( $image ) {
-        return $image->getCore()->blurImage(1 * $this->amount, 0.5 * $this->amount);
+        $image->getCore()->blurImage(1 * $this->amount, 0.5 * $this->amount);
+        return $image;
     }
 
 }
