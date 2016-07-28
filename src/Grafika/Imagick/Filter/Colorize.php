@@ -16,9 +16,9 @@ class Colorize implements FilterInterface{
 
     public function __construct($red, $green, $blue)
     {
-        $this->red = round($red * 2.55);
-        $this->green = round($green * 2.55);
-        $this->blue = round($blue * 2.55);
+        $this->red = intval($red);
+        $this->green = intval($green);
+        $this->blue = intval($blue);
     }
 
     /**
