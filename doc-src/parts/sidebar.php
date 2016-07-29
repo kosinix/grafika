@@ -51,6 +51,7 @@
                 <ul>
                     <li><a href="<?php echo $doc_src; ?>filters/Blur.php">Blur</a></li>
                     <li><a href="<?php echo $doc_src; ?>filters/Brightness.php">Brightness</a></li>
+                    <li><a href="<?php echo $doc_src; ?>filters/Colorize.php">Colorize</a></li>
                     <li><a href="<?php echo $doc_src; ?>filters/Dither.php">Dither</a></li>
                     <li><a href="<?php echo $doc_src; ?>filters/Grayscale.php">Grayscale</a></li>
                     <li><a href="<?php echo $doc_src; ?>filters/Sobel.php">Sobel</a></li>
