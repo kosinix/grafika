@@ -10,5 +10,8 @@ An image processing library for PHP
 ## API: 
 [http://kosinix.github.io/grafika/api](http://kosinix.github.io/grafika/api)
 
+## Packagist
+[https://packagist.org/packages/kosinix/grafika](https://packagist.org/packages/kosinix/grafika)
+
 ## License
 - MIT License
