@@ -1,8 +1,25 @@
 <?php include '../init.php'; ?>
 <?php include '../parts/top.php'; ?>
+<?php
+$methodName = basename(__FILE__, '.php');
+$doc = new Documentation( new ReflectionClass( '\Grafika\Gd\Filter\\'.$methodName ), '__construct' ); ?>
     <div id="content" class="content">
-        <h1>Sobel</h1>
-        <p>Sobel filter is an edge detection filter.</p>
+        <h1><?php echo ucwords($methodName); ?></h1>
+        <p><?php echo classDoc('\Grafika\Gd\Filter\\'.$methodName); ?></p>
+
+        <h5>Parameters</h5>
+        <?php if($doc->params): ?>
+            <div class="params">
+                <?php foreach($doc->params as $i=>$param): ?>
+
+                    <h6><?php echo $param['name']; ?></h6>
+
+                    <p><?php echo $param['desc']; ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p>This function has no parameters.</p>
+        <?php endif; ?>
         <h5>Examples</h5>
         <pre><code>use Grafika\Grafika; // Import package
 

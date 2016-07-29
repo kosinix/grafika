@@ -11,3 +11,10 @@ $doc_src = '';
 if(false !== $pos ){
     $doc_src = substr($haystack, 0, $pos+strlen($needle));
 }
+
+function classDoc($classPath){
+    $class = new ReflectionClass($classPath);
+    $str = preg_replace(array('(\/\*\*[\s]+[*][\s])','([\s]\*\/)'), '', $class->getDocComment());
+    $str = preg_split('/(\n)|(\r)/', $str);
+    return $str[0];
+}

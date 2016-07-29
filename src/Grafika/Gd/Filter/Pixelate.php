@@ -6,7 +6,7 @@ use Grafika\FilterInterface;
 use Grafika\Gd\Image;
 
 /**
- * Pixelate an image
+ * Pixelate an image.
  */
 class Pixelate implements FilterInterface{
 
@@ -15,6 +15,10 @@ class Pixelate implements FilterInterface{
      */
     protected $amount;
 
+    /**
+     * Pixelate constructor.
+     * @param int $amount The size of pixelation. >= 1
+     */
     public function __construct($amount)
     {
         $this->amount = (int) $amount;

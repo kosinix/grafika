@@ -6,15 +6,19 @@ use Grafika\FilterInterface;
 use Grafika\Gd\Image;
 
 /**
- * Sharpen an image
+ * Sharpen an image.
  */
 class Sharpen implements FilterInterface{
 
     /**
-     * @var int $amount Amount of sharpening from >= 1 <= 100
+     * @var int $amount 
      */
     protected $amount;
 
+    /**
+     * Sharpen constructor.
+     * @param int $amount Amount of sharpening from >= 1 to <= 100
+     */
     public function __construct($amount)
     {
         $this->amount = (int) $amount;
