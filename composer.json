@@ -2,7 +2,7 @@
     "name": "kosinix/grafika",
     "description": "An image manipulation library for PHP.",
     "keywords": ["grafika"],
-    "homepage": "https://github.com/kosinix/grafika",
+    "homepage": "http://kosinix.github.io/grafika",
     "type": "library",
     "license": [
         "MIT",
