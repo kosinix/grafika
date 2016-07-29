@@ -57,6 +57,7 @@
                     <li><a href="<?php echo $doc_src; ?>filters/Gamma.php">Gamma</a></li>
                     <li><a href="<?php echo $doc_src; ?>filters/Grayscale.php">Grayscale</a></li>
                     <li><a href="<?php echo $doc_src; ?>filters/Invert.php">Invert</a></li>
+                    <li><a href="<?php echo $doc_src; ?>filters/Pixelate.php">Pixelate</a></li>
                     <li><a href="<?php echo $doc_src; ?>filters/Sobel.php">Sobel</a></li>
                 </ul>
             </li>
