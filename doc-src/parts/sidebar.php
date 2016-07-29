@@ -54,6 +54,7 @@
                     <li><a href="<?php echo $doc_src; ?>filters/Colorize.php">Colorize</a></li>
                     <li><a href="<?php echo $doc_src; ?>filters/Contrast.php">Contrast</a></li>
                     <li><a href="<?php echo $doc_src; ?>filters/Dither.php">Dither</a></li>
+                    <li><a href="<?php echo $doc_src; ?>filters/Gamma.php">Gamma</a></li>
                     <li><a href="<?php echo $doc_src; ?>filters/Grayscale.php">Grayscale</a></li>
                     <li><a href="<?php echo $doc_src; ?>filters/Sobel.php">Sobel</a></li>
                 </ul>
