@@ -690,6 +690,7 @@ final class Editor implements EditorInterface
      * @param Color|null $color The Color object containing the background color.
      *
      * @return EditorInterface An instance of image editor.
+     * @throws \Exception
      */
     public function rotate($angle, $color = null)
     {
@@ -699,8 +700,13 @@ final class Editor implements EditorInterface
         $color = ($color !== null) ? $color : new Color('#000000');
         list($r, $g, $b, $alpha) = $color->getRgba();
 
-        imagerotate($this->image->getCore(), $angle,
-            imagecolorallocatealpha($this->image->getCore(), $r, $g, $b, $alpha));
+        $new = imagerotate($this->image->getCore(), $angle, imagecolorallocatealpha($this->image->getCore(), $r, $g, $b, $alpha));
+
+        if(false === $new){
+            throw new \Exception('Error rotating image.');
+        }
+
+        $this->image = new Image( $new, $this->image->getImageFile(), $this->image->getWidth(), $this->image->getHeight(), $this->image->getType() );
 
         return $this;
     }
