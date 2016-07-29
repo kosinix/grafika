@@ -8,8 +8,6 @@
         <a href="https://github.com/kosinix/grafika/" class="button">Github</a>
 
         <h2>Why Grafika?</h2>
-
-        <h2>Features</h2>
         <p>These features are unique to Grafika and not currently found in other libs:</p>
         <ul>
             <li>Smart crop - Guess the crop position based on the image content where the most important regions are preserved.</li>
@@ -18,7 +16,7 @@
             <li>Advance image processing filters</li>
             <li>Bezier curves</li>
         </ul>
-        
+
         <p>Grafika makes it easier to do image manipulation in PHP.</p>
         <p>Consider the following code using PHP's default built-in image lib, GD. <br>It will resize a jpeg image to exactly 200x200 pixels:</p>
         <pre><code>$gd = imagecreatefromjpeg( 'path/to/jpeg/image.jpg' ); // Open jpeg file
