@@ -11,19 +11,21 @@
 <body>
 <button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
         <h1>What is Grafika?</h1>
-        <p>Grafika is an image processing library for PHP. It can be used to resize, crop, compare, and add watermark on images. It can also create texts, geometric shapes, and apply filters. Its built on top of Imagick and GD.</p>
+        <p>Grafika is an image processing library for PHP. It aims to be an image processing library not an image manipulation library. Image manipulation (resize, crop, transform and save to different formats) is a smaller subset of image processing.</p>
 
         <a href="https://github.com/kosinix/grafika/archive/master.zip" class="button">Download .zip</a>
         <a href="https://github.com/kosinix/grafika/" class="button">Github</a>
-        <h2>Features</h2>
+
+        <h2>Why Grafika?</h2>
+        <p>These features are unique to Grafika and not currently found in other libs:</p>
         <ul>
-            <li>Smart crop</li>
-            <li>Image compare</li>
-            <li>Perceptual hash</li>
+            <li>Smart crop - Guess the crop position based on the image content where the most important regions are preserved.</li>
+            <li>Image compare - Compare image similarity and equality using perceptual hash.</li>
+            <li>Perceptual hash - Hash an image using perceptual hash algorithms.</li>
             <li>Advance image processing filters</li>
             <li>Bezier curves</li>
         </ul>
-        <h2>Why You Might Need It?</h2>
+
         <p>Grafika makes it easier to do image manipulation in PHP.</p>
         <p>Consider the following code using PHP's default built-in image lib, GD. <br>It will resize a jpeg image to exactly 200x200 pixels:</p>
         <pre><code>$gd = imagecreatefromjpeg( 'path/to/jpeg/image.jpg' ); // Open jpeg file
@@ -126,8 +128,16 @@ Grafika::createEditor()
             <li>Filters</li>
             <li>
                 <ul>
+                    <li><a href="filters/Blur.html">Blur</a></li>
+                    <li><a href="filters/Brightness.html">Brightness</a></li>
+                    <li><a href="filters/Colorize.html">Colorize</a></li>
+                    <li><a href="filters/Contrast.html">Contrast</a></li>
                     <li><a href="filters/Dither.html">Dither</a></li>
+                    <li><a href="filters/Gamma.html">Gamma</a></li>
                     <li><a href="filters/Grayscale.html">Grayscale</a></li>
+                    <li><a href="filters/Invert.html">Invert</a></li>
+                    <li><a href="filters/Pixelate.html">Pixelate</a></li>
+                    <li><a href="filters/Sharpen.html">Sharpen</a></li>
                     <li><a href="filters/Sobel.html">Sobel</a></li>
                 </ul>
             </li>

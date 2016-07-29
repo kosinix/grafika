@@ -9,25 +9,25 @@
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" media="screen">
 </head>
 <body>
-<button id="sidebar-show" class="sidebar-show"></button><div id="content" class="content">
-    <h1>opacity</h1>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>Invert</h1>
+        <p>Invert the image colors.</p>
 
-    <p>
-Change the image opacity.</p>
+        <h5>Parameters</h5>
+                    <p>This function has no parameters.</p>
+                <h5>Examples</h5>
+        <pre><code>use Grafika\Grafika; // Import package
 
-    <pre><code>opacity( $opacity )</code></pre>
+//...
 
-    <p><strong>Warning:</strong> On GD editor, this function loops on each pixel manually which can be slow on large images.</p>
-    <h5>Parameters</h5>
-            <div class="params">
-            
-                <h6>opacity</h6>
-
-                <p> The opacity level where 1.0 is fully opaque and 0.0 is fully transparent.</p>
-                    </div>
-    
-    <h5>Returns</h5>
-            EditorInterface -          An instance of image editor.    </div>
+$filter = Grafika::createFilter('Invert');
+$editor->apply( $filter ); // Apply it to an image </code></pre>
+        
+        <p>Test image:</p>
+        <img src="../images/lena.png" alt="lena">
+        <p>Result:</p>
+        <img src="../images/testInvert.jpg" alt="result">
+    </div>
 <div id="sidebar" class="sidebar">
     <div class="scrollable">
         <ul class="menu">
