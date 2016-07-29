@@ -11,17 +11,21 @@ class Documentation {
     private $docBlock;
 
     public function __construct( \ReflectionClass $class, $methodName ) {
-        $method = $class->getMethod($methodName);
-        $params = $method->getParameters();
-        $comment = $method->getDocComment();
-        $this->docBlock = new DocBlock($comment);
+        try {
+            $method = $class->getMethod($methodName);
+            $params = $method->getParameters();
+            $comment = $method->getDocComment();
+            $this->docBlock = new DocBlock($comment);
 
-        $this->description = $this->docBlock->description;
-        $this->signature = $this->buildSignature($method);
-        $this->params = $this->buildParams($params);
-        if(isset($this->docBlock->all_params['return'])) {
-            $this->returnType = $this->return_type( $this->docBlock->all_params['return'][0] );
-            $this->returnDesc = $this->return_desc( $this->docBlock->all_params['return'][0] );
+            $this->description = $this->docBlock->description;
+            $this->signature = $this->buildSignature($method);
+            $this->params = $this->buildParams($params);
+            if (isset($this->docBlock->all_params['return'])) {
+                $this->returnType = $this->return_type($this->docBlock->all_params['return'][0]);
+                $this->returnDesc = $this->return_desc($this->docBlock->all_params['return'][0]);
+            }
+        } catch (\Exception $e){
+            
         }
     }
 
