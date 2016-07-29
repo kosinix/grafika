@@ -6,7 +6,7 @@ use Grafika\FilterInterface;
 use Grafika\Imagick\Image;
 
 /**
- * Invert the image colors
+ * Invert the image colors.
  */
 class Invert implements FilterInterface{
 
