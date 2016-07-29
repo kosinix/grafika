@@ -401,6 +401,24 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
      * @depends testEqualFalse
      * @param EditorInterface $editor
      */
+    public function testRotate($editor)
+    {
+
+        $input = DIR_TEST_IMG . '/sample.jpg';
+        $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
+
+        $editor->open($input);
+        $editor->rotate(45);
+        $editor->save($output);
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+    }
+
+    /**
+     * @depends testEqualFalse
+     * @param EditorInterface $editor
+     */
     public function testCubicBezier($editor)
     {
 
