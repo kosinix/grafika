@@ -243,6 +243,17 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $editor->save($output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+
+        // Animated gif
+        $input = DIR_TEST_IMG . '/sample.gif';
+        $output = DIR_TMP . '/' . __FUNCTION__ . '.gif';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.gif';
+
+        $editor->open($input);
+        $editor->resizeFit($editor->getImage()->getWidth() + 100, $editor->getImage()->getHeight() + 100);
+        $editor->save($output);
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
     /**
@@ -279,6 +290,17 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $editor->save($output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+
+        // Animated gif
+        $input = DIR_TEST_IMG . '/sample.gif';
+        $output = DIR_TMP . '/' . __FUNCTION__ . '.gif';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.gif';
+
+        $editor->open($input);
+        $editor->resizeExact(200, 200);
+        $editor->save($output);
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct));
     }
 
     /**
