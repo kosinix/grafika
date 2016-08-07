@@ -436,7 +436,7 @@ final class GifHelper {
      * @param $newW
      * @param $newH
      *
-     * @return GifByteStream $bytes
+     * @return array $blocks
      */
     public function resize($blocks, $newW, $newH){
         $images = $this->splitFrames($blocks);
