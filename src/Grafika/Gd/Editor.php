@@ -5,6 +5,7 @@ namespace Grafika\Gd;
 use Grafika\DrawingObjectInterface;
 use Grafika\EditorInterface;
 use Grafika\FilterInterface;
+use Grafika\Gd\Helper\GifHelper;
 use Grafika\Gd\ImageHash\DifferenceHash;
 use Grafika\Grafika;
 use Grafika\ImageInterface;
@@ -739,7 +740,15 @@ final class Editor implements EditorInterface
 
         switch (strtoupper($type)) {
             case ImageType::GIF :
-                imagegif($this->image->getCore(), $file);
+                if($this->image->getAnimated()){
+                    $blocks = $this->image->getBlocks();
+                    $gift = new GifHelper();
+                    $hex = $gift->encode($blocks);
+                    file_put_contents($file, pack('H*', $hex));
+                } else {
+                    imagegif($this->image->getCore(), $file);
+                }
+
                 break;
 
             case ImageType::PNG :
@@ -972,39 +981,55 @@ final class Editor implements EditorInterface
 
         $this->_imageCheck();
 
-        // Create blank image
-        $newImage = Image::createBlank($newWidth, $newHeight);
+        if (ImageType::GIF === $this->image->getType() and $this->image->getAnimated()) {
+            $gift = new GifHelper();
+            $blocks = $gift->resize($this->image->getBlocks(), $newWidth, $newHeight);
+            // Resize image instance
+            $this->image = new Image(
+                $this->image->getCore(),
+                $this->image->getImageFile(),
+                $newWidth,
+                $newHeight,
+                $this->image->getType(),
+                $blocks,
+                true
+            );
+        } else {
 
-        if (ImageType::PNG === $this->image->getType()) {
-            // Preserve PNG transparency
-            $newImage->fullAlphaMode(true);
+            // Create blank image
+            $newImage = Image::createBlank($newWidth, $newHeight);
+
+            if (ImageType::PNG === $this->image->getType()) {
+                // Preserve PNG transparency
+                $newImage->fullAlphaMode(true);
+            }
+
+            imagecopyresampled(
+                $newImage->getCore(),
+                $this->image->getCore(),
+                $targetX,
+                $targetY,
+                $srcX,
+                $srcY,
+                $newWidth,
+                $newHeight,
+                $this->image->getWidth(),
+                $this->image->getHeight()
+            );
+
+            // Free memory of old resource
+            imagedestroy($this->image->getCore());
+
+            // Resize image instance
+            $this->image = new Image(
+                $newImage->getCore(),
+                $this->image->getImageFile(),
+                $newWidth,
+                $newHeight,
+                $this->image->getType()
+            );
+
         }
-
-        imagecopyresampled(
-            $newImage->getCore(),
-            $this->image->getCore(),
-            $targetX,
-            $targetY,
-            $srcX,
-            $srcY,
-            $newWidth,
-            $newHeight,
-            $this->image->getWidth(),
-            $this->image->getHeight()
-        );
-
-        // Free memory of old resource
-        imagedestroy($this->image->getCore());
-
-        // Resize image instance
-        $this->image = new Image(
-            $newImage->getCore(),
-            $this->image->getImageFile(),
-            $newWidth,
-            $newHeight,
-            $this->image->getType()
-        );
-
     }
 
     /**
@@ -1033,12 +1058,14 @@ final class Editor implements EditorInterface
     {
         $ext = strtolower((string)pathinfo($imageFile, PATHINFO_EXTENSION));
 
-        if ('jpg' == $ext or 'jpeg' == $ext) {
+        if ('jpg' === $ext or 'jpeg' === $ext) {
             return ImageType::JPEG;
-        } else if ('gif' == $ext) {
+        } else if ('gif' === $ext) {
             return ImageType::GIF;
-        } else if ('png' == $ext) {
+        } else if ('png' === $ext) {
             return ImageType::PNG;
+        } else if ('wbm' === $ext or 'wbmp' === $ext) {
+            return ImageType::WBMP;
         } else {
             return ImageType::UNKNOWN;
         }
