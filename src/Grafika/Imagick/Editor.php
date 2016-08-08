@@ -40,6 +40,10 @@ final class Editor implements EditorInterface
      */
     public function apply($filter)
     {
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $this->image = $filter->apply($this->image);
 
         return $this;
@@ -55,6 +59,10 @@ final class Editor implements EditorInterface
      */
     public function blank($width, $height)
     {
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $this->image = Image::createBlank($width, $height);
 
         return $this;
@@ -74,10 +82,12 @@ final class Editor implements EditorInterface
 
         if (is_string($image1)) { // If string passed, turn it into a Image object
             $image1 = Image::createFromFile($image1);
+            $image1->flatten();
         }
 
         if (is_string($image2)) { // If string passed, turn it into a Image object
             $image2 = Image::createFromFile($image2);
+            $image2->flatten();
         }
 
         $hash = new DifferenceHash();
@@ -111,6 +121,10 @@ final class Editor implements EditorInterface
      */
     public function crop($cropWidth, $cropHeight, $position = 'center', $offsetX = 0, $offsetY = 0)
     {
+
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
 
         if ('top-left' === $position) {
             $x = 0;
@@ -162,6 +176,10 @@ final class Editor implements EditorInterface
      */
     public function draw($drawingObject)
     {
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $this->image = $drawingObject->draw($this->image);
 
         return $this;
@@ -181,10 +199,12 @@ final class Editor implements EditorInterface
 
         if (is_string($image1)) { // If string passed, turn it into a Image object
             $image1 = Image::createFromFile($image1);
+            $image1->flatten();
         }
 
         if (is_string($image2)) { // If string passed, turn it into a Image object
             $image2 = Image::createFromFile($image2);
+            $image2->flatten();
         }
 
         // Check if image dimensions are equal
@@ -237,10 +257,22 @@ final class Editor implements EditorInterface
 
         $this->_imageCheck();
 
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $target = $this->image->getCore()->getImagePixelColor($x, $y);
         $this->image->getCore()->floodfillPaintImage($color->getHexString(), 1, $target, $x, $y, false);
 
         return $this;
+    }
+
+    /**
+     * Flatten if animated GIF. Do nothing otherwise.
+     */
+    public function flatten(){
+        $this->_imageCheck();
+        $this->image->flatten();
     }
 
     /**
@@ -299,6 +331,10 @@ final class Editor implements EditorInterface
     {
 
         $this->_imageCheck();
+
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
 
         // Bounds checks
         $opacity = ($opacity > 1) ? 1 : $opacity;
@@ -375,6 +411,10 @@ final class Editor implements EditorInterface
     {
 
         $this->_imageCheck();
+
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
 
         if (is_string($overlay)) { // If string passed, turn it into a Image object
             $overlay = Image::createFromFile($overlay);
@@ -632,6 +672,10 @@ final class Editor implements EditorInterface
 
         $this->_imageCheck();
 
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $color = ($color !== null) ? $color : new Color('#000000');
         list($r, $g, $b, $alpha) = $color->getRgba();
 
@@ -729,6 +773,10 @@ final class Editor implements EditorInterface
     {
 
         $this->_imageCheck();
+
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
 
         $y += $size;
 

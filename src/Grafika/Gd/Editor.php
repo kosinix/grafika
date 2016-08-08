@@ -5,13 +5,7 @@ namespace Grafika\Gd;
 use Grafika\DrawingObjectInterface;
 use Grafika\EditorInterface;
 use Grafika\FilterInterface;
-use Grafika\Gd\DrawingObject\CubicBezier;
-use Grafika\Gd\DrawingObject\Ellipse;
-use Grafika\Gd\DrawingObject\Line;
-use Grafika\Gd\DrawingObject\Polygon;
-use Grafika\Gd\DrawingObject\QuadraticBezier;
-use Grafika\Gd\DrawingObject\Rectangle;
-use Grafika\Gd\Filter\Dither;
+use Grafika\Gd\Helper\GifHelper;
 use Grafika\Gd\ImageHash\DifferenceHash;
 use Grafika\Grafika;
 use Grafika\ImageInterface;
@@ -47,6 +41,10 @@ final class Editor implements EditorInterface
      */
     public function apply($filter)
     {
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $this->image = $filter->apply($this->image);
 
         return $this;
@@ -62,6 +60,10 @@ final class Editor implements EditorInterface
      */
     public function blank($width, $height)
     {
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $this->image = Image::createBlank($width, $height);
 
         return $this;
@@ -81,10 +83,12 @@ final class Editor implements EditorInterface
 
         if (is_string($image1)) { // If string passed, turn it into a Image object
             $image1 = Image::createFromFile($image1);
+            $image1->flatten();
         }
 
         if (is_string($image2)) { // If string passed, turn it into a Image object
             $image2 = Image::createFromFile($image2);
+            $image2->flatten();
         }
 
         $hash = new DifferenceHash();
@@ -118,6 +122,9 @@ final class Editor implements EditorInterface
      */
     public function crop($cropWidth, $cropHeight, $position = 'center', $offsetX = 0, $offsetY = 0)
     {
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
 
         if ('top-left' === $position) {
             $x = 0;
@@ -191,6 +198,10 @@ final class Editor implements EditorInterface
      */
     public function draw($drawingObject)
     {
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $this->image = $drawingObject->draw($this->image);
 
         return $this;
@@ -210,10 +221,12 @@ final class Editor implements EditorInterface
 
         if (is_string($image1)) { // If string passed, turn it into a Image object
             $image1 = Image::createFromFile($image1);
+            $image1->flatten();
         }
 
         if (is_string($image2)) { // If string passed, turn it into a Image object
             $image2 = Image::createFromFile($image2);
+            $image2->flatten();
         }
 
         // Check if image dimensions are equal
@@ -268,6 +281,10 @@ final class Editor implements EditorInterface
 
         $this->_imageCheck();
 
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         list($r, $g, $b, $alpha) = $color->getRgba();
 
         $colorResource = imagecolorallocatealpha($this->image->getCore(), $r, $g, $b,
@@ -275,6 +292,14 @@ final class Editor implements EditorInterface
         imagefill($this->image->getCore(), $x, $y, $colorResource);
 
         return $this;
+    }
+
+    /**
+     * Flatten if animated GIF. Do nothing otherwise.
+     */
+    public function flatten(){
+        $this->_imageCheck();
+        $this->image->flatten();
     }
 
     /**
@@ -334,6 +359,10 @@ final class Editor implements EditorInterface
     {
 
         $this->_imageCheck();
+
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
 
         // Bounds checks
         $opacity = ($opacity > 1) ? 1 : $opacity;
@@ -429,6 +458,10 @@ final class Editor implements EditorInterface
     {
 
         $this->_imageCheck();
+
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
 
         if (is_string($overlay)) { // If string passed, turn it into a Image object
             $overlay = Image::createFromFile($overlay);
@@ -697,6 +730,10 @@ final class Editor implements EditorInterface
 
         $this->_imageCheck();
 
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $color = ($color !== null) ? $color : new Color('#000000');
         list($r, $g, $b, $alpha) = $color->getRgba();
 
@@ -746,7 +783,15 @@ final class Editor implements EditorInterface
 
         switch (strtoupper($type)) {
             case ImageType::GIF :
-                imagegif($this->image->getCore(), $file);
+                if($this->image->isAnimated()){
+                    $blocks = $this->image->getBlocks();
+                    $gift = new GifHelper();
+                    $hex = $gift->encode($blocks);
+                    file_put_contents($file, pack('H*', $hex));
+                } else {
+                    imagegif($this->image->getCore(), $file);
+                }
+
                 break;
 
             case ImageType::PNG :
@@ -794,6 +839,10 @@ final class Editor implements EditorInterface
 
         $this->_imageCheck();
 
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $y += $size;
 
         $color = ($color !== null) ? $color : new Color('#000000');
@@ -830,6 +879,7 @@ final class Editor implements EditorInterface
      */
     function histogram($slice = null)
     {
+
         $gd = $this->image->getCore();
 
         if(null === $slice){
@@ -979,39 +1029,55 @@ final class Editor implements EditorInterface
 
         $this->_imageCheck();
 
-        // Create blank image
-        $newImage = Image::createBlank($newWidth, $newHeight);
+        if ($this->image->isAnimated()) { // Animated GIF
+            $gift = new GifHelper();
+            $blocks = $gift->resize($this->image->getBlocks(), $newWidth, $newHeight);
+            // Resize image instance
+            $this->image = new Image(
+                $this->image->getCore(),
+                $this->image->getImageFile(),
+                $newWidth,
+                $newHeight,
+                $this->image->getType(),
+                $blocks,
+                true
+            );
+        } else {
 
-        if (ImageType::PNG === $this->image->getType()) {
-            // Preserve PNG transparency
-            $newImage->fullAlphaMode(true);
+            // Create blank image
+            $newImage = Image::createBlank($newWidth, $newHeight);
+
+            if (ImageType::PNG === $this->image->getType()) {
+                // Preserve PNG transparency
+                $newImage->fullAlphaMode(true);
+            }
+
+            imagecopyresampled(
+                $newImage->getCore(),
+                $this->image->getCore(),
+                $targetX,
+                $targetY,
+                $srcX,
+                $srcY,
+                $newWidth,
+                $newHeight,
+                $this->image->getWidth(),
+                $this->image->getHeight()
+            );
+
+            // Free memory of old resource
+            imagedestroy($this->image->getCore());
+
+            // Resize image instance
+            $this->image = new Image(
+                $newImage->getCore(),
+                $this->image->getImageFile(),
+                $newWidth,
+                $newHeight,
+                $this->image->getType()
+            );
+
         }
-
-        imagecopyresampled(
-            $newImage->getCore(),
-            $this->image->getCore(),
-            $targetX,
-            $targetY,
-            $srcX,
-            $srcY,
-            $newWidth,
-            $newHeight,
-            $this->image->getWidth(),
-            $this->image->getHeight()
-        );
-
-        // Free memory of old resource
-        imagedestroy($this->image->getCore());
-
-        // Resize image instance
-        $this->image = new Image(
-            $newImage->getCore(),
-            $this->image->getImageFile(),
-            $newWidth,
-            $newHeight,
-            $this->image->getType()
-        );
-
     }
 
     /**
@@ -1040,12 +1106,14 @@ final class Editor implements EditorInterface
     {
         $ext = strtolower((string)pathinfo($imageFile, PATHINFO_EXTENSION));
 
-        if ('jpg' == $ext or 'jpeg' == $ext) {
+        if ('jpg' === $ext or 'jpeg' === $ext) {
             return ImageType::JPEG;
-        } else if ('gif' == $ext) {
+        } else if ('gif' === $ext) {
             return ImageType::GIF;
-        } else if ('png' == $ext) {
+        } else if ('png' === $ext) {
             return ImageType::PNG;
+        } else if ('wbm' === $ext or 'wbmp' === $ext) {
+            return ImageType::WBMP;
         } else {
             return ImageType::UNKNOWN;
         }

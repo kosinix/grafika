@@ -4,7 +4,7 @@ namespace Grafika\Imagick;
 use Grafika\ImageInterface;
 
 /**
- * Immutable image class for Imagick.
+ * Image class for Imagick.
  * @package Grafika\Gd
  */
 final class Image implements ImageInterface {
@@ -36,6 +36,11 @@ final class Image implements ImageInterface {
     private $type;
 
     /**
+     * @var bool True if image is an animated GIF.
+     */
+    private $animated;
+
+    /**
      * Image constructor.
      *
      * @param \Imagick $imagick
@@ -43,13 +48,15 @@ final class Image implements ImageInterface {
      * @param int $width
      * @param int $height
      * @param string $type
+     * @param bool $animated
      */
-    public function __construct( \Imagick $imagick, $imageFile, $width, $height, $type ) {
+    public function __construct( \Imagick $imagick, $imageFile, $width, $height, $type, $animated = false ) {
         $this->imagick   = $imagick;
         $this->imageFile = $imageFile;
         $this->width     = $width;
         $this->height    = $height;
         $this->type      = $type;
+        $this->animated  = $animated;
     }
 
     public function __clone()
@@ -73,7 +80,19 @@ final class Image implements ImageInterface {
         }
 
         $imagick = new \Imagick( realpath($imageFile) );
-        return new self( $imagick, $imageFile, $imagick->getImageWidth(), $imagick->getImageHeight(), $imagick->getImageFormat());
+        $animated = false;
+        if ($imagick->getImageIterations() > 0) {
+            $animated = true;
+        }
+
+        return new self(
+            $imagick,
+            $imageFile,
+            $imagick->getImageWidth(),
+            $imagick->getImageHeight(),
+            $imagick->getImageFormat(),
+            $animated
+        );
     }
 
     /**
@@ -91,6 +110,17 @@ final class Image implements ImageInterface {
 
         return new self( $imagick, '', $imagick->getImageWidth(), $imagick->getImageHeight(), $imagick->getImageFormat());
 
+    }
+
+    /**
+     * Flatten if animated GIF. Do nothing otherwise.
+     */
+    public function flatten()
+    {
+        if($this->animated){
+            $this->imagick = $this->imagick->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
+            $this->animated = false;
+        }
     }
 
     /**
@@ -136,6 +166,15 @@ final class Image implements ImageInterface {
      */
     public function getType() {
         return $this->type;
+    }
+
+    /**
+     * Returns animated flag.
+     *
+     * @return bool True if animated GIF.
+     */
+    public function isAnimated() {
+        return $this->animated;
     }
 
 }

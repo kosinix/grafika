@@ -1,11 +1,13 @@
 <?php
 namespace Grafika\Gd;
 
+use Grafika\Gd\Helper\GifByteStream;
+use Grafika\Gd\Helper\GifHelper;
 use Grafika\ImageType;
 use Grafika\ImageInterface;
 
 /**
- * Immutable image class for GD.
+ * Image class for GD.
  * @package Grafika\Gd
  */
 final class Image implements ImageInterface {
@@ -36,6 +38,16 @@ final class Image implements ImageInterface {
     private $type;
 
     /**
+     * @var string Contains array of animated GIF data.
+     */
+    private $blocks;
+
+    /**
+     * @var bool True if animated GIF.
+     */
+    private $animated;
+
+    /**
      * Image constructor.
      *
      * @param resource $gd Must use GD's imagecreate* family of functions to create a GD resource.
@@ -43,13 +55,17 @@ final class Image implements ImageInterface {
      * @param int $width
      * @param int $height
      * @param string $type
+     * @param string $blocks
+     * @param bool $animated
      */
-    public function __construct( $gd, $imageFile, $width, $height, $type ) {
-        $this->gd        = $gd;
-        $this->imageFile = $imageFile;
-        $this->width     = $width;
-        $this->height    = $height;
-        $this->type      = $type;
+    public function __construct( $gd, $imageFile, $width, $height, $type, $blocks = '', $animated = false ) {
+        $this->gd         = $gd;
+        $this->imageFile  = $imageFile;
+        $this->width      = $width;
+        $this->height     = $height;
+        $this->type       = $type;
+        $this->blocks        = $blocks;
+        $this->animated = $animated;
     }
 
     public function __clone()
@@ -102,6 +118,8 @@ final class Image implements ImageInterface {
      *
      * @return Image
      * @throws \Exception
+     * @deprecated
+     * TODO: Make function private. Use createFromFile instead.
      */
     public static function createJpeg( $imageFile ){
         $gd = @imagecreatefromjpeg( $imageFile );
@@ -120,6 +138,8 @@ final class Image implements ImageInterface {
      *
      * @return Image
      * @throws \Exception
+     * @deprecated
+     * TODO: Make function private. Use createFromFile instead.
      */
     public static function createPng( $imageFile ){
         $gd = @imagecreatefrompng( $imageFile );
@@ -141,15 +161,32 @@ final class Image implements ImageInterface {
      *
      * @return Image
      * @throws \Exception
+     * @deprecated
+     * TODO: Make function private. Use createFromFile instead.
      */
     public static function createGif( $imageFile ){
+        $gift = new GifHelper();
+        $bytes = $gift->open($imageFile);
+        $animated = $gift->isAnimated($bytes);
+        $blocks = '';
+        if($animated){
+            $blocks = $gift->decode($bytes);
+        }
         $gd = @imagecreatefromgif( $imageFile );
 
         if(!$gd){
             throw new \Exception( sprintf('Could not open "%s". Not a valid %s file.', $imageFile, ImageType::GIF) );
         }
 
-        return new self( $gd, $imageFile, imagesx( $gd ), imagesy( $gd ), ImageType::GIF );
+        return new self(
+            $gd,
+            $imageFile,
+            imagesx( $gd ),
+            imagesy( $gd ),
+            ImageType::GIF,
+            $blocks,
+            $animated
+        );
     }
 
     /**
@@ -159,6 +196,8 @@ final class Image implements ImageInterface {
      *
      * @return Image
      * @throws \Exception
+     * @deprecated
+     * TODO: Make function private. Use createFromFile instead.
      */
     public static function createWbmp( $imageFile ){
         $gd = @imagecreatefromwbmp( $imageFile );
@@ -196,6 +235,22 @@ final class Image implements ImageInterface {
         return $this;
     }
 
+
+    /**
+     * Flatten if animated GIF. Do nothing otherwise.
+     */
+    public function flatten(){
+        if($this->animated) {
+            $gift = new GifHelper();
+            $hex  = $gift->encode($this->blocks);
+            $gd   = imagecreatefromstring(pack('H*', $hex)); // Recreate resource from blocks
+
+            $this->animated = false;
+            $this->gd       = $gd;
+            $this->blocks   = '';
+        }
+    }
+
     /**
      * Enable/Disable transparency
      *
@@ -209,6 +264,15 @@ final class Image implements ImageInterface {
         imagesavealpha( $this->gd, $flag );
 
         return $this;
+    }
+
+    /**
+     * Returns animated flag.
+     *
+     * @return bool True if animated GIF.
+     */
+    public function isAnimated() {
+        return $this->animated;
     }
 
     /**
@@ -254,6 +318,15 @@ final class Image implements ImageInterface {
      */
     public function getType() {
         return $this->type;
+    }
+
+    /**
+     * Get blocks.
+     *
+     * @return string.
+     */
+    public function getBlocks() {
+        return $this->blocks;
     }
 
     /**
