@@ -23,6 +23,11 @@ interface ImageInterface {
     public static function createBlank($width = 1, $height = 1);
 
     /**
+     * Flatten if animated GIF. Do nothing otherwise.
+     */
+    public function flatten();
+
+    /**
      * @return mixed
      */
     public function getCore();
