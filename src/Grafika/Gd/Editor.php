@@ -291,6 +291,14 @@ final class Editor implements EditorInterface
     }
 
     /**
+     * Flatten if animated GIF. Do nothing otherwise.
+     */
+    public function flatten(){
+        $this->_imageCheck();
+        $this->image->flatten();
+    }
+
+    /**
      * Free the current image clearing resources associated with it.
      */
     public function free()
