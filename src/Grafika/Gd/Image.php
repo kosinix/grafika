@@ -251,6 +251,15 @@ final class Image implements ImageInterface {
     }
 
     /**
+     * Returns animated flag.
+     *
+     * @return bool True if animated GIF.
+     */
+    public function isAnimated() {
+        return $this->animated;
+    }
+
+    /**
      * Get GD resource ID.
      *
      * @return resource
@@ -302,15 +311,6 @@ final class Image implements ImageInterface {
      */
     public function getBlocks() {
         return $this->blocks;
-    }
-
-    /**
-     * Returns animated flag.
-     *
-     * @return bool True if animated GIF.
-     */
-    public function isAnimated() {
-        return $this->animated;
     }
 
     /**
