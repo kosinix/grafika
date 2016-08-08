@@ -740,7 +740,7 @@ final class Editor implements EditorInterface
 
         switch (strtoupper($type)) {
             case ImageType::GIF :
-                if($this->image->getAnimated()){
+                if($this->image->isAnimated()){
                     $blocks = $this->image->getBlocks();
                     $gift = new GifHelper();
                     $hex = $gift->encode($blocks);
@@ -981,7 +981,7 @@ final class Editor implements EditorInterface
 
         $this->_imageCheck();
 
-        if (ImageType::GIF === $this->image->getType() and $this->image->getAnimated()) {
+        if ($this->image->isAnimated()) { // Animated GIF
             $gift = new GifHelper();
             $blocks = $gift->resize($this->image->getBlocks(), $newWidth, $newHeight);
             // Resize image instance
