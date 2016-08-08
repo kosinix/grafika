@@ -305,11 +305,11 @@ final class Image implements ImageInterface {
     }
 
     /**
-     * Get flag if image is animated.
+     * Returns animated flag.
      *
      * @return bool True if animated GIF.
      */
-    public function getAnimated() {
+    public function isAnimated() {
         return $this->animated;
     }
 
