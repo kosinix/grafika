@@ -82,6 +82,11 @@ interface EditorInterface {
     public function fill( $color, $x = 0, $y = 0 );
 
     /**
+     * Flatten if animated GIF. Do nothing otherwise.
+     */
+    public function flatten();
+
+    /**
      * Free the current image clearing resources associated with it.
      */
     public function free();
