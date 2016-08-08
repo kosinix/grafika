@@ -41,6 +41,10 @@ final class Editor implements EditorInterface
      */
     public function apply($filter)
     {
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $this->image = $filter->apply($this->image);
 
         return $this;
@@ -56,6 +60,10 @@ final class Editor implements EditorInterface
      */
     public function blank($width, $height)
     {
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $this->image = Image::createBlank($width, $height);
 
         return $this;
@@ -112,6 +120,9 @@ final class Editor implements EditorInterface
      */
     public function crop($cropWidth, $cropHeight, $position = 'center', $offsetX = 0, $offsetY = 0)
     {
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
 
         if ('top-left' === $position) {
             $x = 0;
@@ -185,6 +196,10 @@ final class Editor implements EditorInterface
      */
     public function draw($drawingObject)
     {
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $this->image = $drawingObject->draw($this->image);
 
         return $this;
@@ -262,6 +277,10 @@ final class Editor implements EditorInterface
 
         $this->_imageCheck();
 
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         list($r, $g, $b, $alpha) = $color->getRgba();
 
         $colorResource = imagecolorallocatealpha($this->image->getCore(), $r, $g, $b,
@@ -328,6 +347,10 @@ final class Editor implements EditorInterface
     {
 
         $this->_imageCheck();
+
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
 
         // Bounds checks
         $opacity = ($opacity > 1) ? 1 : $opacity;
@@ -423,6 +446,10 @@ final class Editor implements EditorInterface
     {
 
         $this->_imageCheck();
+
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
 
         if (is_string($overlay)) { // If string passed, turn it into a Image object
             $overlay = Image::createFromFile($overlay);
@@ -691,6 +718,10 @@ final class Editor implements EditorInterface
 
         $this->_imageCheck();
 
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $color = ($color !== null) ? $color : new Color('#000000');
         list($r, $g, $b, $alpha) = $color->getRgba();
 
@@ -796,6 +827,10 @@ final class Editor implements EditorInterface
 
         $this->_imageCheck();
 
+        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+            return $this;
+        }
+
         $y += $size;
 
         $color = ($color !== null) ? $color : new Color('#000000');
@@ -832,6 +867,7 @@ final class Editor implements EditorInterface
      */
     function histogram($slice = null)
     {
+
         $gd = $this->image->getCore();
 
         if(null === $slice){
