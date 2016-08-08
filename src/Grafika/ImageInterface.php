@@ -28,6 +28,13 @@ interface ImageInterface {
     public function flatten();
 
     /**
+     * Returns animated flag.
+     *
+     * @return bool True if animated GIF.
+     */
+    public function isAnimated();
+
+    /**
      * @return mixed
      */
     public function getCore();
