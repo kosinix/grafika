@@ -16,6 +16,7 @@
                     <li><a href="<?php echo $doc_src; ?>resizing.php">Resizing</a></li>
                     <li><a href="<?php echo $doc_src; ?>compare-images.php">Compare Images</a></li>
                     <li><a href="<?php echo $doc_src; ?>smart-crop.php">Smart Crop</a></li>
+                    <li><a href="<?php echo $doc_src; ?>animated-gif.php">Animated GIF</a></li>
                 </ul>
             </li>
             <li>Editor Functions</li>
@@ -28,6 +29,7 @@
                     <li><a href="<?php echo $doc_src; ?>editor/draw.php">draw</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/equal.php">equal</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/fill.php">fill</a></li>
+                    <li><a href="<?php echo $doc_src; ?>editor/flatten.php">flatten</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/free.php">free</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/getImage.php">getImage</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/isAvailable.php">isAvailable</a></li>
