@@ -317,8 +317,6 @@ final class Image implements ImageInterface {
      * @param $imageFile
      *
      * @return string
-     * @deprecated
-     * TODO: Make function private. Use createFromFile instead.
      */
     private static function _guessType( $imageFile ){
         // Values from http://php.net/manual/en/image.constants.php starting with IMAGETYPE_GIF.
