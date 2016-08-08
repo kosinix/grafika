@@ -85,6 +85,9 @@ $editor->save('testCrop9.jpg');</code></pre>
 
         <h5>Smart Crop</h5>
         <p>Grafika can also do smart cropping wherein it decides the crop position with the important regions of the images preserved.</p>
+        <pre><code>$editor->open($input);
+$editor->crop(200, 200, 'smart');
+$editor->save('output.jpg');</code></pre>
         <table style="min-width: 60%; max-width: 70%">
             <tbody><tr>
                 <th width="10%">Type</th>
@@ -122,6 +125,11 @@ $editor->save('testCrop9.jpg');</code></pre>
         <p>Note: This feature is currently experimental and will be continuously improve in future releases.</p>
 
         <p>See the <a href="<?php echo $doc_src; ?>editor/crop.php">crop</a> API for more info.</p>
+
+        <ul class="pager">
+            <li class="prev"><a href="compare-images.php">Compare Images</a></li>
+            <li class="next"><a href="animated-gif.php">Animated GIF</a></li>
+        </ul>
     </div>
 <?php include 'parts/sidebar.php'; ?>
 <?php include 'parts/bottom.php'; ?>

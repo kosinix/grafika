@@ -87,7 +87,7 @@
     
 
             <div class="description">
-            <p>Immutable image class for GD.</p>                    </div>
+            <p>Image class for GD.</p>                    </div>
     
     
     
@@ -100,7 +100,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(resource $gd, string $imageFile, int $width, int $height, string $type)
+                    <a href="#method___construct">__construct</a>(resource $gd, string $imageFile, int $width, int $height, string $type, string $blocks = &#039;&#039;, bool $animated = false)
         
                                             <p>Image constructor.</p>                </div>
                 <div class="col-md-2"></div>
@@ -133,7 +133,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_createJpeg">createJpeg</a>(string $imageFile)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Load a JPEG image.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -143,7 +143,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_createPng">createPng</a>(string $imageFile)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Load a PNG image.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -153,7 +153,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_createGif">createGif</a>(string $imageFile)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Load a GIF image.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -163,7 +163,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_createWbmp">createWbmp</a>(string $imageFile)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Load a WBMP image.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -189,12 +189,32 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_flatten">flatten</a>()
+        
+                                            <p>Flatten if animated GIF. Do nothing otherwise.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_fullAlphaMode">fullAlphaMode</a>(bool $flag)
         
                                             <p>Enable/Disable transparency</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isAnimated">isAnimated</a>()
+        
+                                            <p>Returns animated flag.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -247,6 +267,16 @@
                                             <p>Get image type.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="Grafika\Gd\string.">string.</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getBlocks">getBlocks</a>()
+        
+                                            <p>Get blocks.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -255,9 +285,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line         line 47</div>
+        <div class="location">at line         line 61</div>
         <code>                    
-    <strong>__construct</strong>(resource $gd, string $imageFile, int $width, int $height, string $type)
+    <strong>__construct</strong>(resource $gd, string $imageFile, int $width, int $height, string $type, string $blocks = &#039;&#039;, bool $animated = false)
         </code>
     </h3>
     <div class="details">
@@ -295,6 +325,16 @@
                 <td>$type</td>
                 <td></td>
             </tr>
+                    <tr>
+                <td>string</td>
+                <td>$blocks</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$animated</td>
+                <td></td>
+            </tr>
             </table>
 
             
@@ -306,7 +346,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method___clone">
-        <div class="location">at line         line 55</div>
+        <div class="location">at line         line 71</div>
         <code>                    
     <strong>__clone</strong>()
         </code>
@@ -325,7 +365,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createFromFile">
-        <div class="location">at line         line 71</div>
+        <div class="location">at line         line 87</div>
         <code>        static            mixed
     <strong>createFromFile</strong>($imageFile)
         </code>
@@ -372,13 +412,20 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createJpeg">
-        <div class="location">at line         line 106</div>
+        <div class="location">at line         line 124</div>
         <code>        static            <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
     <strong>createJpeg</strong>(string $imageFile)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>TODO:</td>
+                    <td>Make function private. Use createFromFile instead.</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -421,13 +468,20 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createPng">
-        <div class="location">at line         line 124</div>
+        <div class="location">at line         line 144</div>
         <code>        static            <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
     <strong>createPng</strong>(string $imageFile)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>TODO:</td>
+                    <td>Make function private. Use createFromFile instead.</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -470,13 +524,20 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createGif">
-        <div class="location">at line         line 145</div>
+        <div class="location">at line         line 167</div>
         <code>        static            <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
     <strong>createGif</strong>(string $imageFile)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>TODO:</td>
+                    <td>Make function private. Use createFromFile instead.</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -519,13 +580,20 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createWbmp">
-        <div class="location">at line         line 163</div>
+        <div class="location">at line         line 202</div>
         <code>        static            <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
     <strong>createWbmp</strong>(string $imageFile)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>TODO:</td>
+                    <td>Make function private. Use createFromFile instead.</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -568,7 +636,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createBlank">
-        <div class="location">at line         line 181</div>
+        <div class="location">at line         line 220</div>
         <code>        static            mixed
     <strong>createBlank</strong>(int $width = 1, int $height = 1)
         </code>
@@ -613,7 +681,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_alphaBlendingMode">
-        <div class="location">at line         line 193</div>
+        <div class="location">at line         line 232</div>
         <code>                    <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
     <strong>alphaBlendingMode</strong>(bool $flag)
         </code>
@@ -652,8 +720,29 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_flatten">
+        <div class="location">at line         line 242</div>
+        <code>                    
+    <strong>flatten</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Flatten if animated GIF. Do nothing otherwise.</p>                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_fullAlphaMode">
-        <div class="location">at line         line 205</div>
+        <div class="location">at line         line 260</div>
         <code>                    <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
     <strong>fullAlphaMode</strong>(bool $flag)
         </code>
@@ -692,8 +781,38 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_isAnimated">
+        <div class="location">at line         line 274</div>
+        <code>                    bool
+    <strong>isAnimated</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns animated flag.</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>True if animated GIF.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getCore">
-        <div class="location">at line         line 219</div>
+        <div class="location">at line         line 283</div>
         <code>                    mixed
     <strong>getCore</strong>()
         </code>
@@ -723,7 +842,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getImageFile">
-        <div class="location">at line         line 228</div>
+        <div class="location">at line         line 292</div>
         <code>                    mixed
     <strong>getImageFile</strong>()
         </code>
@@ -753,7 +872,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getWidth">
-        <div class="location">at line         line 237</div>
+        <div class="location">at line         line 301</div>
         <code>                    mixed
     <strong>getWidth</strong>()
         </code>
@@ -783,7 +902,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getHeight">
-        <div class="location">at line         line 246</div>
+        <div class="location">at line         line 310</div>
         <code>                    mixed
     <strong>getHeight</strong>()
         </code>
@@ -813,7 +932,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getType">
-        <div class="location">at line         line 255</div>
+        <div class="location">at line         line 319</div>
         <code>                    mixed
     <strong>getType</strong>()
         </code>
@@ -831,6 +950,36 @@
                     <table class="table table-condensed">
         <tr>
             <td>mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getBlocks">
+        <div class="location">at line         line 328</div>
+        <code>                    <abbr title="Grafika\Gd\string.">string.</abbr>
+    <strong>getBlocks</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get blocks.</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="Grafika\Gd\string.">string.</abbr></td>
             <td></td>
         </tr>
     </table>

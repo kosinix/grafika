@@ -94,6 +94,9 @@ $editor->save('testCrop9.jpg');</code></pre>
 
         <h5>Smart Crop</h5>
         <p>Grafika can also do smart cropping wherein it decides the crop position with the important regions of the images preserved.</p>
+        <pre><code>$editor->open($input);
+$editor->crop(200, 200, 'smart');
+$editor->save('output.jpg');</code></pre>
         <table style="min-width: 60%; max-width: 70%">
             <tbody><tr>
                 <th width="10%">Type</th>
@@ -131,6 +134,11 @@ $editor->save('testCrop9.jpg');</code></pre>
         <p>Note: This feature is currently experimental and will be continuously improve in future releases.</p>
 
         <p>See the <a href="editor/crop.html">crop</a> API for more info.</p>
+
+        <ul class="pager">
+            <li class="prev"><a href="compare-images.html">Compare Images</a></li>
+            <li class="next"><a href="animated-gif.html">Animated GIF</a></li>
+        </ul>
     </div>
 <div id="sidebar" class="sidebar">
     <div class="scrollable">
@@ -150,6 +158,7 @@ $editor->save('testCrop9.jpg');</code></pre>
                     <li><a href="resizing.html">Resizing</a></li>
                     <li><a href="compare-images.html">Compare Images</a></li>
                     <li><a href="smart-crop.html">Smart Crop</a></li>
+                    <li><a href="animated-gif.html">Animated GIF</a></li>
                 </ul>
             </li>
             <li>Editor Functions</li>
@@ -162,6 +171,7 @@ $editor->save('testCrop9.jpg');</code></pre>
                     <li><a href="editor/draw.html">draw</a></li>
                     <li><a href="editor/equal.html">equal</a></li>
                     <li><a href="editor/fill.html">fill</a></li>
+                    <li><a href="editor/flatten.html">flatten</a></li>
                     <li><a href="editor/free.html">free</a></li>
                     <li><a href="editor/getImage.html">getImage</a></li>
                     <li><a href="editor/isAvailable.html">isAvailable</a></li>

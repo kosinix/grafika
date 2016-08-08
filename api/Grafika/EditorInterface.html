@@ -168,6 +168,16 @@
                     
                 </div>
                 <div class="col-md-8 type">
+                    <a href="#method_flatten">flatten</a>()
+        
+                                            <p>Flatten if animated GIF. Do nothing otherwise.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_free">free</a>()
         
                                             <p>Free the current image clearing resources associated with it.</p>                </div>
@@ -693,8 +703,29 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_free">
+                    <h3 id="method_flatten">
         <div class="location">at line         line 87</div>
+        <code>                    
+    <strong>flatten</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Flatten if animated GIF. Do nothing otherwise.</p>                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_free">
+        <div class="location">at line         line 92</div>
         <code>                    
     <strong>free</strong>()
         </code>
@@ -715,7 +746,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getImage">
-        <div class="location">at line         line 94</div>
+        <div class="location">at line         line 99</div>
         <code>                    <a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
     <strong>getImage</strong>()
         </code>
@@ -745,7 +776,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isAvailable">
-        <div class="location">at line         line 101</div>
+        <div class="location">at line         line 106</div>
         <code>                    bool
     <strong>isAvailable</strong>()
         </code>
@@ -775,7 +806,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_opacity">
-        <div class="location">at line         line 110</div>
+        <div class="location">at line         line 115</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>opacity</strong>(float $opacity)
         </code>
@@ -815,7 +846,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_open">
-        <div class="location">at line         line 119</div>
+        <div class="location">at line         line 124</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>open</strong>(mixed $target)
         </code>
@@ -855,7 +886,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_openImage">
-        <div class="location">at line         line 128</div>
+        <div class="location">at line         line 133</div>
         <code>                    <abbr title="Grafika\$this">$this</abbr>
     <strong>openImage</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
         </code>
@@ -895,7 +926,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_openFile">
-        <div class="location">at line         line 138</div>
+        <div class="location">at line         line 143</div>
         <code>                    <abbr title="Grafika\$this">$this</abbr>
     <strong>openFile</strong>(string $file)
         </code>
@@ -944,7 +975,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_overlay">
-        <div class="location">at line         line 151</div>
+        <div class="location">at line         line 156</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>overlay</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>|string $overlay, string|int $xPos = &#039;center&#039;, string|int $yPos = &#039;center&#039;, null $width = null, null $height = null)
         </code>
@@ -1004,7 +1035,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resize">
-        <div class="location">at line         line 162</div>
+        <div class="location">at line         line 167</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>resize</strong>(int $newWidth, int $newHeight, string $mode = &#039;fit&#039;)
         </code>
@@ -1054,7 +1085,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeExact">
-        <div class="location">at line         line 172</div>
+        <div class="location">at line         line 177</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>resizeExact</strong>(int $newWidth, int $newHeight)
         </code>
@@ -1099,7 +1130,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeExactHeight">
-        <div class="location">at line         line 181</div>
+        <div class="location">at line         line 186</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>resizeExactHeight</strong>(int $newHeight)
         </code>
@@ -1139,7 +1170,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeExactWidth">
-        <div class="location">at line         line 190</div>
+        <div class="location">at line         line 195</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>resizeExactWidth</strong>(int $newWidth)
         </code>
@@ -1179,7 +1210,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeFill">
-        <div class="location">at line         line 200</div>
+        <div class="location">at line         line 205</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>resizeFill</strong>(int $newWidth, int $newHeight)
         </code>
@@ -1224,7 +1255,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeFit">
-        <div class="location">at line         line 210</div>
+        <div class="location">at line         line 215</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>resizeFit</strong>(int $newWidth, int $newHeight)
         </code>
@@ -1269,7 +1300,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_rotate">
-        <div class="location">at line         line 220</div>
+        <div class="location">at line         line 225</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>rotate</strong>(int $angle, <a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a>|null $color = null)
         </code>
@@ -1314,7 +1345,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_save">
-        <div class="location">at line         line 232</div>
+        <div class="location">at line         line 237</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>save</strong>(string $file, null|string $type = null, null|string $quality = null, bool $interlace = false)
         </code>
@@ -1369,7 +1400,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setImage">
-        <div class="location">at line         line 239</div>
+        <div class="location">at line         line 244</div>
         <code>                    
     <strong>setImage</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
         </code>
@@ -1400,7 +1431,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_text">
-        <div class="location">at line         line 255</div>
+        <div class="location">at line         line 260</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>text</strong>(string $text, int $size = 12, int $x, int $y = 12, <a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a> $color = null, string $font = &#039;&#039;, int $angle)
         </code>

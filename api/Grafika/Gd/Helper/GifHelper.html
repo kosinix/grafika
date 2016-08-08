@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>Grafika\Gd\Helper\GifHelper | API</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:Grafika_Gd_Helper_GifHelper" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">API</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                                                            <li><a href="../../../Grafika.html">Grafika</a></li>
+                                        <li><a href="../../../Grafika/Gd.html">Gd</a></li>
+                                        <li><a href="../../../Grafika/Gd/Helper.html">Helper</a></li>
+    
+                <li>GifHelper</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            GifHelper
+                
+        </h1>
+    </div>
+
+    <p>    class
+    <strong>GifHelper</strong>
+</p>
+
+        
+    
+
+    
+    
+    
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_open">open</a>($imageFile)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_load">load</a>(string $bin)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isAnimated">isAnimated</a>(<a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a> $bytes)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_encode">encode</a>(array $data)
+        
+                                            <p>Encode data into GIF hex string.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_decode">decode</a>(<a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a> $bytes)
+        
+                                            <p>Decode GIF into array of data for easy use in PHP userland.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_decodeToBlocks">decodeToBlocks</a>(<a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a> $bytes)
+        
+                                            <p>Decompose GIF into its block components. The GIF blocks are in the order that they appear in the byte stream.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_expandBlocks">expandBlocks</a>(array $blocks)
+        
+                                            <p>Expand GIF blocks into useful info.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_splitFrames">splitFrames</a>(array $blocks)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_resize">resize</a>($blocks, $newW, $newH)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method_open">
+        <div class="location">at line         line 13</div>
+        <code>                    <a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a>
+    <strong>open</strong>($imageFile)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$imageFile</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_load">
+        <div class="location">at line         line 34</div>
+        <code>                    <a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a>
+    <strong>load</strong>(string $bin)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$bin</td>
+                <td>Raw binary data from imagegif or file<em>get</em>contents</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isAnimated">
+        <div class="location">at line         line 46</div>
+        <code>                    bool
+    <strong>isAnimated</strong>(<a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a> $bytes)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a></td>
+                <td>$bytes</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_encode">
+        <div class="location">at line         line 67</div>
+        <code>                    string
+    <strong>encode</strong>(array $data)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Encode data into GIF hex string.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$data</td>
+                <td>The array returned by decode.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>Hex string of GIF</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_decode">
+        <div class="location">at line         line 150</div>
+        <code>                    array
+    <strong>decode</strong>(<a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a> $bytes)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Decode GIF into array of data for easy use in PHP userland.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a></td>
+                <td>$bytes</td>
+                <td>Decode byte stream into array of GIF blocks.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>Array containing GIF data</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_decodeToBlocks">
+        <div class="location">at line         line 165</div>
+        <code>                    array
+    <strong>decodeToBlocks</strong>(<a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a> $bytes)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Decompose GIF into its block components. The GIF blocks are in the order that they appear in the byte stream.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../Grafika/Gd/Helper/GifByteStream.html"><abbr title="Grafika\Gd\Helper\GifByteStream">GifByteStream</abbr></a></td>
+                <td>$bytes</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_expandBlocks">
+        <div class="location">at line         line 305</div>
+        <code>                    array
+    <strong>expandBlocks</strong>(array $blocks)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Expand GIF blocks into useful info.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$blocks</td>
+                <td>Accepts the array returned bt decodeToBlocks</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_splitFrames">
+        <div class="location">at line         line 417</div>
+        <code>                    array
+    <strong>splitFrames</strong>(array $blocks)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$blocks</td>
+                <td>The array returned by decode.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>Array of images each containing 1 of each frames of the original image.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_resize">
+        <div class="location">at line         line 441</div>
+        <code>                    array
+    <strong>resize</strong>($blocks, $newW, $newH)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$blocks</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$newW</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$newH</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>$blocks</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>

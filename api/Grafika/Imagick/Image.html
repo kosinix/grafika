@@ -87,7 +87,7 @@
     
 
             <div class="description">
-            <p>Immutable image class for Imagick.</p>                    </div>
+            <p>Image class for Imagick.</p>                    </div>
     
     
     
@@ -100,7 +100,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(Imagick $imagick, string $imageFile, int $width, int $height, string $type)
+                    <a href="#method___construct">__construct</a>(Imagick $imagick, string $imageFile, int $width, int $height, string $type, bool $animated = false)
         
                                             <p>Image constructor.</p>                </div>
                 <div class="col-md-2"></div>
@@ -135,6 +135,16 @@
                     <a href="#method_createBlank">createBlank</a>(int $width = 1, int $height = 1)
         
                                             <p>Create a blank image.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_flatten">flatten</a>()
+        
+                                            <p>Flatten if animated GIF. Do nothing otherwise.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -187,6 +197,16 @@
                                             <p>Get image type.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isAnimated">isAnimated</a>()
+        
+                                            <p>Returns animated flag.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -195,9 +215,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line         line 47</div>
+        <div class="location">at line         line 53</div>
         <code>                    
-    <strong>__construct</strong>(Imagick $imagick, string $imageFile, int $width, int $height, string $type)
+    <strong>__construct</strong>(Imagick $imagick, string $imageFile, int $width, int $height, string $type, bool $animated = false)
         </code>
     </h3>
     <div class="details">
@@ -235,6 +255,11 @@
                 <td>$type</td>
                 <td></td>
             </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$animated</td>
+                <td></td>
+            </tr>
             </table>
 
             
@@ -246,7 +271,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method___clone">
-        <div class="location">at line         line 55</div>
+        <div class="location">at line         line 62</div>
         <code>                    
     <strong>__clone</strong>()
         </code>
@@ -265,7 +290,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createFromFile">
-        <div class="location">at line         line 68</div>
+        <div class="location">at line         line 75</div>
         <code>        static            mixed
     <strong>createFromFile</strong>($imageFile)
         </code>
@@ -312,7 +337,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createBlank">
-        <div class="location">at line         line 87</div>
+        <div class="location">at line         line 106</div>
         <code>        static            mixed
     <strong>createBlank</strong>(int $width = 1, int $height = 1)
         </code>
@@ -356,8 +381,29 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_flatten">
+        <div class="location">at line         line 118</div>
+        <code>                    
+    <strong>flatten</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Flatten if animated GIF. Do nothing otherwise.</p>                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getCore">
-        <div class="location">at line         line 101</div>
+        <div class="location">at line         line 131</div>
         <code>                    mixed
     <strong>getCore</strong>()
         </code>
@@ -387,7 +433,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getImageFile">
-        <div class="location">at line         line 110</div>
+        <div class="location">at line         line 140</div>
         <code>                    mixed
     <strong>getImageFile</strong>()
         </code>
@@ -417,7 +463,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getWidth">
-        <div class="location">at line         line 119</div>
+        <div class="location">at line         line 149</div>
         <code>                    mixed
     <strong>getWidth</strong>()
         </code>
@@ -447,7 +493,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getHeight">
-        <div class="location">at line         line 128</div>
+        <div class="location">at line         line 158</div>
         <code>                    mixed
     <strong>getHeight</strong>()
         </code>
@@ -477,7 +523,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getType">
-        <div class="location">at line         line 137</div>
+        <div class="location">at line         line 167</div>
         <code>                    mixed
     <strong>getType</strong>()
         </code>
@@ -496,6 +542,36 @@
         <tr>
             <td>mixed</td>
             <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isAnimated">
+        <div class="location">at line         line 176</div>
+        <code>                    bool
+    <strong>isAnimated</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns animated flag.</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>True if animated GIF.</td>
         </tr>
     </table>
 

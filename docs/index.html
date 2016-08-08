@@ -11,21 +11,49 @@
 <body>
 <button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
         <h1>What is Grafika?</h1>
-        <p>Grafika is an image processing library for PHP. It aims to be an image processing library not an image manipulation library. Image manipulation (resize, crop, transform and save to different formats) is a smaller subset of image processing.</p>
+        <p>Grafika is an advance image processing and graphics library for PHP.</p>
 
         <a href="https://github.com/kosinix/grafika/archive/master.zip" class="button">Download .zip</a>
         <a href="https://github.com/kosinix/grafika/" class="button">Github</a>
 
         <h2>Why Grafika?</h2>
+        <p>Why another image manipulation lib? There are a bazillion other libs for PHP already, why reinvent the wheel? Well...</p>
+        <h6>Unique Features</h6>
         <p>These features are unique to Grafika and not currently found in other libs:</p>
         <ul>
-            <li>Smart crop - Guess the crop position based on the image content where the most important regions are preserved.</li>
-            <li>Image compare - Compare image similarity and equality using perceptual hash.</li>
-            <li>Perceptual hash - Hash an image using perceptual hash algorithms.</li>
-            <li>Advance image processing filters</li>
-            <li>Bezier curves</li>
+            <li><strong>Smart Crop</strong> - Grafika can guess the crop position based on the image content where the most important regions are preserved.</li>
+            <li><strong>Animated GIF Support</strong> - It can resize animated GIFs on both GD and Imagick. On GD, Grafika uses its own GIF parser to do this.</li>
+            <li><strong>5 Resize Modes</strong> - Resize is a first class citizen in Grafika. Call them directly using resizeFit, resizeFill, resizeExact, resizeExactWidth, and resizeExactHeight or use the generic resize api.</li>
+            <li><strong>Image Compare</strong> - Find how similar two images are or check if they are exactly equal.</li>
+            <li><strong>Advance Filters</strong> - Sobel and Floyd-Steinberg Dithering. More will be added in future releases.</li>
+            <li><strong>Bezier Curves</strong> - Create anti-aliased quadratic and cubic beziers both on GD and Imagick.</li>
+            <li><strong>Normalized API</strong> - No need to worry about the differences between GD and Imagick API, Grafika normalizes these operations for you.</li>
         </ul>
+        <h6>Basic Filters</h6>
+        <p>Grafika also support the basic filters commonly found in other libs:</p>
+        <ul>
+            <li>Blur</li>
+            <li>Brightness</li>
+            <li>Colorize</li>
+            <li>Contrast</li>
+            <li>Gamma</li>
+            <li>Invert</li>
+            <li>Pixelate</li>
+            <li>Sharpen</li>
+        </ul>
+        <p>See Filters section for more info.</p>
+        <h6>Drawing Objects</h6>
+        <ul>
+            <li>CubicBezier</li>
+            <li>Ellipse</li>
+            <li>Line</li>
+            <li>Polygon</li>
+            <li>QuadraticBezier</li>
+            <li>Rectangle</li>
+        </ul>
+        <p>See Drawing Objects section for more info.</p>
 
+        <h6>Easy Image Manipulation</h6>
         <p>Grafika makes it easier to do image manipulation in PHP.</p>
         <p>Consider the following code using PHP's default built-in image lib, GD. <br>It will resize a jpeg image to exactly 200x200 pixels:</p>
         <pre><code>$gd = imagecreatefromjpeg( 'path/to/jpeg/image.jpg' ); // Open jpeg file
@@ -70,7 +98,7 @@ Grafika::createEditor()
         ->resizeExact( 200, 200 )
         ->save( "path/to/edited.jpg", null, 90 );</code></pre>
 
-        <p>Other than resizing to exact width and height, Grafika has many more modes for resizing an image. See docs for more info.</p>
+        <p>See docs for more info.</p>
 
 
         <ul class="pager">
@@ -95,6 +123,7 @@ Grafika::createEditor()
                     <li><a href="resizing.html">Resizing</a></li>
                     <li><a href="compare-images.html">Compare Images</a></li>
                     <li><a href="smart-crop.html">Smart Crop</a></li>
+                    <li><a href="animated-gif.html">Animated GIF</a></li>
                 </ul>
             </li>
             <li>Editor Functions</li>
@@ -107,6 +136,7 @@ Grafika::createEditor()
                     <li><a href="editor/draw.html">draw</a></li>
                     <li><a href="editor/equal.html">equal</a></li>
                     <li><a href="editor/fill.html">fill</a></li>
+                    <li><a href="editor/flatten.html">flatten</a></li>
                     <li><a href="editor/free.html">free</a></li>
                     <li><a href="editor/getImage.html">getImage</a></li>
                     <li><a href="editor/isAvailable.html">isAvailable</a></li>
