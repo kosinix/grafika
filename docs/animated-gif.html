@@ -10,11 +10,43 @@
 </head>
 <body>
 <button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
-        <h1>License</h1>
-        <p>Grafika is licensed under the <a href="../license.txt">MIT license</a>.</p>
-        <p>Liberation Sans is licensed under <a href="https://en.wikipedia.org/wiki/SIL_Open_Font_License">SIL Open Font License</a>.</p>
+        <h1>Animated GIF</h1>
+        <p>Grafika can resize animated GIFs either on GD or Imagick, preserving their animation in the process.</p>
+
+
+
+        <p>Input:</p>
+        <img src="images/sample.gif" alt="">
+
+        <p>Code:</p>
+<pre><code>use Grafika\Grafika; // Import package
+
+$editor = Grafika::createEditor(); // Create the best available editor
+$editor->open('animated.gif');
+$editor->resizeFit(600, 310);
+$editor->save('output.gif');</code></pre>
+
+        <p>Output:</p>
+        <img src="images/testResizeFitEnlarge.gif" alt="">
+
+        <h5>Flattening Animated Images</h5>
+        <p>Flattening an animated GIF will remove its animation and convert to just a regular GIF.</p>
+
+        <p>Code:</p>
+<pre><code>use Grafika\Grafika; // Import package
+
+$editor = Grafika::createEditor(); // Create the best available editor
+$editor->open('animated.gif');
+$editor->flatten();
+$editor->save('output.gif');</code></pre>
+
+        <p>Output:</p>
+        <p><img src="images/testFlattenAnimatedGif.gif" alt=""></p>
+
+
+        <p>Note: For now, support on animated GIF is limited to resize operations. Other operations such as applying filters or text will do nothing.</p>
         <ul class="pager">
-            <li class="next"><a href="development.html">Development</a></li>
+            <li class="prev"><a href="smart-crop.html">Smart Crop</a></li>
         </ul>
     </div>
 <div id="sidebar" class="sidebar">
