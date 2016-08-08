@@ -85,6 +85,9 @@ $editor->save('testCrop9.jpg');</code></pre>
 
         <h5>Smart Crop</h5>
         <p>Grafika can also do smart cropping wherein it decides the crop position with the important regions of the images preserved.</p>
+        <pre><code>$editor->open($input);
+$editor->crop(200, 200, 'smart');
+$editor->save('output.jpg');</code></pre>
         <table style="min-width: 60%; max-width: 70%">
             <tbody><tr>
                 <th width="10%">Type</th>
