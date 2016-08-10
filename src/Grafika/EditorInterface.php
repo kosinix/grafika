@@ -105,9 +105,11 @@ interface EditorInterface {
     /**
      * Get image instance.
      *
+     * @param bool $byRef True to return image by reference or false to return a copy. Defaults to copy.
+     *
      * @return ImageInterface An instance of image.
      */
-    public function getImage();
+    public function getImage($byRef=false);
 
     /**
      * Checks the PHP install if the editor is available.

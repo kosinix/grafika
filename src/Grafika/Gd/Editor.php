@@ -60,10 +60,6 @@ final class Editor implements EditorInterface
      */
     public function blank($width, $height)
     {
-        if ($this->image->isAnimated()) { // Ignore animated GIF for now
-            return $this;
-        }
-
         $this->image = Image::createBlank($width, $height);
 
         return $this;
@@ -327,6 +323,7 @@ final class Editor implements EditorInterface
             if (null !== $this->image->getCore()) {
                 imagedestroy($this->image->getCore());
             }
+            $this->image = null;
         } else {
             $this->image = null;
         }
@@ -350,11 +347,16 @@ final class Editor implements EditorInterface
     /**
      * Get image instance.
      *
+     * @param bool $byRef True to return image by reference or false to return a copy. Defaults to copy.
+     *
      * @return Image
      */
-    public function getImage()
+    public function getImage($byRef=false)
     {
-        return $this->image;
+        if($byRef){
+            return $this->image;
+        }
+        return clone $this->image;
     }
 
     /**
