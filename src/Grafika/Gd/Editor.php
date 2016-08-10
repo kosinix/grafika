@@ -56,7 +56,7 @@ final class Editor implements EditorInterface
      * @param int $width Width of image in pixels.
      * @param int $height Height of image in pixels.
      *
-     * @return self
+     * @return Editor
      */
     public function blank($width, $height)
     {
@@ -274,7 +274,7 @@ final class Editor implements EditorInterface
      * @param int $x X-coordinate of start point
      * @param int $y Y-coordinate of start point
      *
-     * @return self
+     * @return Editor
      */
     public function fill($color, $x = 0, $y = 0)
     {
@@ -297,7 +297,7 @@ final class Editor implements EditorInterface
     /**
      * Flatten if animated GIF. Do nothing otherwise.
      *
-     * @return self
+     * @return Editor
      */
     public function flatten(){
         $this->_imageCheck();
@@ -368,7 +368,7 @@ final class Editor implements EditorInterface
      *
      * @param float $opacity
      *
-     * @return self
+     * @return Editor
      * @throws \Exception
      */
     public function opacity($opacity)
@@ -618,7 +618,7 @@ final class Editor implements EditorInterface
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      *
-     * @return self
+     * @return Editor
      */
     public function resizeExact($newWidth, $newHeight)
     {
@@ -633,7 +633,7 @@ final class Editor implements EditorInterface
      *
      * @param int $newHeight Height in pixels.
      *
-     * @return self
+     * @return Editor
      */
     public function resizeExactHeight($newHeight)
     {
@@ -655,7 +655,7 @@ final class Editor implements EditorInterface
      *
      * @param int $newWidth Width in pixels.
      *
-     * @return self
+     * @return Editor
      */
     public function resizeExactWidth($newWidth)
     {
@@ -678,7 +678,7 @@ final class Editor implements EditorInterface
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      *
-     * @return self
+     * @return Editor
      */
     public function resizeFill($newWidth, $newHeight)
     {
@@ -708,7 +708,7 @@ final class Editor implements EditorInterface
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      *
-     * @return self
+     * @return Editor
      */
     public function resizeFit($newWidth, $newHeight)
     {
