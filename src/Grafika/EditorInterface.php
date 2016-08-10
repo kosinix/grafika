@@ -83,8 +83,19 @@ interface EditorInterface {
 
     /**
      * Flatten if animated GIF. Do nothing otherwise.
+     *
+     * @return EditorInterface An instance of image editor.
      */
     public function flatten();
+
+    /**
+     * Flip or mirrors the image.
+     *
+     * @param string $mode The type of flip: 'h' for horizontal flip or 'v' for vertical.
+     *
+     * @return EditorInterface An instance of image editor.
+     */
+    public function flip($mode);
 
     /**
      * Free the current image clearing resources associated with it.
