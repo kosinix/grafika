@@ -40,6 +40,8 @@ final class Editor implements EditorInterface
      */
     public function apply($filter)
     {
+        $this->_imageCheck();
+
         if ($this->image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
@@ -172,6 +174,8 @@ final class Editor implements EditorInterface
      */
     public function draw($drawingObject)
     {
+        $this->_imageCheck();
+
         if ($this->image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
@@ -283,6 +287,7 @@ final class Editor implements EditorInterface
      * @throws \Exception
      */
     public function flip($mode){
+        $this->_imageCheck();
         if ($mode === 'h') {
             $this->image->getCore()->flopImage();
         } else if ($mode === 'v') {
@@ -310,11 +315,17 @@ final class Editor implements EditorInterface
     /**
      * Get image instance.
      *
+     * @param bool $byRef True to return image by reference or false to return a copy. Defaults to copy.
+     *
      * @return Image
      */
-    public function getImage()
+    public function getImage($byRef=false)
     {
-        return $this->image;
+        $this->_imageCheck();
+        if($byRef){
+            return $this->image;
+        }
+        return clone $this->image;
     }
 
     /**
@@ -832,6 +843,8 @@ final class Editor implements EditorInterface
      */
     function histogram($slice = null)
     {
+        $this->_imageCheck();
+
         if(null === $slice){
             $sliceX = 0;
             $sliceY = 0;
