@@ -296,10 +296,26 @@ final class Editor implements EditorInterface
 
     /**
      * Flatten if animated GIF. Do nothing otherwise.
+     *
+     * @return self
      */
     public function flatten(){
         $this->_imageCheck();
         $this->image->flatten();
+        return $this;
+    }
+
+    /**
+     * Flip or mirrors the image.
+     *
+     * @param string $mode The type of flip: 'h' for horizontal flip or 'v' for vertical.
+     *
+     * @return Editor
+     * @throws \Exception
+     */
+    public function flip($mode){
+        $this->image = $this->_flip($this->image, $mode);
+        return $this;
     }
 
     /**
@@ -1077,6 +1093,46 @@ final class Editor implements EditorInterface
                 $this->image->getType()
             );
 
+        }
+    }
+
+
+    private function _flip(Image $image, $mode){
+        $old = $image->getCore();
+        $w = $image->getWidth();
+        $h = $image->getHeight();
+        if($mode==='h'){
+            $new = imagecreatetruecolor($w, $h);
+            for($x=0; $x < $w; $x++){
+                imagecopy($new, $old, $w-$x-1, 0, $x, 0, 1, $h);
+            }
+            imagedestroy($old); // Free resource
+            return new Image(
+                $new,
+                $image->getImageFile(),
+                $w,
+                $h,
+                $image->getType(),
+                $image->getBlocks(),
+                $image->isAnimated()
+            );
+        } else if($mode==='v'){
+            $new = imagecreatetruecolor($w, $h);
+            for($y=0; $y < $h; $y++){
+                imagecopy($new, $old, 0, $h-$y-1, 0, $y, $w, 1);
+            }
+            imagedestroy($old); // Free resource
+            return new Image(
+                $new,
+                $image->getImageFile(),
+                $w,
+                $h,
+                $image->getType(),
+                $image->getBlocks(),
+                $image->isAnimated()
+            );
+        } else {
+            throw new \Exception('Unsupported mode');
         }
     }
 
