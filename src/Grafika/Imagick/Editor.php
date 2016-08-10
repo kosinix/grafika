@@ -59,10 +59,6 @@ final class Editor implements EditorInterface
      */
     public function blank($width, $height)
     {
-        if ($this->image->isAnimated()) { // Ignore animated GIF for now
-            return $this;
-        }
-
         $this->image = Image::createBlank($width, $height);
 
         return $this;
