@@ -269,10 +269,32 @@ final class Editor implements EditorInterface
 
     /**
      * Flatten if animated GIF. Do nothing otherwise.
+     *
+     * @return self
      */
     public function flatten(){
         $this->_imageCheck();
         $this->image->flatten();
+        return $this;
+    }
+
+    /**
+     * Flip or mirrors the image.
+     *
+     * @param string $mode The type of flip: 'h' for horizontal flip or 'v' for vertical.
+     *
+     * @return Editor
+     * @throws \Exception
+     */
+    public function flip($mode){
+        if ($mode === 'h') {
+            $this->image->getCore()->flopImage();
+        } else if ($mode === 'v') {
+            $this->image->getCore()->flipImage();
+        } else {
+            throw new \Exception(sprintf('Unsupported mode "%s"', $mode));
+        }
+        return $this;
     }
 
     /**
