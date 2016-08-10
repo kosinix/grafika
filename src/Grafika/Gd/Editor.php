@@ -1004,14 +1004,15 @@ final class Editor implements EditorInterface
      * @return Image
      * @throws \Exception
      */
-    private function _flip($image, $mode){
+    private function _flip($image, $mode)
+    {
         $old = $image->getCore();
-        $w = $image->getWidth();
-        $h = $image->getHeight();
-        if($mode==='h'){
+        $w   = $image->getWidth();
+        $h   = $image->getHeight();
+        if ($mode === 'h') {
             $new = imagecreatetruecolor($w, $h);
-            for($x=0; $x < $w; $x++){
-                imagecopy($new, $old, $w-$x-1, 0, $x, 0, 1, $h);
+            for ($x = 0; $x < $w; $x++) {
+                imagecopy($new, $old, $w - $x - 1, 0, $x, 0, 1, $h);
             }
             imagedestroy($old); // Free resource
             return new Image(
@@ -1023,10 +1024,10 @@ final class Editor implements EditorInterface
                 $image->getBlocks(),
                 $image->isAnimated()
             );
-        } else if($mode==='v'){
+        } else if ($mode === 'v') {
             $new = imagecreatetruecolor($w, $h);
-            for($y=0; $y < $h; $y++){
-                imagecopy($new, $old, 0, $h-$y-1, 0, $y, $w, 1);
+            for ($y = 0; $y < $h; $y++) {
+                imagecopy($new, $old, 0, $h - $y - 1, 0, $y, $w, 1);
             }
             imagedestroy($old); // Free resource
             return new Image(
