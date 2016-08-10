@@ -335,10 +335,8 @@ final class Editor implements EditorInterface
             if (null !== $this->image->getCore()) {
                 imagedestroy($this->image->getCore());
             }
-            $this->image = null;
-        } else {
-            $this->image = null;
         }
+        $this->image = null;
     }
 
     /**
