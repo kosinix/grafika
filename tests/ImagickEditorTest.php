@@ -960,7 +960,7 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
-    
+
     // On before every test
     protected function setUp()
     {
