@@ -30,6 +30,7 @@
                     <li><a href="<?php echo $doc_src; ?>editor/equal.php">equal</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/fill.php">fill</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/flatten.php">flatten</a></li>
+                    <li><a href="<?php echo $doc_src; ?>editor/flip.php">flip</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/free.php">free</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/getImage.php">getImage</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/isAvailable.php">isAvailable</a></li>
