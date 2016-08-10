@@ -15,10 +15,15 @@
     <p>
 Get image instance.</p>
 
-    <pre><code>getImage(  )</code></pre>
+    <pre><code>getImage( $byRef = false )</code></pre>
 
     <h5>Parameters</h5>
-            <p>This function has no parameters.</p>
+            <div class="params">
+            
+                <h6>byRef</h6>
+
+                <p> True to return image by reference or false to return a copy. Defaults to copy.</p>
+                    </div>
     
     <h5>Returns</h5>
             ImageInterface -          An instance of image.    </div><div id="sidebar" class="sidebar">
@@ -53,6 +58,7 @@ Get image instance.</p>
                     <li><a href="../editor/equal.html">equal</a></li>
                     <li><a href="../editor/fill.html">fill</a></li>
                     <li><a href="../editor/flatten.html">flatten</a></li>
+                    <li><a href="../editor/flip.html">flip</a></li>
                     <li><a href="../editor/free.html">free</a></li>
                     <li><a href="../editor/getImage.html">getImage</a></li>
                     <li><a href="../editor/isAvailable.html">isAvailable</a></li>
