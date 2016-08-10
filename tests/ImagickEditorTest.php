@@ -934,6 +934,33 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct));
     }
 
+    /**
+     * @depends testEqualFalse
+     * @param EditorInterface $editor
+     */
+    public function testFlip($editor)
+    {
+        $input = DIR_TEST_IMG . '/lena.png';
+        $output = DIR_TMP . '/' . __FUNCTION__ . 'H.jpg';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . 'H.jpg';
+
+        $editor->open($input);
+        $editor->flip('h');
+        $editor->save($output);
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+
+        $output = DIR_TMP . '/' . __FUNCTION__ . 'V.jpg';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . 'V.jpg';
+
+        $editor->open($input);
+        $editor->flip('v');
+        $editor->save($output);
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+
+    }
+
     // On before every test
     protected function setUp()
     {

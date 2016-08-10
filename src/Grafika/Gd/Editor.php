@@ -56,7 +56,7 @@ final class Editor implements EditorInterface
      * @param int $width Width of image in pixels.
      * @param int $height Height of image in pixels.
      *
-     * @return self
+     * @return Editor
      */
     public function blank($width, $height)
     {
@@ -274,7 +274,7 @@ final class Editor implements EditorInterface
      * @param int $x X-coordinate of start point
      * @param int $y Y-coordinate of start point
      *
-     * @return self
+     * @return Editor
      */
     public function fill($color, $x = 0, $y = 0)
     {
@@ -296,10 +296,26 @@ final class Editor implements EditorInterface
 
     /**
      * Flatten if animated GIF. Do nothing otherwise.
+     *
+     * @return Editor
      */
     public function flatten(){
         $this->_imageCheck();
         $this->image->flatten();
+        return $this;
+    }
+
+    /**
+     * Flip or mirrors the image.
+     *
+     * @param string $mode The type of flip: 'h' for horizontal flip or 'v' for vertical.
+     *
+     * @return Editor
+     * @throws \Exception
+     */
+    public function flip($mode){
+        $this->image = $this->_flip($this->image, $mode);
+        return $this;
     }
 
     /**
@@ -314,6 +330,21 @@ final class Editor implements EditorInterface
         } else {
             $this->image = null;
         }
+    }
+
+    /**
+     * Convert alpha value of 0 - 1 to GD compatible alpha value of 0 - 127 where 0 is opaque and 127 is transparent
+     *
+     * @param float $alpha Alpha value of 0 - 1. Example: 0, 0.60, 0.9, 1
+     *
+     * @return int
+     */
+    public static function gdAlpha($alpha)
+    {
+
+        $scale = round(127 * $alpha);
+
+        return $invert = 127 - $scale;
     }
 
     /**
@@ -352,7 +383,7 @@ final class Editor implements EditorInterface
      *
      * @param float $opacity
      *
-     * @return self
+     * @return Editor
      * @throws \Exception
      */
     public function opacity($opacity)
@@ -602,7 +633,7 @@ final class Editor implements EditorInterface
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      *
-     * @return self
+     * @return Editor
      */
     public function resizeExact($newWidth, $newHeight)
     {
@@ -617,7 +648,7 @@ final class Editor implements EditorInterface
      *
      * @param int $newHeight Height in pixels.
      *
-     * @return self
+     * @return Editor
      */
     public function resizeExactHeight($newHeight)
     {
@@ -639,7 +670,7 @@ final class Editor implements EditorInterface
      *
      * @param int $newWidth Width in pixels.
      *
-     * @return self
+     * @return Editor
      */
     public function resizeExactWidth($newWidth)
     {
@@ -662,7 +693,7 @@ final class Editor implements EditorInterface
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      *
-     * @return self
+     * @return Editor
      */
     public function resizeFill($newWidth, $newHeight)
     {
@@ -692,7 +723,7 @@ final class Editor implements EditorInterface
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      *
-     * @return self
+     * @return Editor
      */
     public function resizeFit($newWidth, $newHeight)
     {
@@ -966,50 +997,87 @@ final class Editor implements EditorInterface
     }
 
     /**
-     * Crop based on entropy.
+     * Flips image.
+     * @param Image $image
+     * @param $mode
      *
-     * @param $cropW
-     * @param $cropH
-     *
-     * @return array
+     * @return Image
+     * @throws \Exception
      */
-    private function _smartCrop($cropW, $cropH){
-        $image = clone $this->image;
-
-        $editor = new Editor();
-        $editor->setImage($image);
-        $editor->resizeFit(30, 30);
-
-        $origW = $this->getImage()->getWidth();
-        $origH = $this->getImage()->getHeight();
-        $resizeW = $editor->getImage()->getWidth();
-        $resizeH = $editor->getImage()->getHeight();
-
-        $smallCropW = round(($resizeW / $origW) * $cropW);
-        $smallCropH = round(($resizeH / $origH) * $cropH);
-
-        $step = 1;
-
-        for($y = 0; $y < $resizeH-$smallCropH; $y+=$step){
-            for($x = 0; $x < $resizeW-$smallCropW; $x+=$step){
-                $hist[$x.'-'.$y] = $this->entropy($editor->histogram(array(array($x, $y), array($smallCropW, $smallCropH))));
+    private function _flip($image, $mode)
+    {
+        $old = $image->getCore();
+        $w   = $image->getWidth();
+        $h   = $image->getHeight();
+        if ($mode === 'h') {
+            $new = imagecreatetruecolor($w, $h);
+            for ($x = 0; $x < $w; $x++) {
+                imagecopy($new, $old, $w - $x - 1, 0, $x, 0, 1, $h);
             }
-            if($resizeW-$smallCropW <= 0){
-                $hist['0-'.$y] = $this->entropy($editor->histogram(array(array(0, 0), array($smallCropW, $smallCropH))));
+            imagedestroy($old); // Free resource
+            return new Image(
+                $new,
+                $image->getImageFile(),
+                $w,
+                $h,
+                $image->getType(),
+                $image->getBlocks(),
+                $image->isAnimated()
+            );
+        } else if ($mode === 'v') {
+            $new = imagecreatetruecolor($w, $h);
+            for ($y = 0; $y < $h; $y++) {
+                imagecopy($new, $old, 0, $h - $y - 1, 0, $y, $w, 1);
             }
+            imagedestroy($old); // Free resource
+            return new Image(
+                $new,
+                $image->getImageFile(),
+                $w,
+                $h,
+                $image->getType(),
+                $image->getBlocks(),
+                $image->isAnimated()
+            );
+        } else {
+            throw new \Exception(sprintf('Unsupported mode "%s"', $mode));
         }
-        if($resizeH-$smallCropH <= 0){
-            $hist['0-0'] = $this->entropy($editor->histogram(array(array(0, 0), array($smallCropW, $smallCropH))));
+    }
+
+    /**
+     * Get image type base on file extension.
+     *
+     * @param int $imageFile File path to image.
+     *
+     * @return ImageType string Type of image.
+     */
+    private function _getImageTypeFromFileName($imageFile)
+    {
+        $ext = strtolower((string)pathinfo($imageFile, PATHINFO_EXTENSION));
+
+        if ('jpg' === $ext or 'jpeg' === $ext) {
+            return ImageType::JPEG;
+        } else if ('gif' === $ext) {
+            return ImageType::GIF;
+        } else if ('png' === $ext) {
+            return ImageType::PNG;
+        } else if ('wbm' === $ext or 'wbmp' === $ext) {
+            return ImageType::WBMP;
+        } else {
+            return ImageType::UNKNOWN;
         }
+    }
 
-        asort($hist);
-        end($hist);
-        $pos = key($hist); // last key
-        list($x, $y) = explode('-', $pos);
-        $x = round($x*($origW / $resizeW));
-        $y = round($y*($origH / $resizeH));
-
-        return array($x,$y);
+    /**
+     * Check if editor has already been assigned an image.
+     *
+     * @throws \Exception
+     */
+    private function _imageCheck()
+    {
+        if (null === $this->image) {
+            throw new \Exception('No image to edit.');
+        }
     }
 
     /**
@@ -1081,54 +1149,49 @@ final class Editor implements EditorInterface
     }
 
     /**
-     * Convert alpha value of 0 - 1 to GD compatible alpha value of 0 - 127 where 0 is opaque and 127 is transparent
+     * Crop based on entropy.
      *
-     * @param float $alpha Alpha value of 0 - 1. Example: 0, 0.60, 0.9, 1
+     * @param $cropW
+     * @param $cropH
      *
-     * @return int
+     * @return array
      */
-    public static function gdAlpha($alpha)
-    {
+    private function _smartCrop($cropW, $cropH){
+        $image = clone $this->image;
 
-        $scale = round(127 * $alpha);
+        $editor = new Editor();
+        $editor->setImage($image);
+        $editor->resizeFit(30, 30);
 
-        return $invert = 127 - $scale;
-    }
+        $origW = $this->getImage()->getWidth();
+        $origH = $this->getImage()->getHeight();
+        $resizeW = $editor->getImage()->getWidth();
+        $resizeH = $editor->getImage()->getHeight();
 
-    /**
-     * Get image type base on file extension.
-     *
-     * @param int $imageFile File path to image.
-     *
-     * @return ImageType string Type of image.
-     */
-    private function _getImageTypeFromFileName($imageFile)
-    {
-        $ext = strtolower((string)pathinfo($imageFile, PATHINFO_EXTENSION));
+        $smallCropW = round(($resizeW / $origW) * $cropW);
+        $smallCropH = round(($resizeH / $origH) * $cropH);
 
-        if ('jpg' === $ext or 'jpeg' === $ext) {
-            return ImageType::JPEG;
-        } else if ('gif' === $ext) {
-            return ImageType::GIF;
-        } else if ('png' === $ext) {
-            return ImageType::PNG;
-        } else if ('wbm' === $ext or 'wbmp' === $ext) {
-            return ImageType::WBMP;
-        } else {
-            return ImageType::UNKNOWN;
+        $step = 1;
+
+        for($y = 0; $y < $resizeH-$smallCropH; $y+=$step){
+            for($x = 0; $x < $resizeW-$smallCropW; $x+=$step){
+                $hist[$x.'-'.$y] = $this->entropy($editor->histogram(array(array($x, $y), array($smallCropW, $smallCropH))));
+            }
+            if($resizeW-$smallCropW <= 0){
+                $hist['0-'.$y] = $this->entropy($editor->histogram(array(array(0, 0), array($smallCropW, $smallCropH))));
+            }
         }
-    }
-
-    /**
-     * Check if editor has already been assigned an image.
-     *
-     * @throws \Exception
-     */
-    private function _imageCheck()
-    {
-        if (null === $this->image) {
-            throw new \Exception('No image to edit.');
+        if($resizeH-$smallCropH <= 0){
+            $hist['0-0'] = $this->entropy($editor->histogram(array(array(0, 0), array($smallCropW, $smallCropH))));
         }
-    }
 
+        asort($hist);
+        end($hist);
+        $pos = key($hist); // last key
+        list($x, $y) = explode('-', $pos);
+        $x = round($x*($origW / $resizeW));
+        $y = round($y*($origH / $resizeH));
+
+        return array($x,$y);
+    }
 }
