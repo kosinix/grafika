@@ -1039,7 +1039,7 @@ final class Editor implements EditorInterface
                 $image->isAnimated()
             );
         } else {
-            throw new \Exception('Unsupported mode');
+            throw new \Exception(sprintf('Unsupported mode "%s"', $mode));
         }
     }
 
