@@ -16,7 +16,7 @@ These are the features that make Grafika unique from other libs:
 - [Bezier Curves](http://kosinix.github.io/grafika/draw/CubicBezier.html) - Create anti-aliased quadratic and cubic beziers both on GD and Imagick.
 - **Normalized API** - No need to worry about the differences between GD and Imagick API, Grafika normalizes these operations for you.
 
-See documentation for more info.
+See documentation for a full list of features.
 
 ## Documentation
 [http://kosinix.github.io/grafika](http://kosinix.github.io/grafika)
