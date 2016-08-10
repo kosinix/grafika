@@ -89,7 +89,7 @@ interface EditorInterface {
     public function flatten();
 
     /**
-     * Flip or mirrors the image.
+     * Flip an image.
      *
      * @param string $mode The type of flip: 'h' for horizontal flip or 'v' for vertical.
      *

@@ -9,25 +9,41 @@
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" media="screen">
 </head>
 <body>
-<button id="sidebar-show" class="sidebar-show"></button><div id="content" class="content">
-    <h1>setImage</h1>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>flip</h1>
 
-    <p>
-Set image instance.</p>
+        <p>
+Flip an image.</p>
 
-    <pre><code>setImage( $image )</code></pre>
+        <pre><code>flip( $mode )</code></pre>
 
-    <h5>Parameters</h5>
-            <div class="params">
-            
-                <h6>image</h6>
+        <h5>Parameters</h5>
+                    <div class="params">
+                
+                    <h6>mode</h6>
 
-                <p> An instance of a class implementing Grafika/ImageInterface.</p>
-                    </div>
-    
-    <h5>Returns</h5>
-            <p>No value is returned.</p>
-    </div><div id="sidebar" class="sidebar">
+                    <p> The type of flip: 'h' for horizontal flip or 'v' for vertical.</p>
+                            </div>
+        
+        <h5>Returns</h5>
+                    EditorInterface -              An instance of image editor.        
+        <h5>Examples</h5>
+        <pre><code>use Grafika\Grafika; // Import package
+
+//...
+
+$editor->flip( 'h' ); // Flip horizontally
+$editor->save( 'flipH.jpg' );
+$editor->flip( 'v' ); // Flip vertically
+$editor->save( 'flipV.jpg' );</code></pre>
+
+        <p>Test image:</p>
+        <img src="../images/lena.png" alt="lena">
+        <p>Result:</p>
+        <img src="../images/testFlipH.jpg" alt="flip">
+        <img src="../images/testFlipV.jpg" alt="flip">
+    </div>
+<div id="sidebar" class="sidebar">
     <div class="scrollable">
         <ul class="menu">
             <li>Getting Started</li>

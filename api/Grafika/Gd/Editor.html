@@ -177,12 +177,22 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_flatten">flatten</a>()
         
                                             <p>Flatten if animated GIF. Do nothing otherwise.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_flip">flip</a>(string $mode)
+        
+                                            <p>Flip or mirrors the image.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -197,10 +207,20 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    static&nbsp;int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_gdAlpha">gdAlpha</a>(float $alpha)
+        
+                                            <p>Convert alpha value of 0 - 1 to GD compatible alpha value of 0 - 127 where 0 is opaque and 127 is transparent</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     <a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getImage">getImage</a>()
+                    <a href="#method_getImage">getImage</a>(bool $byRef = false)
         
                                             <p>Get image instance.</p>                </div>
                 <div class="col-md-2"></div>
@@ -385,16 +405,6 @@
                                             <p>Calculate entropy based on histogram.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    static&nbsp;int
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_gdAlpha">gdAlpha</a>(float $alpha)
-        
-                                            <p>Convert alpha value of 0 - 1 to GD compatible alpha value of 0 - 127 where 0 is opaque and 127 is transparent</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
             </div>
 
 
@@ -464,7 +474,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_blank">
-        <div class="location">at line         line 61</div>
+        <div class="location">at line         line 63</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>blank</strong>(int $width, int $height)
         </code>
@@ -509,7 +519,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_compare">
-        <div class="location">at line         line 81</div>
+        <div class="location">at line         line 79</div>
         <code>                    int
     <strong>compare</strong>(string|<a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image1, string|<a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image2)
         </code>
@@ -563,7 +573,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_crop">
-        <div class="location">at line         line 123</div>
+        <div class="location">at line         line 121</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>crop</strong>(int $cropWidth, int $cropHeight, string $position = &#039;center&#039;, int $offsetX, int $offsetY)
         </code>
@@ -632,7 +642,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_draw">
-        <div class="location">at line         line 199</div>
+        <div class="location">at line         line 204</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>draw</strong>(<a href="../../Grafika/DrawingObjectInterface.html"><abbr title="Grafika\DrawingObjectInterface">DrawingObjectInterface</abbr></a> $drawingObject)
         </code>
@@ -672,7 +682,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_equal">
-        <div class="location">at line         line 219</div>
+        <div class="location">at line         line 226</div>
         <code>                    bool
     <strong>equal</strong>(string|<a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image1, string|<a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image2)
         </code>
@@ -726,7 +736,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fill">
-        <div class="location">at line         line 279</div>
+        <div class="location">at line         line 286</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>fill</strong>(<a href="../../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a> $color, int $x, int $y)
         </code>
@@ -776,8 +786,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_flatten">
-        <div class="location">at line         line 300</div>
-        <code>                    
+        <div class="location">at line         line 309</div>
+        <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>flatten</strong>()
         </code>
     </h3>
@@ -789,6 +799,15 @@
                                     <p>Flatten if animated GIF. Do nothing otherwise.</p>                                </div>
                 <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
+            <td>An instance of image editor.</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -796,8 +815,57 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_flip">
+        <div class="location">at line         line 323</div>
+        <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
+    <strong>flip</strong>(string $mode)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Flip or mirrors the image.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$mode</td>
+                <td>The type of flip: 'h' for horizontal flip or 'v' for vertical.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
+            <td>An instance of image editor.</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_free">
-        <div class="location">at line         line 308</div>
+        <div class="location">at line         line 332</div>
         <code>                    
     <strong>free</strong>()
         </code>
@@ -817,10 +885,50 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_gdAlpha">
+        <div class="location">at line         line 349</div>
+        <code>        static            int
+    <strong>gdAlpha</strong>(float $alpha)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Convert alpha value of 0 - 1 to GD compatible alpha value of 0 - 127 where 0 is opaque and 127 is transparent</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>float</td>
+                <td>$alpha</td>
+                <td>Alpha value of 0 - 1. Example: 0, 0.60, 0.9, 1</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getImage">
-        <div class="location">at line         line 324</div>
+        <div class="location">at line         line 364</div>
         <code>                    <a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
-    <strong>getImage</strong>()
+    <strong>getImage</strong>(bool $byRef = false)
         </code>
     </h3>
     <div class="details">
@@ -830,6 +938,16 @@
                     <div class="method-description">
                                     <p>Get image instance.</p>                                </div>
                 <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>bool</td>
+                <td>$byRef</td>
+                <td>True to return image by reference or false to return a copy. Defaults to copy.</td>
+            </tr>
+            </table>
+
             
                             <h4>Return Value</h4>
 
@@ -848,7 +966,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isAvailable">
-        <div class="location">at line         line 334</div>
+        <div class="location">at line         line 378</div>
         <code>                    bool
     <strong>isAvailable</strong>()
         </code>
@@ -878,7 +996,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_opacity">
-        <div class="location">at line         line 358</div>
+        <div class="location">at line         line 402</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>opacity</strong>(float $opacity)
         </code>
@@ -927,7 +1045,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_open">
-        <div class="location">at line         line 403</div>
+        <div class="location">at line         line 447</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>open</strong>(mixed $target)
         </code>
@@ -976,7 +1094,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_openImage">
-        <div class="location">at line         line 423</div>
+        <div class="location">at line         line 467</div>
         <code>                    <abbr title="Grafika\$this">$this</abbr>
     <strong>openImage</strong>(<a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
         </code>
@@ -1016,7 +1134,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_openFile">
-        <div class="location">at line         line 438</div>
+        <div class="location">at line         line 482</div>
         <code>                    <abbr title="Grafika\$this">$this</abbr>
     <strong>openFile</strong>(string $file)
         </code>
@@ -1065,7 +1183,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_overlay">
-        <div class="location">at line         line 457</div>
+        <div class="location">at line         line 501</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>overlay</strong>(<a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>|string $overlay, string|int $xPos = &#039;center&#039;, string|int $yPos = &#039;center&#039;, null $width = null, null $height = null)
         </code>
@@ -1134,7 +1252,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resize">
-        <div class="location">at line         line 568</div>
+        <div class="location">at line         line 612</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>resize</strong>(int $newWidth, int $newHeight, string $mode = &#039;fit&#039;)
         </code>
@@ -1193,7 +1311,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeExact">
-        <div class="location">at line         line 607</div>
+        <div class="location">at line         line 651</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>resizeExact</strong>(int $newWidth, int $newHeight)
         </code>
@@ -1238,7 +1356,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeExactHeight">
-        <div class="location">at line         line 622</div>
+        <div class="location">at line         line 666</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>resizeExactHeight</strong>(int $newHeight)
         </code>
@@ -1278,7 +1396,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeExactWidth">
-        <div class="location">at line         line 644</div>
+        <div class="location">at line         line 688</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>resizeExactWidth</strong>(int $newWidth)
         </code>
@@ -1318,7 +1436,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeFill">
-        <div class="location">at line         line 667</div>
+        <div class="location">at line         line 711</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>resizeFill</strong>(int $newWidth, int $newHeight)
         </code>
@@ -1363,7 +1481,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeFit">
-        <div class="location">at line         line 697</div>
+        <div class="location">at line         line 741</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>resizeFit</strong>(int $newWidth, int $newHeight)
         </code>
@@ -1408,7 +1526,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_rotate">
-        <div class="location">at line         line 728</div>
+        <div class="location">at line         line 772</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>rotate</strong>(int $angle, <a href="../../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a>|null $color = null)
         </code>
@@ -1462,7 +1580,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_save">
-        <div class="location">at line         line 763</div>
+        <div class="location">at line         line 807</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>save</strong>(string $file, null|string $type = null, null|string $quality = null, bool $interlace = false, int $permission = 493)
         </code>
@@ -1531,7 +1649,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setImage">
-        <div class="location">at line         line 818</div>
+        <div class="location">at line         line 862</div>
         <code>                    
     <strong>setImage</strong>(<a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
         </code>
@@ -1562,7 +1680,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_text">
-        <div class="location">at line         line 837</div>
+        <div class="location">at line         line 881</div>
         <code>                    <a href="../../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
     <strong>text</strong>(string $text, int $size = 12, int $x, int $y, <a href="../../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a> $color = null, string $font = &#039;&#039;, int $angle)
         </code>
@@ -1641,7 +1759,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_histogram">
-        <div class="location">at line         line 880</div>
+        <div class="location">at line         line 924</div>
         <code>                    array
     <strong>histogram</strong>(array|null $slice = null)
         </code>
@@ -1681,7 +1799,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_entropy">
-        <div class="location">at line         line 950</div>
+        <div class="location">at line         line 994</div>
         <code>                    float|int
     <strong>entropy</strong>($hist)
         </code>
@@ -1709,46 +1827,6 @@
                     <table class="table table-condensed">
         <tr>
             <td>float|int</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_gdAlpha">
-        <div class="location">at line         line 1090</div>
-        <code>        static            int
-    <strong>gdAlpha</strong>(float $alpha)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Convert alpha value of 0 - 1 to GD compatible alpha value of 0 - 127 where 0 is opaque and 127 is transparent</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>float</td>
-                <td>$alpha</td>
-                <td>Alpha value of 0 - 1. Example: 0, 0.60, 0.9, 1</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>int</td>
             <td></td>
         </tr>
     </table>
