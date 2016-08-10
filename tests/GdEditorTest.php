@@ -607,7 +607,7 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $editor->open($input);
-        //$editor->apply( Grafika::createFilter('Dither') );
+        $editor->apply( Grafika::createFilter('Dither') );
         $editor->save($output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
@@ -625,7 +625,7 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $editor->open($input);
-        //$editor->apply( Grafika::createFilter('Sobel') );
+        $editor->apply( Grafika::createFilter('Sobel') );
         $editor->save($output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
