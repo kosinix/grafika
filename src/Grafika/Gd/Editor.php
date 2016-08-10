@@ -41,6 +41,8 @@ final class Editor implements EditorInterface
      */
     public function apply($filter)
     {
+        $this->_imageCheck();
+
         if ($this->image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
@@ -60,10 +62,6 @@ final class Editor implements EditorInterface
      */
     public function blank($width, $height)
     {
-        if ($this->image->isAnimated()) { // Ignore animated GIF for now
-            return $this;
-        }
-
         $this->image = Image::createBlank($width, $height);
 
         return $this;
@@ -122,6 +120,8 @@ final class Editor implements EditorInterface
      */
     public function crop($cropWidth, $cropHeight, $position = 'center', $offsetX = 0, $offsetY = 0)
     {
+        $this->_imageCheck();
+
         if ($this->image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
@@ -183,8 +183,13 @@ final class Editor implements EditorInterface
         imagedestroy($this->image->getCore());
 
         // Cropped image instance
-        $this->image = new Image($newImageResource, $this->image->getImageFile(), $cropWidth, $cropHeight,
-            $this->image->getType());
+        $this->image = new Image(
+            $newImageResource,
+            $this->image->getImageFile(),
+            $cropWidth,
+            $cropHeight,
+            $this->image->getType()
+        );
 
         return $this;
     }
@@ -198,6 +203,8 @@ final class Editor implements EditorInterface
      */
     public function draw($drawingObject)
     {
+        $this->_imageCheck();
+
         if ($this->image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
@@ -314,6 +321,7 @@ final class Editor implements EditorInterface
      * @throws \Exception
      */
     public function flip($mode){
+        $this->_imageCheck();
         $this->image = $this->_flip($this->image, $mode);
         return $this;
     }
@@ -327,9 +335,8 @@ final class Editor implements EditorInterface
             if (null !== $this->image->getCore()) {
                 imagedestroy($this->image->getCore());
             }
-        } else {
-            $this->image = null;
         }
+        $this->image = null;
     }
 
     /**
@@ -350,11 +357,17 @@ final class Editor implements EditorInterface
     /**
      * Get image instance.
      *
+     * @param bool $byRef True to return image by reference or false to return a copy. Defaults to copy.
+     *
      * @return Image
      */
-    public function getImage()
+    public function getImage($byRef=false)
     {
-        return $this->image;
+        $this->_imageCheck();
+        if($byRef){
+            return $this->image;
+        }
+        return clone $this->image;
     }
 
     /**
@@ -910,7 +923,7 @@ final class Editor implements EditorInterface
      */
     function histogram($slice = null)
     {
-
+        $this->_imageCheck();
         $gd = $this->image->getCore();
 
         if(null === $slice){

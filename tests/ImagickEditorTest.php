@@ -180,6 +180,38 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
      * @depends testEqualFalse
      * @param EditorInterface $editor
      */
+    public function testLeakByRef($editor){
+        $input = DIR_TEST_IMG . '/lena.png';
+
+        $editor->open($input);
+        $image = $editor->getImage(true); // Get by reference
+        $editor->free(); // Destroy image
+        $err = false;
+        try {
+            $image->getCore()->getImageFilename();
+        } catch (Exception $e){
+            $err = $e;
+        }
+        $this->assertEquals('Can not process empty Imagick object', $err->getMessage()); // resource of image should be destroyed too
+    }
+
+    /**
+     * @depends testEqualFalse
+     * @param EditorInterface $editor
+     */
+    public function testLeakByVal($editor){
+        $input = DIR_TEST_IMG . '/lena.png';
+
+        $editor->open($input);
+        $image = $editor->getImage(); // Get by value (copy of image)
+        $editor->free(); // Destroy image
+        $this->assertNotEmpty($image->getCore()->getImageFilename()); // resource of image should NOT be destroyed
+    }
+
+    /**
+     * @depends testEqualFalse
+     * @param EditorInterface $editor
+     */
     public function testAddTextOnBlankImage($editor)
     {
 

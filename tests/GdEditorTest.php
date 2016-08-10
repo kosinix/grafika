@@ -194,6 +194,24 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
      * @depends testEqualFalse
      * @param EditorInterface $editor
      */
+    public function testLeak($editor){
+        $input = DIR_TEST_IMG . '/lena.png';
+
+        $editor->open($input);
+        $image = $editor->getImage(true); // Get by reference
+        $editor->free(); // Destroy image
+        $this->assertFalse(is_resource($image->getCore())); // GD resource of image should be destroyed too
+
+        $editor->open($input);
+        $image = $editor->getImage(); // Get by value (copy of image)
+        $editor->free(); // Destroy image
+        $this->assertTrue(is_resource($image->getCore())); // GD resource of image should NOT be destroyed
+    }
+
+    /**
+     * @depends testEqualFalse
+     * @param EditorInterface $editor
+     */
     public function testAddTextOnBlankImage($editor)
     {
 

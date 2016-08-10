@@ -37,12 +37,14 @@ class Dither implements FilterInterface{
         // Localize vars
         $width = $image->getWidth();
         $height = $image->getHeight();
-        $gd = $image->getCore();
+        $old = $image->getCore();
+
+        $new = imagecreatetruecolor($width, $height);
 
         for ( $y = 0; $y < $height; $y+=1 ) {
             for ( $x = 0; $x < $width; $x+=1 ) {
 
-                $color = imagecolorat( $gd, $x, $y );
+                $color = imagecolorat( $old, $x, $y );
                 $r = ($color >> 16) & 0xFF;
                 $g = ($color >> 8) & 0xFF;
                 $b = $color & 0xFF;
@@ -63,8 +65,8 @@ class Dither implements FilterInterface{
                 $newPixel = $blackOrWhite;
 
                 // Current pixel
-                imagesetpixel( $gd, $x, $y,
-                    imagecolorallocate( $gd,
+                imagesetpixel( $new, $x, $y,
+                    imagecolorallocate( $new,
                         $newPixel,
                         $newPixel,
                         $newPixel
@@ -92,9 +94,15 @@ class Dither implements FilterInterface{
 
             }
         }
-        $type = $image->getType();
-        $file = $image->getImageFile();
 
-        return new Image( $gd, $file, $width, $height, $type ); // Create new image with updated core
+        imagedestroy($old); // Free resource
+        // Create new image with updated core
+        return new Image(
+            $new,
+            $image->getImageFile(),
+            $width,
+            $height,
+            $image->getType()
+        );
     }
 }

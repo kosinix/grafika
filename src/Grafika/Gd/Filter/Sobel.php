@@ -90,11 +90,15 @@ class Sobel implements FilterInterface
 
             }
         }
-
-        $type = $image->getType();
-        $file = $image->getImageFile();
-
-        return new Image($new, $file, $width, $height, $type); // Create and return new image with updated core
+        imagedestroy($old); // Free resource
+        // Create and return new image with updated core
+        return new Image(
+            $new,
+            $image->getImageFile(),
+            $width,
+            $height,
+            $image->getType()
+        );
     }
 
     private function convolve($matrix)
