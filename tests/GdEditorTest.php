@@ -577,42 +577,42 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
-//
-//    /**
-//     * @depends testEqualFalse
-//     * @param EditorInterface $editor
-//     */
-//    public function testDither($editor)
-//    {
-//        $input = DIR_TEST_IMG . '/lena.png';
-//        $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
-//        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
-//
-//        $editor->open($input);
-//        $editor->apply( Grafika::createFilter('Dither') );
-//        $editor->save($output);
-//
-//        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-//
-//    }
-//
-//    /**
-//     * @depends testEqualFalse
-//     * @param EditorInterface $editor
-//     */
-//    public function testSobel($editor)
-//    {
-//        $input = DIR_TEST_IMG . '/lena.png';
-//        $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
-//        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
-//
-//        $editor->open($input);
-//        $editor->apply( Grafika::createFilter('Sobel') );
-//        $editor->save($output);
-//
-//        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-//
-//    }
+
+    /**
+     * @depends testEqualFalse
+     * @param EditorInterface $editor
+     */
+    public function testDither($editor)
+    {
+        $input = DIR_TEST_IMG . '/lena.png';
+        $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
+
+        $editor->open($input);
+        $editor->apply( Grafika::createFilter('Dither') );
+        $editor->save($output);
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+
+    }
+
+    /**
+     * @depends testEqualFalse
+     * @param EditorInterface $editor
+     */
+    public function testSobel($editor)
+    {
+        $input = DIR_TEST_IMG . '/lena.png';
+        $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
+
+        $editor->open($input);
+        $editor->apply( Grafika::createFilter('Sobel') );
+        $editor->save($output);
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+
+    }
     
     /**
      * @depends testEqualFalse
