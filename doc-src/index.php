@@ -10,7 +10,7 @@
         <h2>Why Grafika?</h2>
         <p>Why another image manipulation lib? There are a bazillion other libs for PHP already, why reinvent the wheel? Well...</p>
         <h6>Unique Features</h6>
-        <p>These features are unique to Grafika and not currently found in other libs:</p>
+        <p>These are the features that makes Grafika unique from other libs:</p>
         <ul>
             <li><strong>Smart Crop</strong> - Grafika can guess the crop position based on the image content where the most important regions are preserved.</li>
             <li><strong>Animated GIF Support</strong> - It can resize animated GIFs on both GD and Imagick. On GD, Grafika uses its own GIF parser to do this.</li>
