@@ -119,6 +119,7 @@ $editor->save("images/testResizeExactHeightPortrait.jpg");</code></pre>
 
         <ul class="pager">
             <li class="prev"><a href="creating-editors.php">Creating Editors</a></li>
+            <li class="next"><a href="compare-images.php">Compare Images</a></li>
         </ul>
     </div>
 <?php include 'parts/sidebar.php'; ?>

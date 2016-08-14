@@ -67,6 +67,10 @@ $result = $editor-&gt;equal( "image1.jpg", "image-2.jpg" ); // Returns true if i
         <p>This will return true if both images have exactly the same pixels.</p>
         <p>It will compare if the two images are of the same width and height. If the dimensions differ, it will return false. If the dimensions are equal, it will loop through each pixels. If one of the pixel don't match, it will return false. The pixels are compared using their RGB (Red, Green, Blue) values.</p>
         <p>equal() is expensive the larger the image. Use it when you absolutely need to check if two images are exactly the same. Otherwise you're better off using compare()</p>
+        <ul class="pager">
+            <li class="prev"><a href="resizing.php">Resizing</a></li>
+            <li class="next"><a href="smart-crop.php">Smart Crop</a></li>
+        </ul>
     </div>
 <?php include 'parts/sidebar.php'; ?>
 <?php include 'parts/bottom.php'; ?>
