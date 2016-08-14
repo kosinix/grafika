@@ -1,7 +1,6 @@
 <?php
 namespace Grafika\Gd\Helper;
 
-// TODO: Support for plain text and comment extension
 final class GifHelper {
 
     /**
@@ -195,7 +194,7 @@ final class GifHelper {
         }
 
 
-        $appCount = $gce = $dc = 0; // index count
+        $commentC = $plainTextC = $appCount = $gce = $dc = 0; // index count
         while(!$bytes->isEnd()){
             $part = $bytes->bite(1);
 
@@ -217,6 +216,7 @@ final class GifHelper {
                             $part = $bytes->bite($size);
                             $hex .= $part;
                         } else {
+                            $hex .= $nextSize;
                             $blocks['applicationExtension-'.$appCount] = $hex;
                             break;
                         }
@@ -238,6 +238,42 @@ final class GifHelper {
                     $hex .= $part;
                     $blocks['graphicControlExtension-'.$gce] = $hex;
                     $gce++;
+                } else if('01' === $part){ // plain text ext
+                    $hex .= $part;
+
+                    while (!$bytes->isEnd()) { // loop thru all app sub blocks
+                        $nextSize = $bytes->bite(1);
+                        if($nextSize !== '00'){
+                            $hex .= $nextSize;
+                            $size = hexdec($nextSize);
+                            $part = $bytes->bite($size);
+                            $hex .= $part;
+                        } else {
+                            $hex .= $nextSize;
+                            $blocks['plainTextExtension-'.$plainTextC] = $hex;
+                            break;
+                        }
+
+                    }
+                    $plainTextC++;
+                } else if('fe' === $part){ // comment ext
+                    $hex .= $part;
+
+                    while (!$bytes->isEnd()) { // loop thru all app sub blocks
+                        $nextSize = $bytes->bite(1);
+                        if($nextSize !== '00'){
+                            $hex .= $nextSize;
+                            $size = hexdec($nextSize);
+                            $part = $bytes->bite($size);
+                            $hex .= $part;
+                        } else {
+                            $hex .= $nextSize;
+                            $blocks['commentExtension-'.$commentC] = $hex;
+                            break;
+                        }
+
+                    }
+                    $commentC++;
                 }
             } else if ('2c'===$part){ // image descriptors
                 $hex = $part;
@@ -289,7 +325,7 @@ final class GifHelper {
             }
         }
         if($blocks['trailer']!=='3b'){
-            throw new \Exception('Error decoding GIF.'.$bytes->getPosition().' '.$bytes->length());
+            throw new \Exception('Error decoding GIF. Stopped at '.$bytes->getPosition().'. Length is '.$bytes->length().'.');
         }
 
         return $blocks;
@@ -298,7 +334,7 @@ final class GifHelper {
     /**
      * Expand GIF blocks into useful info.
      *
-     * @param array $blocks Accepts the array returned bt decodeToBlocks
+     * @param array $blocks Accepts the array returned by decodeToBlocks
      *
      * @return array
      */
