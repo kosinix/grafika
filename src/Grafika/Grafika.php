@@ -202,7 +202,9 @@ class Grafika
                         $p[1]
                     );
                 case 'Dither':
-                    return new ImagickDither();
+                    return new ImagickDither(
+                        $p[1]
+                    );
                 case 'Gamma':
                     return new ImagickGamma(
                         $p[1]

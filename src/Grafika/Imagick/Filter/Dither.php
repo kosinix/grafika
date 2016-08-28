@@ -152,7 +152,7 @@ class Dither implements FilterInterface{
 
                 // Current pixel
                 $px->setColor("rgb($newPixel,$newPixel,$newPixel)");
-                
+
             }
             $pixelIterator->syncIterator(); /* Sync the iterator, this is important to do on each iteration */
         }
