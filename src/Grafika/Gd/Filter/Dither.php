@@ -156,7 +156,6 @@ class Dither implements FilterInterface{
 
                 $gray = round( $r * 0.3 + $g * 0.59 + $b * 0.11 );
 
-                //
                 $threshold = $thresholdMap[ $x % 4 ][ $y % 4 ];
                 $oldPixel  = ( $gray + $threshold ) / 2;
                 if ( $oldPixel <= 127 ) { // Determine if black or white. Also has the benefit of clipping excess value
