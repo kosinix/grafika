@@ -242,7 +242,9 @@ class Grafika
                         $p[1]
                     );
                 case 'Dither':
-                    return new GdDither();
+                    return new GdDither(
+                        $p[1]
+                    );
                 case 'Gamma':
                     return new GdGamma(
                         $p[1]
