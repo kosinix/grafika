@@ -32,14 +32,15 @@ class Dither implements FilterInterface{
      * @param Image $image
      *
      * @return Image
+     * @throws \Exception
      */
-    public function apply( $image) {
-        switch ($this->type){
-            case 'ordered':
-                return $this->ordered( $image );
-            default:
-                return $this->diffusion( $image );
+    public function apply( $image ) {
+        if ( $this->type === 'ordered' ) {
+            return $this->ordered( $image );
+        } else if ( $this->type === 'diffusion' ) {
+            return $this->diffusion( $image );
         }
+        throw new \Exception( sprintf( 'Invalid dither type "%s".', $this->type ) );
     }
 
     /**
