@@ -603,11 +603,21 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
     public function testDither($editor)
     {
         $input = DIR_TEST_IMG . '/lena.png';
-        $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
-        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
+        $output = DIR_TMP . '/' . __FUNCTION__ . 'Diffusion.jpg';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . 'Diffusion.jpg';
 
         $editor->open($input);
-        $editor->apply( Grafika::createFilter('Dither') );
+        $editor->apply( Grafika::createFilter('Dither', 'diffusion') );
+        $editor->save($output);
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+
+        $input = DIR_TEST_IMG . '/lena.png';
+        $output = DIR_TMP . '/' . __FUNCTION__ . 'Ordered.jpg';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . 'Ordered.jpg';
+
+        $editor->open($input);
+        $editor->apply( Grafika::createFilter('Dither', 'ordered') );
         $editor->save($output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
