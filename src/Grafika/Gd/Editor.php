@@ -304,6 +304,20 @@ final class Editor implements EditorInterface
     }
 
     /**
+     * Free the image clearing resources associated with it.
+     *
+     * @param Image $image
+     *
+     * @return Editor
+     */
+    public function free( &$image )
+    {
+        imagedestroy($image->getCore());
+        unset( $image );
+        return $this;
+    }
+
+    /**
      * Convert alpha value of 0 - 1 to GD compatible alpha value of 0 - 127 where 0 is opaque and 127 is transparent
      *
      * @param float $alpha Alpha value of 0 - 1. Example: 0, 0.60, 0.9, 1

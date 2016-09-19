@@ -95,6 +95,15 @@ interface EditorInterface {
     public function flip( &$image, $mode);
 
     /**
+     * Free the image clearing resources associated with it.
+     *
+     * @param ImageInterface $image
+     *
+     * @return EditorInterface An instance of image editor.
+     */
+    public function free( &$image );
+
+    /**
      * Checks the PHP install if the editor is available.
      *
      * @return bool True if available false if not.

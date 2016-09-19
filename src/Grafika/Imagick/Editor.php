@@ -272,6 +272,20 @@ final class Editor implements EditorInterface
     }
 
     /**
+     * Free the image clearing resources associated with it.
+     *
+     * @param Image $image
+     *
+     * @return Editor
+     */
+    public function free( &$image )
+    {
+        $image->getCore()->clear();
+        unset( $image );
+        return $this;
+    }
+
+    /**
      * Checks if the editor is available on the current PHP install.
      *
      * @return bool True if available false if not.
