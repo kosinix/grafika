@@ -34,9 +34,8 @@ class DifferenceHash
         $height = 8;
 
         $editor = new Editor();
-        $editor->setImage($image);
-        $editor->resizeExact($width, $height); // Resize to exactly 9x8
-        $gd = $editor->getImage()->getCore();
+        $editor->resizeExact($image, $width, $height); // Resize to exactly 9x8
+        $gd = $image->getCore();
 
         // Build hash
         $hash = '';
