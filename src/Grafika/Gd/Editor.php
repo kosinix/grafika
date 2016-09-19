@@ -54,11 +54,15 @@ final class Editor implements EditorInterface
         if (is_string($image1)) { // If string passed, turn it into a Image object
             $image1 = Image::createFromFile($image1);
             $image1->flatten();
+        } else {
+            $image1 = clone $image1; // Make sure we are working on the clone if Image is passed
         }
 
         if (is_string($image2)) { // If string passed, turn it into a Image object
             $image2 = Image::createFromFile($image2);
             $image2->flatten();
+        } else {
+            $image2 = clone $image2; // Make sure we are working on the clone if Image is passed
         }
 
         $hash = new DifferenceHash();
