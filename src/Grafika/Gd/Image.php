@@ -68,6 +68,9 @@ final class Image implements ImageInterface {
         $this->animated = $animated;
     }
 
+    /**
+     * Method called when 'clone' keyword is used.
+     */
     public function __clone()
     {
         $original = $this->gd;
