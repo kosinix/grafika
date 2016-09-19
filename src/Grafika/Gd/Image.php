@@ -1,7 +1,6 @@
 <?php
 namespace Grafika\Gd;
 
-use Grafika\Gd\Helper\GifByteStream;
 use Grafika\Gd\Helper\GifHelper;
 use Grafika\ImageType;
 use Grafika\ImageInterface;
