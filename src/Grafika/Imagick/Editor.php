@@ -19,49 +19,21 @@ final class Editor implements EditorInterface
 {
 
     /**
-     * @var Image Holds the image instance.
-     */
-    private $image;
-
-    /**
-     * Constructor.
-     */
-    function __construct()
-    {
-        $this->image = null;
-    }
-
-    /**
      * Apply a filter to the image. See Filters section for a list of available filters.
      *
+     * @param Image $image
      * @param FilterInterface $filter
      *
      * @return Editor
      */
-    public function apply($filter)
+    public function apply(&$image, $filter)
     {
-        $this->_imageCheck();
 
-        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+        if ($image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
 
-        $this->image = $filter->apply($this->image);
-
-        return $this;
-    }
-
-    /**
-     * Create a blank image given width and height.
-     *
-     * @param int $width Width of image in pixels.
-     * @param int $height Height of image in pixels.
-     *
-     * @return self
-     */
-    public function blank($width, $height)
-    {
-        $this->image = Image::createBlank($width, $height);
+        $image = $filter->apply($image);
 
         return $this;
     }
@@ -108,6 +80,7 @@ final class Editor implements EditorInterface
     /**
      * Crop the image to the given dimension and position.
      *
+     * @param Image $image
      * @param int $cropWidth Crop width in pixels.
      * @param int $cropHeight Crop Height in pixels.
      * @param string $position The crop position. Possible values top-left, top-center, top-right, center-left, center, center-right, bottom-left, bottom-center, bottom-right and smart. Defaults to center.
@@ -117,10 +90,10 @@ final class Editor implements EditorInterface
      * @return Editor
      * @throws \Exception
      */
-    public function crop($cropWidth, $cropHeight, $position = 'center', $offsetX = 0, $offsetY = 0)
+    public function crop(&$image, $cropWidth, $cropHeight, $position = 'center', $offsetX = 0, $offsetY = 0)
     {
 
-        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+        if ($image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
 
@@ -128,31 +101,31 @@ final class Editor implements EditorInterface
             $x = 0;
             $y = 0;
         } else if ('top-center' === $position) {
-            $x = (int)round(($this->image->getWidth() / 2) - ($cropWidth / 2));
+            $x = (int)round(($image->getWidth() / 2) - ($cropWidth / 2));
             $y = 0;
         } else if ('top-right' === $position) {
-            $x = $this->image->getWidth() - $cropWidth;
+            $x = $image->getWidth() - $cropWidth;
             $y = 0;
         } else if ('center-left' === $position) {
             $x = 0;
-            $y = (int)round(($this->image->getHeight() / 2) - ($cropHeight / 2));
+            $y = (int)round(($image->getHeight() / 2) - ($cropHeight / 2));
         } else if ('center-right' === $position) {
-            $x = $this->image->getWidth() - $cropWidth;
-            $y = (int)round(($this->image->getHeight() / 2) - ($cropHeight / 2));
+            $x = $image->getWidth() - $cropWidth;
+            $y = (int)round(($image->getHeight() / 2) - ($cropHeight / 2));
         } else if ('bottom-left' === $position) {
             $x = 0;
-            $y = $this->image->getHeight() - $cropHeight;
+            $y = $image->getHeight() - $cropHeight;
         } else if ('bottom-center' === $position) {
-            $x = (int)round(($this->image->getWidth() / 2) - ($cropWidth / 2));
-            $y = $this->image->getHeight() - $cropHeight;
+            $x = (int)round(($image->getWidth() / 2) - ($cropWidth / 2));
+            $y = $image->getHeight() - $cropHeight;
         } else if ('bottom-right' === $position) {
-            $x = $this->image->getWidth() - $cropWidth;
-            $y = $this->image->getHeight() - $cropHeight;
+            $x = $image->getWidth() - $cropWidth;
+            $y = $image->getHeight() - $cropHeight;
         } else if ('smart' === $position) { // Smart crop
-            list($x, $y) = $this->_smartCrop($cropWidth, $cropHeight);
+            list($x, $y) = $this->_smartCrop($image, $cropWidth, $cropHeight);
         } else if ('center' === $position) {
-            $x = (int)round(($this->image->getWidth() / 2) - ($cropWidth / 2));
-            $y = (int)round(($this->image->getHeight() / 2) - ($cropHeight / 2));
+            $x = (int)round(($image->getWidth() / 2) - ($cropWidth / 2));
+            $y = (int)round(($image->getHeight() / 2) - ($cropHeight / 2));
         } else {
             throw new \Exception('Invalid parameter position.');
         }
@@ -160,7 +133,7 @@ final class Editor implements EditorInterface
         $x += $offsetX;
         $y += $offsetY;
 
-        $this->image->getCore()->cropImage($cropWidth, $cropHeight, $x, $y);
+        $image->getCore()->cropImage($cropWidth, $cropHeight, $x, $y);
 
         return $this;
     }
@@ -168,19 +141,19 @@ final class Editor implements EditorInterface
     /**
      * Draw a DrawingObject on the image. See Drawing Objects section.
      *
+     * @param Image $image
      * @param DrawingObjectInterface $drawingObject
      *
      * @return $this
      */
-    public function draw($drawingObject)
+    public function draw(&$image, $drawingObject)
     {
-        $this->_imageCheck();
 
-        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+        if ($image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
 
-        $this->image = $drawingObject->draw($this->image);
+        $image = $drawingObject->draw($image);
 
         return $this;
     }
@@ -246,23 +219,22 @@ final class Editor implements EditorInterface
     /**
      * Fill entire image with color.
      *
+     * @param Image $image
      * @param Color $color Color object
      * @param int $x X-coordinate of start point
      * @param int $y Y-coordinate of start point
      *
      * @return self
      */
-    public function fill($color, $x = 0, $y = 0)
+    public function fill(&$image, $color, $x = 0, $y = 0)
     {
 
-        $this->_imageCheck();
-
-        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+        if ($image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
 
-        $target = $this->image->getCore()->getImagePixelColor($x, $y);
-        $this->image->getCore()->floodfillPaintImage($color->getHexString(), 1, $target, $x, $y, false);
+        $target = $image->getCore()->getImagePixelColor($x, $y);
+        $image->getCore()->floodfillPaintImage($color->getHexString(), 1, $target, $x, $y, false);
 
         return $this;
     }
@@ -270,61 +242,33 @@ final class Editor implements EditorInterface
     /**
      * Flatten if animated GIF. Do nothing otherwise.
      *
+     * @param Image $image
+     *
      * @return self
      */
-    public function flatten(){
-        $this->_imageCheck();
-        $this->image->flatten();
+    public function flatten(&$image){
+        $image->flatten();
         return $this;
     }
 
     /**
      * Flip or mirrors the image.
      *
+     * @param Image $image
      * @param string $mode The type of flip: 'h' for horizontal flip or 'v' for vertical.
      *
      * @return Editor
      * @throws \Exception
      */
-    public function flip($mode){
-        $this->_imageCheck();
+    public function flip(&$image, $mode){
         if ($mode === 'h') {
-            $this->image->getCore()->flopImage();
+            $image->getCore()->flopImage();
         } else if ($mode === 'v') {
-            $this->image->getCore()->flipImage();
+            $image->getCore()->flipImage();
         } else {
             throw new \Exception(sprintf('Unsupported mode "%s"', $mode));
         }
         return $this;
-    }
-
-    /**
-     * Free the current image clearing resources associated with it.
-     */
-    public function free()
-    {
-        if (null !== $this->image) {
-            if (null !== $this->image->getCore()) {
-                $this->image->getCore()->clear();
-            }
-        }
-        $this->image = null;
-    }
-
-    /**
-     * Get image instance.
-     *
-     * @param bool $byRef True to return image by reference or false to return a copy. Defaults to copy.
-     *
-     * @return Image
-     */
-    public function getImage($byRef=false)
-    {
-        $this->_imageCheck();
-        if($byRef){
-            return $this->image;
-        }
-        return clone $this->image;
     }
 
     /**
@@ -350,17 +294,16 @@ final class Editor implements EditorInterface
     /**
      * Sets the image to the specified opacity level where 1.0 is fully opaque and 0.0 is fully transparent.
      *
+     * @param Image $image
      * @param float $opacity
      *
      * @return self
      * @throws \Exception
      */
-    public function opacity($opacity)
+    public function opacity(&$image, $opacity)
     {
 
-        $this->_imageCheck();
-
-        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+        if ($image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
 
@@ -368,57 +311,7 @@ final class Editor implements EditorInterface
         $opacity = ($opacity > 1) ? 1 : $opacity;
         $opacity = ($opacity < 0) ? 0 : $opacity;
 
-        $this->image->getCore()->setImageOpacity($opacity);
-
-        return $this;
-    }
-
-    /**
-     * Opens an image file for manipulation specified by $target.
-     *
-     * @param mixed $target Can be an instance of Image or a string containing file system path to the image.
-     *
-     * @return Editor
-     * @throws \Exception
-     */
-    public function open($target)
-    {
-        if ($target instanceof ImageInterface) {
-            $this->openImage($target);
-        } else if (is_string($target)) {
-            $this->openFile($target);
-        } else {
-            throw new \Exception('Could not open image.');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Open an image by passing an instance of Image.
-     *
-     * @param ImageInterface $image
-     *
-     * @return $this
-     */
-    public function openImage($image)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Open an image by passing a file system path.
-     *
-     * @param string $file A full path to the image in the file system.
-     *
-     * @return $this
-     * @throws \Exception
-     */
-    public function openFile($file)
-    {
-        $this->image = Image::createFromFile($file);
+        $image->getCore()->setImageOpacity($opacity);
 
         return $this;
     }
@@ -426,6 +319,7 @@ final class Editor implements EditorInterface
     /**
      * Overlay an image on top of the current image.
      *
+     * @param Image $image
      * @param Image|string $overlay Can be a string containing a file path of the image to overlay or an Image object.
      * @param string|int $xPos Horizontal position of image. Can be 'left','center','right' or integer number. Defaults to 'center'.
      * @param string|int $yPos Vertical position of image. Can be 'top', 'center','bottom' or integer number. Defaults to 'center'.
@@ -435,12 +329,10 @@ final class Editor implements EditorInterface
      * @return Editor
      * @throws \Exception
      */
-    public function overlay($overlay, $xPos = 'center', $yPos = 'center', $width = null, $height = null)
+    public function overlay(&$image, $overlay, $xPos = 'center', $yPos = 'center', $width = null, $height = null)
     {
 
-        $this->_imageCheck();
-
-        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+        if ($image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
 
@@ -459,7 +351,7 @@ final class Editor implements EditorInterface
             } else {
                 $percent = strpos($width, '%');
                 if (false !== $percent) {
-                    $overlayWidth = intval($width) / 100 * $this->image->getWidth();
+                    $overlayWidth = intval($width) / 100 * $image->getWidth();
                 }
             }
 
@@ -468,14 +360,11 @@ final class Editor implements EditorInterface
             } else {
                 $percent = strpos($height, '%');
                 if (false !== $percent) {
-                    $overlayHeight = intval($height) / 100 * $this->image->getHeight();
+                    $overlayHeight = intval($height) / 100 * $image->getHeight();
                 }
             }
 
-            $editor = new Editor();
-            $editor->setImage($overlay);
-            $editor->resizeFit($overlayWidth, $overlayHeight);
-            $overlay = $editor->getImage();
+            $this->resizeFit($overlay, $overlayWidth, $overlayHeight);
         }
 
         //$x = $y = 0;
@@ -488,12 +377,12 @@ final class Editor implements EditorInterface
                     break;
 
                 case 'right':
-                    $x = $this->image->getWidth() - $overlay->getWidth();
+                    $x = $image->getWidth() - $overlay->getWidth();
                     break;
 
                 case 'center':
                 default:
-                    $x = (int)round(($this->image->getWidth() / 2) - ($overlay->getWidth() / 2));
+                    $x = (int)round(($image->getWidth() / 2) - ($overlay->getWidth() / 2));
                     break;
             }
         } else {
@@ -507,12 +396,12 @@ final class Editor implements EditorInterface
                     break;
 
                 case 'bottom':
-                    $y = $this->image->getHeight() - $overlay->getHeight();
+                    $y = $image->getHeight() - $overlay->getHeight();
                     break;
 
                 case 'center':
                 default:
-                    $y = (int)round(($this->image->getHeight() / 2) - ($overlay->getHeight() / 2));
+                    $y = (int)round(($image->getHeight() / 2) - ($overlay->getHeight() / 2));
                     break;
             }
         } else {
@@ -520,7 +409,7 @@ final class Editor implements EditorInterface
         }
 
         // Overlay the image on the original image
-        $this->image->getCore()->compositeImage($overlay->getCore(), \Imagick::COMPOSITE_OVER, $x, $y);
+        $image->getCore()->compositeImage($overlay->getCore(), \Imagick::COMPOSITE_OVER, $x, $y);
 
         return $this;
 
@@ -529,6 +418,7 @@ final class Editor implements EditorInterface
     /**
      * Wrapper function for the resizeXXX family of functions. Resize image given width, height and mode.
      *
+     * @param Image $image
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      * @param string $mode Resize mode. Possible values: "exact", "exactHeight", "exactWidth", "fill", "fit".
@@ -536,7 +426,7 @@ final class Editor implements EditorInterface
      * @return Editor
      * @throws \Exception
      */
-    public function resize($newWidth, $newHeight, $mode = 'fit')
+    public function resize(&$image, $newWidth, $newHeight, $mode = 'fit')
     {
         /*
          * Resize formula:
@@ -546,19 +436,19 @@ final class Editor implements EditorInterface
          */
         switch ($mode) {
             case 'exact':
-                $this->resizeExact($newWidth, $newHeight);
+                $this->resizeExact($image, $newWidth, $newHeight);
                 break;
             case 'fill':
-                $this->resizeFill($newWidth, $newHeight);
+                $this->resizeFill($image, $newWidth, $newHeight);
                 break;
             case 'exactWidth':
-                $this->resizeExactWidth($newWidth);
+                $this->resizeExactWidth($image, $newWidth);
                 break;
             case 'exactHeight':
-                $this->resizeExactHeight($newHeight);
+                $this->resizeExactHeight($image, $newHeight);
                 break;
             case 'fit':
-                $this->resizeFit($newWidth, $newHeight);
+                $this->resizeFit($image, $newWidth, $newHeight);
                 break;
             default:
                 throw new \Exception(sprintf('Invalid resize mode "%s".', $mode));
@@ -570,15 +460,16 @@ final class Editor implements EditorInterface
     /**
      * Resize image to exact dimensions ignoring aspect ratio. Useful if you want to force exact width and height.
      *
+     * @param Image $image
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      *
      * @return self
      */
-    public function resizeExact($newWidth, $newHeight)
+    public function resizeExact(&$image, $newWidth, $newHeight)
     {
 
-        $this->_resize($newWidth, $newHeight);
+        $this->_resize($image, $newWidth, $newHeight);
 
         return $this;
     }
@@ -586,21 +477,22 @@ final class Editor implements EditorInterface
     /**
      * Resize image to exact height. Width is auto calculated. Useful for creating row of images with the same height.
      *
+     * @param Image $image
      * @param int $newHeight Height in pixels.
      *
      * @return self
      */
-    public function resizeExactHeight($newHeight)
+    public function resizeExactHeight(&$image, $newHeight)
     {
 
-        $width  = $this->image->getWidth();
-        $height = $this->image->getHeight();
+        $width  = $image->getWidth();
+        $height = $image->getHeight();
         $ratio  = $width / $height;
 
         $resizeHeight = $newHeight;
         $resizeWidth  = $newHeight * $ratio;
 
-        $this->_resize($resizeWidth, $resizeHeight);
+        $this->_resize($image, $resizeWidth, $resizeHeight);
 
         return $this;
     }
@@ -608,21 +500,22 @@ final class Editor implements EditorInterface
     /**
      * Resize image to exact width. Height is auto calculated. Useful for creating column of images with the same width.
      *
+     * @param Image $image
      * @param int $newWidth Width in pixels.
      *
      * @return self
      */
-    public function resizeExactWidth($newWidth)
+    public function resizeExactWidth(&$image, $newWidth)
     {
 
-        $width  = $this->image->getWidth();
-        $height = $this->image->getHeight();
+        $width  = $image->getWidth();
+        $height = $image->getHeight();
         $ratio  = $width / $height;
 
         $resizeWidth  = $newWidth;
         $resizeHeight = round($newWidth / $ratio);
 
-        $this->_resize($resizeWidth, $resizeHeight);
+        $this->_resize($image, $resizeWidth, $resizeHeight);
 
         return $this;
     }
@@ -630,15 +523,16 @@ final class Editor implements EditorInterface
     /**
      * Resize image to fill all the space in the given dimension. Excess parts are cropped.
      *
+     * @param Image $image
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      *
      * @return self
      */
-    public function resizeFill($newWidth, $newHeight)
+    public function resizeFill(&$image, $newWidth, $newHeight)
     {
-        $width  = $this->image->getWidth();
-        $height = $this->image->getHeight();
+        $width  = $image->getWidth();
+        $height = $image->getHeight();
         $ratio  = $width / $height;
 
         // Base optimum size on new width
@@ -651,8 +545,8 @@ final class Editor implements EditorInterface
             $optimumHeight = $newHeight;
         }
 
-        $this->_resize($optimumWidth, $optimumHeight);
-        $this->crop($newWidth, $newHeight); // Trim excess parts
+        $this->_resize($image, $optimumWidth, $optimumHeight);
+        $this->crop($image, $newWidth, $newHeight); // Trim excess parts
 
         return $this;
     }
@@ -660,16 +554,17 @@ final class Editor implements EditorInterface
     /**
      * Resize image to fit inside the given dimension. No part of the image is lost.
      *
+     * @param Image $image
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      *
      * @return self
      */
-    public function resizeFit($newWidth, $newHeight)
+    public function resizeFit(&$image, $newWidth, $newHeight)
     {
 
-        $width  = $this->image->getWidth();
-        $height = $this->image->getHeight();
+        $width  = $image->getWidth();
+        $height = $image->getHeight();
         $ratio  = $width / $height;
 
         // Try basing it on width first
@@ -682,7 +577,7 @@ final class Editor implements EditorInterface
             $resizeWidth  = $newHeight * $ratio;
         }
 
-        $this->_resize($resizeWidth, $resizeHeight);
+        $this->_resize($image, $resizeWidth, $resizeHeight);
 
         return $this;
     }
@@ -690,24 +585,23 @@ final class Editor implements EditorInterface
     /**
      * Rotate an image counter-clockwise.
      *
+     * @param Image $image
      * @param int $angle The angle in degrees.
      * @param Color|null $color The Color object containing the background color.
      *
      * @return EditorInterface An instance of image editor.
      */
-    public function rotate($angle, $color = null)
+    public function rotate(&$image, $angle, $color = null)
     {
 
-        $this->_imageCheck();
-
-        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+        if ($image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
 
         $color = ($color !== null) ? $color : new Color('#000000');
         list($r, $g, $b, $alpha) = $color->getRgba();
 
-        $this->image->getCore()->rotateImage(new \ImagickPixel("rgba($r, $g, $b, $alpha)"), $angle * -1);
+        $image->getCore()->rotateImage(new \ImagickPixel("rgba($r, $g, $b, $alpha)"), $angle * -1);
 
         return $this;
     }
@@ -715,6 +609,7 @@ final class Editor implements EditorInterface
     /**
      * Save the image to an image format.
      *
+     * @param Image $image
      * @param string $file File path where to save the image.
      * @param null|string $type Type of image. Can be null, "GIF", "PNG", or "JPEG".
      * @param null|string $quality Quality of image. Applies to JPEG only. Accepts number 0 - 100 where 0 is lowest and 100 is the highest quality. Or null for default.
@@ -724,16 +619,14 @@ final class Editor implements EditorInterface
      * @return Editor
      * @throws \Exception
      */
-    public function save($file, $type = null, $quality = null, $interlace = false, $permission = 0755)
+    public function save( $image, $file, $type = null, $quality = null, $interlace = false, $permission = 0755)
     {
-
-        $this->_imageCheck();
 
         if (null === $type) {
 
             $type = $this->_getImageTypeFromFileName($file); // Null given, guess type from file extension
             if (ImageType::UNKNOWN === $type) {
-                $type = $this->image->getType(); // 0 result, use original image type
+                $type = $image->getType(); // 0 result, use original image type
             }
         }
 
@@ -747,13 +640,13 @@ final class Editor implements EditorInterface
 
         switch (strtoupper($type)) {
             case ImageType::GIF :
-                $this->image->getCore()->writeImages($file, true); // Support animated image. Eg. GIF
+                $image->getCore()->writeImages($file, true); // Support animated image. Eg. GIF
                 break;
 
             case ImageType::PNG :
                 // PNG is lossless and does not need compression. Although GD allow values 0-9 (0 = no compression), we leave it alone.
-                $this->image->getCore()->setImageFormat($type);
-                $this->image->getCore()->writeImage($file);
+                $image->getCore()->setImageFormat($type);
+                $image->getCore()->writeImage($file);
                 break;
 
             default: // Defaults to jpeg
@@ -762,30 +655,21 @@ final class Editor implements EditorInterface
                 $quality = ($quality <= 0) ? 1 : $quality; // Note: If 0 change it to 1. The lowest quality in Imagick is 1 whereas in GD its 0.
 
                 if ($interlace) {
-                    $this->image->getCore()->setImageInterlaceScheme(\Imagick::INTERLACE_JPEG);
+                    $image->getCore()->setImageInterlaceScheme(\Imagick::INTERLACE_JPEG);
                 }
-                $this->image->getCore()->setImageFormat($type);
-                $this->image->getCore()->setImageCompression(\Imagick::COMPRESSION_JPEG);
-                $this->image->getCore()->setImageCompressionQuality($quality);
-                $this->image->getCore()->writeImage($file); // Single frame image. Eg. JPEG
+                $image->getCore()->setImageFormat($type);
+                $image->getCore()->setImageCompression(\Imagick::COMPRESSION_JPEG);
+                $image->getCore()->setImageCompressionQuality($quality);
+                $image->getCore()->writeImage($file); // Single frame image. Eg. JPEG
         }
 
         return $this;
     }
 
     /**
-     * Set image instance.
-     *
-     * @param Image $image
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-
-    /**
      * Write text to image.
      *
+     * @param Image $image
      * @param string $text The text to be written.
      * @param int $size The font size. Defaults to 12.
      * @param int $x The distance from the left edge of the image to the left of the text. Defaults to 0.
@@ -797,12 +681,10 @@ final class Editor implements EditorInterface
      * @return EditorInterface
      * @throws \Exception
      */
-    public function text($text, $size = 12, $x = 0, $y = 0, $color = null, $font = '', $angle = 0)
+    public function text(&$image, $text, $size = 12, $x = 0, $y = 0, $color = null, $font = '', $angle = 0)
     {
 
-        $this->_imageCheck();
-
-        if ($this->image->isAnimated()) { // Ignore animated GIF for now
+        if ($image->isAnimated()) { // Ignore animated GIF for now
             return $this;
         }
 
@@ -822,7 +704,7 @@ final class Editor implements EditorInterface
         $draw->setFontSize($size);
 
         // Write text
-        $this->image->getCore()->annotateImage(
+        $image->getCore()->annotateImage(
             $draw,
             $x,
             $y,
@@ -836,19 +718,19 @@ final class Editor implements EditorInterface
     /**
      * Get histogram from an entire image or its sub-region of image.
      *
+     * @param Image $image
      * @param array|null $slice Array of slice information. array( array( 0,0), array(100,50)) means x,y is 0,0 and width,height is 100,50
      *
      * @return array Returns array containing RGBA bins array('r'=>array(), 'g'=>array(), 'b'=>array(), 'a'=>array())
      */
-    function histogram($slice = null)
+    function histogram(&$image, $slice = null)
     {
-        $this->_imageCheck();
 
         if(null === $slice){
             $sliceX = 0;
             $sliceY = 0;
-            $sliceW = $this->image->getWidth();
-            $sliceH = $this->image->getHeight();
+            $sliceW = $image->getWidth();
+            $sliceH = $image->getHeight();
         } else {
             $sliceX = $slice[0][0];
             $sliceY = $slice[0][1];
@@ -862,7 +744,7 @@ final class Editor implements EditorInterface
         $aBin = array();
 
         // Loop using image1
-        $pixelIterator = $this->image->getCore()->getPixelIterator();
+        $pixelIterator = $image->getCore()->getPixelIterator();
         foreach ($pixelIterator as $y => $rows) { /* Loop through pixel rows */
             if($y >= $sliceY and $y < $sliceY+$sliceH) {
                 foreach ($rows as $x => $px) { /* Loop through the pixels in the row (columns) */
@@ -938,22 +820,21 @@ final class Editor implements EditorInterface
     /**
      * Crop based on entropy.
      *
+     * @param Image $oldImage
      * @param $cropW
      * @param $cropH
      *
      * @return array
      */
-    private function _smartCrop($cropW, $cropH){
-        $image = clone $this->image;
+    private function _smartCrop($oldImage, $cropW, $cropH){
+        $image = clone $oldImage;
 
-        $editor = new Editor();
-        $editor->setImage($image);
-        $editor->resizeFit(30, 30);
+        $this->resizeFit($image, 30, 30);
 
-        $origW = $this->getImage()->getWidth();
-        $origH = $this->getImage()->getHeight();
-        $resizeW = $editor->getImage()->getWidth();
-        $resizeH = $editor->getImage()->getHeight();
+        $origW = $oldImage->getWidth();
+        $origH = $oldImage->getHeight();
+        $resizeW = $image->getWidth();
+        $resizeH = $image->getHeight();
 
         $smallCropW = round(($resizeW / $origW) * $cropW);
         $smallCropH = round(($resizeH / $origH) * $cropH);
@@ -962,14 +843,14 @@ final class Editor implements EditorInterface
 
         for($y = 0; $y < $resizeH-$smallCropH; $y+=$step){
             for($x = 0; $x < $resizeW-$smallCropW; $x+=$step){
-                $hist[$x.'-'.$y] = $this->entropy($editor->histogram(array(array($x, $y), array($smallCropW, $smallCropH))));
+                $hist[$x.'-'.$y] = $this->entropy($this->histogram($image, array(array($x, $y), array($smallCropW, $smallCropH))));
             }
             if($resizeW-$smallCropW <= 0){
-                $hist['0-'.$y] = $this->entropy($editor->histogram(array(array(0, 0), array($smallCropW, $smallCropH))));
+                $hist['0-'.$y] = $this->entropy($this->histogram($image, array(array(0, 0), array($smallCropW, $smallCropH))));
             }
         }
         if($resizeH-$smallCropH <= 0){
-            $hist['0-0'] = $this->entropy($editor->histogram(array(array(0, 0), array($smallCropW, $smallCropH))));
+            $hist['0-0'] = $this->entropy($this->histogram($image, array(array(0, 0), array($smallCropW, $smallCropH))));
         }
 
         asort($hist);
@@ -985,19 +866,19 @@ final class Editor implements EditorInterface
     /**
      * Resize helper function.
      *
+     * @param Image $image
      * @param int $newWidth
      * @param int $newHeight
      *
      * @return self
      * @throws \Exception
      */
-    private function _resize($newWidth, $newHeight)
+    private function _resize(&$image, $newWidth, $newHeight)
     {
-        $this->_imageCheck();
 
-        if ('GIF' == $this->image->getType()) { // Animated image. Eg. GIF
+        if ('GIF' == $image->getType()) { // Animated image. Eg. GIF
 
-            $imagick = $this->image->getCore()->coalesceImages();
+            $imagick = $image->getCore()->coalesceImages();
 
             foreach ($imagick as $frame) {
                 $frame->resizeImage($newWidth, $newHeight, \Imagick::FILTER_BOX, 1, false);
@@ -1005,14 +886,14 @@ final class Editor implements EditorInterface
             }
 
             // Assign new image with frames
-            $this->image = new Image($imagick->deconstructImages(), $this->image->getImageFile(), $newWidth, $newHeight,
-                $this->image->getType());
+            $image = new Image($imagick->deconstructImages(), $image->getImageFile(), $newWidth, $newHeight,
+                $image->getType());
         } else { // Single frame image. Eg. JPEG, PNG
 
-            $this->image->getCore()->resizeImage($newWidth, $newHeight, \Imagick::FILTER_LANCZOS, 1, false);
+            $image->getCore()->resizeImage($newWidth, $newHeight, \Imagick::FILTER_LANCZOS, 1, false);
             // Assign new image
-            $this->image = new Image($this->image->getCore(), $this->image->getImageFile(), $newWidth, $newHeight,
-                $this->image->getType());
+            $image = new Image($image->getCore(), $image->getImageFile(), $newWidth, $newHeight,
+                $image->getType());
         }
 
     }
@@ -1036,18 +917,6 @@ final class Editor implements EditorInterface
             return ImageType::PNG;
         } else {
             return ImageType::UNKNOWN;
-        }
-    }
-
-    /**
-     * Check if editor has already been assigned an image.
-     *
-     * @throws \Exception
-     */
-    private function _imageCheck()
-    {
-        if (null === $this->image) {
-            throw new \Exception('No image to edit.');
         }
     }
 
