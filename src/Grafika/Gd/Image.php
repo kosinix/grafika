@@ -95,122 +95,26 @@ final class Image implements ImageInterface {
         $type = self::_guessType($imageFile);
         if ( ImageType::GIF == $type) {
 
-            return self::createGif($imageFile);
+            return self::_createGif($imageFile);
 
         } else if ( ImageType::JPEG == $type) {
 
-            return self::createJpeg($imageFile);
+            return self::_createJpeg($imageFile);
 
         } else if ( ImageType::PNG == $type) {
 
-            return self::createPng($imageFile);
+            return self::_createPng($imageFile);
 
         } else if ( ImageType::WBMP == $type) {
 
-            return self::createWbmp($imageFile);
+            return self::_createWbmp($imageFile);
 
         } else {
             throw new \Exception( sprintf('Could not open "%s". File type not supported.', $imageFile) );
         }
     }
 
-    /**
-     * Load a JPEG image.
-     *
-     * @param string $imageFile File path to image.
-     *
-     * @return Image
-     * @throws \Exception
-     * @deprecated
-     * TODO: Make function private. Use createFromFile instead.
-     */
-    public static function createJpeg( $imageFile ){
-        $gd = @imagecreatefromjpeg( $imageFile );
 
-        if(!$gd){
-            throw new \Exception( sprintf('Could not open "%s". Not a valid %s file.', $imageFile, ImageType::JPEG ) );
-        }
-
-        return new self( $gd, $imageFile, imagesx( $gd ), imagesy( $gd ), ImageType::JPEG );
-    }
-
-    /**
-     * Load a PNG image.
-     *
-     * @param string $imageFile File path to image.
-     *
-     * @return Image
-     * @throws \Exception
-     * @deprecated
-     * TODO: Make function private. Use createFromFile instead.
-     */
-    public static function createPng( $imageFile ){
-        $gd = @imagecreatefrompng( $imageFile );
-
-        if(!$gd){
-            throw new \Exception( sprintf('Could not open "%s". Not a valid %s file.', $imageFile, ImageType::PNG) );
-        }
-
-        $image = new self( $gd, $imageFile, imagesx( $gd ), imagesy( $gd ), ImageType::PNG );
-        $image->fullAlphaMode( true );
-        return $image;
-    }
-
-
-    /**
-     * Load a GIF image.
-     *
-     * @param string $imageFile
-     *
-     * @return Image
-     * @throws \Exception
-     * @deprecated
-     * TODO: Make function private. Use createFromFile instead.
-     */
-    public static function createGif( $imageFile ){
-        $gift = new GifHelper();
-        $bytes = $gift->open($imageFile);
-        $animated = $gift->isAnimated($bytes);
-        $blocks = '';
-        if($animated){
-            $blocks = $gift->decode($bytes);
-        }
-        $gd = @imagecreatefromgif( $imageFile );
-
-        if(!$gd){
-            throw new \Exception( sprintf('Could not open "%s". Not a valid %s file.', $imageFile, ImageType::GIF) );
-        }
-
-        return new self(
-            $gd,
-            $imageFile,
-            imagesx( $gd ),
-            imagesy( $gd ),
-            ImageType::GIF,
-            $blocks,
-            $animated
-        );
-    }
-
-    /**
-     * Load a WBMP image.
-     *
-     * @param string $imageFile
-     *
-     * @return Image
-     * @throws \Exception
-     * @deprecated
-     * TODO: Make function private. Use createFromFile instead.
-     */
-    public static function createWbmp( $imageFile ){
-        $gd = @imagecreatefromwbmp( $imageFile );
-
-        if(!$gd){
-            throw new \Exception( sprintf('Could not open "%s". Not a valid %s file.', $imageFile, ImageType::WBMP) );
-        }
-
-        return new self( $gd, $imageFile, imagesx( $gd ), imagesy( $gd ), ImageType::WBMP );
-    }
 
     /**
      * Create a blank image.
@@ -330,6 +234,95 @@ final class Image implements ImageInterface {
      */
     public function getBlocks() {
         return $this->blocks;
+    }
+
+    /**
+     * Load a GIF image.
+     *
+     * @param string $imageFile
+     *
+     * @return Image
+     * @throws \Exception
+     */
+    private static function _createGif( $imageFile ){
+        $gift = new GifHelper();
+        $bytes = $gift->open($imageFile);
+        $animated = $gift->isAnimated($bytes);
+        $blocks = '';
+        if($animated){
+            $blocks = $gift->decode($bytes);
+        }
+        $gd = @imagecreatefromgif( $imageFile );
+
+        if(!$gd){
+            throw new \Exception( sprintf('Could not open "%s". Not a valid %s file.', $imageFile, ImageType::GIF) );
+        }
+
+        return new self(
+            $gd,
+            $imageFile,
+            imagesx( $gd ),
+            imagesy( $gd ),
+            ImageType::GIF,
+            $blocks,
+            $animated
+        );
+    }
+
+    /**
+     * Load a JPEG image.
+     *
+     * @param string $imageFile File path to image.
+     *
+     * @return Image
+     * @throws \Exception
+     */
+    private static function _createJpeg( $imageFile ){
+        $gd = @imagecreatefromjpeg( $imageFile );
+
+        if(!$gd){
+            throw new \Exception( sprintf('Could not open "%s". Not a valid %s file.', $imageFile, ImageType::JPEG ) );
+        }
+
+        return new self( $gd, $imageFile, imagesx( $gd ), imagesy( $gd ), ImageType::JPEG );
+    }
+
+    /**
+     * Load a PNG image.
+     *
+     * @param string $imageFile File path to image.
+     *
+     * @return Image
+     * @throws \Exception
+     */
+    private static function _createPng( $imageFile ){
+        $gd = @imagecreatefrompng( $imageFile );
+
+        if(!$gd){
+            throw new \Exception( sprintf('Could not open "%s". Not a valid %s file.', $imageFile, ImageType::PNG) );
+        }
+
+        $image = new self( $gd, $imageFile, imagesx( $gd ), imagesy( $gd ), ImageType::PNG );
+        $image->fullAlphaMode( true );
+        return $image;
+    }
+
+    /**
+     * Load a WBMP image.
+     *
+     * @param string $imageFile
+     *
+     * @return Image
+     * @throws \Exception
+     */
+    private static function _createWbmp( $imageFile ){
+        $gd = @imagecreatefromwbmp( $imageFile );
+
+        if(!$gd){
+            throw new \Exception( sprintf('Could not open "%s". Not a valid %s file.', $imageFile, ImageType::WBMP) );
+        }
+
+        return new self( $gd, $imageFile, imagesx( $gd ), imagesy( $gd ), ImageType::WBMP );
     }
 
     /**
