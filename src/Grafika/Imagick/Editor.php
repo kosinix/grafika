@@ -62,8 +62,8 @@ final class Editor implements EditorInterface
 
         $hash = new DifferenceHash();
 
-        $bin1     = $hash->hash($image1);
-        $bin2     = $hash->hash($image2);
+        $bin1     = $hash->hash($image1, $this);
+        $bin2     = $hash->hash($image2, $this);
         $str1     = str_split($bin1);
         $str2     = str_split($bin2);
         $distance = 0;
