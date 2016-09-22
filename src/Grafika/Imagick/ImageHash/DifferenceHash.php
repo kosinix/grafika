@@ -24,19 +24,21 @@ class DifferenceHash
 
     /**
      * Generate and get the difference hash of image.
+     *
      * @param Image $image
+     *
+     * @param Editor $editor
      *
      * @return string
      */
-    public function hash(Image $image)
+    public function hash($image, $editor)
     {
         $width  = 9;
         $height = 8;
 
-        $editor = new Editor();
-        $editor->setImage($image);
-        $editor->resizeExact($width, $height); // Resize to exactly 9x8
-        $imagick = $editor->getImage()->getCore();
+        $image = clone $image; // Make sure we are working on the clone if Image is passed
+        $editor->resizeExact($image, $width, $height); // Resize to exactly 9x8
+        $imagick = $image->getCore();
 
         // Build hash
         $hash = '';
@@ -59,7 +61,7 @@ class DifferenceHash
                 $left = $right;
             }
         }
-
+        $editor->free( $image );
         return $hash;
     }
 }

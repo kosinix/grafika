@@ -45,7 +45,7 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
 
             $input = 'unreachable.jpg'; // Non existent file
 
-            $editor->open($input);
+            Grafika::createImage($input);
         }
 
     }
@@ -61,7 +61,7 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
 
             $input = DIR_TEST_IMG . '/unsupported.bmp';
 
-            $editor->open($input);
+            Grafika::createImage($input);
         }
     }
 
@@ -73,8 +73,7 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
     {
 
         $input = DIR_TEST_IMG . '/sample.jpg';
-        $editor->open($input);
-        $image = $editor->getImage();
+        $image = Grafika::createImage($input);
 
         $this->assertTrue($image instanceof Image);
     }
@@ -87,8 +86,7 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
     {
 
         $input = DIR_TEST_IMG . '/sample.png';
-        $editor->open($input);
-        $image = $editor->getImage();
+        $image = Grafika::createImage($input);
 
         $this->assertTrue($image instanceof Image);
     }
@@ -101,8 +99,7 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
     {
 
         $input = DIR_TEST_IMG . '/sample.gif';
-        $editor->open($input);
-        $image = $editor->getImage();
+        $image = Grafika::createImage($input);
 
         $this->assertTrue($image instanceof Image);
     }
@@ -115,8 +112,7 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
     {
 
         $input = DIR_TEST_IMG . '/sample.wbm';
-        $editor->open($input);
-        $image = $editor->getImage();
+        $image = Grafika::createImage($input);
 
         $this->assertTrue($image instanceof Image);
     }
@@ -176,36 +172,16 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output2 = DIR_TMP . '/' . __FUNCTION__ . '2.jpg';
         $output3 = DIR_TMP . '/' . __FUNCTION__ . '3.png';
 
-        $editor->open($input);
-        $editor->save($output1, 'jpg', 100);
+        $image = Grafika::createImage($input);
+        $editor->save($image, $output1, 'jpg', 100);
         $this->assertEquals(0, $editor->compare($input, $output1));
 
-        $editor->open($input);
-        $editor->save($output2, 'jpg', 0);
+        $editor->save($image, $output2, 'jpg', 0);
         $this->assertGreaterThan(0, $editor->compare($input, $output2)); // Not exactly similar due to compression
 
-        $editor->open($input);
-        $editor->save($output3, 'png', null);
+        $editor->save($image, $output3, 'png', null);
         $this->assertEquals(0, $editor->compare($input, $output3));
 
-    }
-
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testLeak($editor){
-        $input = DIR_TEST_IMG . '/lena.png';
-
-        $editor->open($input);
-        $image = $editor->getImage(true); // Get by reference
-        $editor->free(); // Destroy image
-        $this->assertFalse(is_resource($image->getCore())); // GD resource of image should be destroyed too
-
-        $editor->open($input);
-        $image = $editor->getImage(); // Get by value (copy of image)
-        $editor->free(); // Destroy image
-        $this->assertTrue(is_resource($image->getCore())); // GD resource of image should NOT be destroyed
     }
 
     /**
@@ -218,9 +194,10 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->blank(400, 100)->fill(new Color('#ffffff'));
-        $editor->text('Lorem ipsum - Liberation Sans');
-        $editor->save($output);
+        $blank = Grafika::createBlankImage( 400, 100 );
+        $editor->fill( $blank, new Color( '#ffffff' ) );
+        $editor->text( $blank, 'Lorem ipsum - Liberation Sans');
+        $editor->save( $blank, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
@@ -236,10 +213,10 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->resizeFit(300, 300);
-        $editor->text('Lorem ipsum - Liberation Sans');
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeFit($image, 300, 300);
+        $editor->text($image, 'Lorem ipsum - Liberation Sans');
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
@@ -256,9 +233,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->resizeFit($editor->getImage()->getWidth() + 100, $editor->getImage()->getHeight() + 100);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeFit($image, $image->getWidth() + 100, $image->getHeight() + 100);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -267,9 +244,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.gif';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.gif';
 
-        $editor->open($input);
-        $editor->resizeFit($editor->getImage()->getWidth() + 100, $editor->getImage()->getHeight() + 100);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeFit($image, $image->getWidth() + 100, $image->getHeight() + 100);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
@@ -285,9 +262,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->resizeFit(200, 200);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeFit($image, 200, 200);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
@@ -303,9 +280,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->resizeExact(200, 200);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeExact($image, 200, 200);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -314,9 +291,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.gif';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.gif';
 
-        $editor->open($input);
-        $editor->resizeExact(200, 200);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeExact($image, 200, 200);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct));
     }
@@ -332,9 +309,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->resizeExact(200, 200);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeExact($image, 200, 200);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -351,9 +328,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->resizeFill(200, 200);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeFill($image, 200, 200);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -370,9 +347,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->resizeFill(200, 200);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeFill($image, 200, 200);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -389,9 +366,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->resizeExactWidth(200);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeExactWidth($image, 200);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
@@ -407,9 +384,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->resizeExactWidth(200);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeExactWidth($image, 200);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -426,9 +403,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->resizeExactHeight(200);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeExactHeight($image, 200);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
@@ -444,9 +421,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->resizeExactHeight(200);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->resizeExactHeight($image, 200);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -463,9 +440,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->rotate(45);
-        $editor->save($output);
+        $image = Grafika::createImage($input);
+        $editor->rotate($image, 45);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
@@ -480,11 +457,12 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->blank(277, 277)->fill(new Color('#FFFFFF'));
+        $image = Grafika::createBlankImage( 277, 277 );
+        $editor->fill( $image, new Color( '#FFFFFF' ) );
 
         $obj = Grafika::createDrawingObject('CubicBezier', array(42, 230), array(230, 237), array(42, 45), array(230, 43), new Color('#000000'));
-        $editor->draw($obj);
-        $editor->save($output);
+        $editor->draw($image, $obj);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -500,9 +478,12 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.png';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.png';
 
-        $editor->blank(200, 200)->fill(new Color('#FFFFFF'));
-        $editor->draw(Grafika::createDrawingObject('Ellipse', 100, 50, array(50, 75), 1, new Color('#000000'), new Color('#FF0000')));
-        $editor->save($output);
+        $image = Grafika::createBlankImage( 200, 200 );
+        $editor->fill( $image, new Color( '#FFFFFF' ) );
+
+        $obj = Grafika::createDrawingObject( 'Ellipse', 100, 50, array( 50, 75 ), 1, new Color( '#000000' ), new Color( '#FF0000' ) );
+        $editor->draw($image, $obj);
+        $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -518,15 +499,16 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->blank(200, 200)->fill(new Color('#FFFFFF'));
+        $image = Grafika::createBlankImage( 200, 200 );
+        $editor->fill( $image, new Color( '#FFFFFF' ) );
 
-        $editor->draw(Grafika::createDrawingObject('Line', array(0, 0), array(200, 200), 1, new Color('#FF0000')));
-        $editor->draw(Grafika::createDrawingObject('Line', array(0, 200), array(200, 0), 1, new Color('#00FF00')));
-        $editor->draw(Grafika::createDrawingObject('Line', array(0, 0), array(200, 100), 1, new Color('#0000FF')));
-        $editor->draw(Grafika::createDrawingObject('Line', array(0, 100), array(200, 100)));
-        $editor->draw(Grafika::createDrawingObject('Line', array(100, 0), array(100, 200)));
+        $editor->draw( $image, Grafika::createDrawingObject('Line', array(0, 0), array(200, 200), 1, new Color('#FF0000')));
+        $editor->draw( $image, Grafika::createDrawingObject('Line', array(0, 200), array(200, 0), 1, new Color('#00FF00')));
+        $editor->draw( $image, Grafika::createDrawingObject('Line', array(0, 0), array(200, 100), 1, new Color('#0000FF')));
+        $editor->draw( $image, Grafika::createDrawingObject('Line', array(0, 100), array(200, 100)));
+        $editor->draw( $image, Grafika::createDrawingObject('Line', array(100, 0), array(100, 200)));
 
-        $editor->save($output);
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($correct, $output));
 
@@ -542,10 +524,12 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->blank(277, 277)->fill(new Color('#EEEEEE'));
+        $image = Grafika::createBlankImage( 277, 277 );
+        $editor->fill( $image, new Color( '#EEEEEE' ) );
+
         $obj = Grafika::createDrawingObject('QuadraticBezier', array(70, 250), array(20, 110), array(220, 60), new Color('#FF0000'));
-        $editor->draw($obj);
-        $editor->save($output);
+        $editor->draw( $image, $obj);
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -561,14 +545,15 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->blank(200, 200)->fill(new Color('#CCCCCC'));
+        $image = Grafika::createBlankImage( 200, 200 );
+        $editor->fill( $image, new Color( '#CCCCCC' ) );
 
-        $editor->draw( Grafika::createDrawingObject('Rectangle', 85, 50)); // A 85x50 no filled rectangle with a black 1px border on location 0,0.
-        $editor->draw( Grafika::createDrawingObject('Rectangle', 85, 50, array(105, 10), 0, null, new Color('#FF0000'))); // A 85x50 red rectangle with no border.
-        $editor->draw( Grafika::createDrawingObject('Rectangle', 85, 50, array(105, 70), 0, null, new Color('#00FF00'))); // A 85x50 green rectangle with no border.
-        $editor->draw( Grafika::createDrawingObject('Rectangle', 85, 50, array(0, 60), 1, '#000000', null)); // No fill rectangle
+        $editor->draw( $image, Grafika::createDrawingObject('Rectangle', 85, 50)); // A 85x50 no filled rectangle with a black 1px border on location 0,0.
+        $editor->draw( $image, Grafika::createDrawingObject('Rectangle', 85, 50, array(105, 10), 0, null, new Color('#FF0000'))); // A 85x50 red rectangle with no border.
+        $editor->draw( $image, Grafika::createDrawingObject('Rectangle', 85, 50, array(105, 70), 0, null, new Color('#00FF00'))); // A 85x50 green rectangle with no border.
+        $editor->draw( $image, Grafika::createDrawingObject('Rectangle', 85, 50, array(0, 60), 1, '#000000', null)); // No fill rectangle
 
-        $editor->save($output);
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -584,13 +569,14 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.png';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.png';
 
-        $editor->blank(200, 200)->fill(new Color('#FFFFFF'));
+        $image = Grafika::createBlankImage( 200, 200 );
+        $editor->fill( $image, new Color( '#FFFFFF' ) );
 
-        $editor->draw( Grafika::createDrawingObject('Polygon', array(array(0,0), array(50,0), array(0,50)), 1));
-        $editor->draw( Grafika::createDrawingObject('Polygon', array(array(200-1,0), array(150-1,0), array(200-1,50)), 1));
-        $editor->draw( Grafika::createDrawingObject('Polygon', array(array(100,0), array(140,50), array(100,100), array(60,50)), 1, null, new Color('#FF0000')));
+        $editor->draw( $image, Grafika::createDrawingObject('Polygon', array(array(0,0), array(50,0), array(0,50)), 1));
+        $editor->draw( $image, Grafika::createDrawingObject('Polygon', array(array(200-1,0), array(150-1,0), array(200-1,50)), 1));
+        $editor->draw( $image, Grafika::createDrawingObject('Polygon', array(array(100,0), array(140,50), array(100,100), array(60,50)), 1, null, new Color('#FF0000')));
 
-        $editor->save($output);
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -606,9 +592,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . 'Diffusion.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . 'Diffusion.jpg';
 
-        $editor->open($input);
-        $editor->apply( Grafika::createFilter('Dither', 'diffusion') );
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, Grafika::createFilter('Dither', 'diffusion') );
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -616,9 +602,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . 'Ordered.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . 'Ordered.jpg';
 
-        $editor->open($input);
-        $editor->apply( Grafika::createFilter('Dither', 'ordered') );
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, Grafika::createFilter('Dither', 'ordered') );
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -634,9 +620,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->apply( Grafika::createFilter('Sobel') );
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, Grafika::createFilter('Sobel') );
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -652,9 +638,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->apply( new Blur(10) );
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, Grafika::createFilter('Blur', 10) );
+        $editor->save( $image, $output);
         
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -670,9 +656,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->apply( new Brightness(50) );
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, new Brightness(50) );
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -688,9 +674,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->apply( new Colorize(-50, -50, -50) );
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, new Colorize(-50, -50, -50) );
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -706,9 +692,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->apply( Grafika::createFilter('Contrast', 50) );
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, Grafika::createFilter('Contrast', 50) );
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -724,9 +710,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->apply( Grafika::createFilter('Gamma', 2.0) );
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, Grafika::createFilter('Gamma', 2.0) );
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -742,9 +728,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->apply( Grafika::createFilter('Grayscale') );
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, Grafika::createFilter('Grayscale') );
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -752,12 +738,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $input = DIR_TEST_IMG . '/sample.gif';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.gif';
 
-        $editor->open($input);
-        $editor->apply( Grafika::createFilter('Grayscale') );
-        $editor->save($output);
-
-        $editor->open($output);
-        $image = $editor->getImage();
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, Grafika::createFilter('Grayscale') );
+        $editor->save( $image, $output);
 
         $this->assertTrue($image->isAnimated()); // It should still be animated GIF
 
@@ -773,9 +756,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->apply( Grafika::createFilter('Invert') );
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, Grafika::createFilter('Invert') );
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -791,9 +774,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->apply( Grafika::createFilter('Pixelate', 10) );
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, Grafika::createFilter('Pixelate',10) );
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -809,9 +792,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $editor->open($input);
-        $editor->apply( Grafika::createFilter('Sharpen', 50) );
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->apply( $image, Grafika::createFilter('Sharpen', 50) );
+        $editor->save( $image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
@@ -852,50 +835,51 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output9  = DIR_TMP . '/' . __FUNCTION__ . '9.jpg';
         $correct9 = $this->dirAssert . '/' . __FUNCTION__ . '9.jpg';
 
-        $editor->open($input);
-        $editor->crop(260, 150, 'top-left');
-        $editor->save($output1);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 260, 150, 'top-left' );
+        $editor->save( $image, $output1);
+
         $this->assertLessThanOrEqual(5, $editor->compare($output1, $correct1));
 
-        $editor->open($input);
-        $editor->crop(260, 150, 'top-center');
-        $editor->save($output2);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 260, 150, 'top-center' );
+        $editor->save( $image, $output2);
         $this->assertLessThanOrEqual(5, $editor->compare($output2, $correct2));
 
-        $editor->open($input);
-        $editor->crop(260, 150, 'top-right');
-        $editor->save($output3);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 260, 150, 'top-right' );
+        $editor->save( $image, $output3);
         $this->assertLessThanOrEqual(5, $editor->compare($output3, $correct3));
 
         //
-        $editor->open($input);
-        $editor->crop(260, 150, 'center-left');
-        $editor->save($output4);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 260, 150, 'center-left' );
+        $editor->save( $image, $output4);
         $this->assertLessThanOrEqual(5, $editor->compare($output4, $correct4));
 
-        $editor->open($input);
-        $editor->crop(260, 150, 'center');
-        $editor->save($output5);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 260, 150, 'center' );
+        $editor->save( $image, $output5);
         $this->assertLessThanOrEqual(5, $editor->compare($output5, $correct5));
 
-        $editor->open($input);
-        $editor->crop(260, 150, 'center-right');
-        $editor->save($output6);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 260, 150, 'center-right' );
+        $editor->save( $image, $output6);
         $this->assertLessThanOrEqual(5, $editor->compare($output6, $correct6));
         //
-        $editor->open($input);
-        $editor->crop(260, 150, 'bottom-left');
-        $editor->save($output7);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 260, 150, 'bottom-left' );
+        $editor->save( $image, $output7);
         $this->assertLessThanOrEqual(5, $editor->compare($output7, $correct7));
 
-        $editor->open($input);
-        $editor->crop(260, 150, 'bottom-center');
-        $editor->save($output8);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 260, 150, 'bottom-center' );
+        $editor->save( $image, $output8);
         $this->assertLessThanOrEqual(5, $editor->compare($output8, $correct8));
 
-        $editor->open($input);
-        $editor->crop(260, 150, 'bottom-right');
-        $editor->save($output9);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 260, 150, 'bottom-right' );
+        $editor->save( $image, $output9);
         $this->assertLessThanOrEqual(5, $editor->compare($output9, $correct9));
     }
 
@@ -909,9 +893,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '1.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '1.jpg';
 
-        $editor->open($input);
-        $editor->crop(250,250,'smart');
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 250, 250, 'smart' );
+        $editor->save( $image, $output );
 
         $this->assertLessThanOrEqual(5, $editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
 
@@ -919,9 +903,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '2.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '2.jpg';
 
-        $editor->open($input);
-        $editor->crop(260,400,'smart');
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 260, 400, 'smart' );
+        $editor->save( $image, $output );
 
         $this->assertLessThanOrEqual(5, $editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
 
@@ -929,9 +913,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '3.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '3.jpg';
 
-        $editor->open($input);
-        $editor->crop(200,200,'smart');
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 200, 200, 'smart' );
+        $editor->save( $image, $output );
 
         $this->assertLessThanOrEqual(5, $editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
 
@@ -939,9 +923,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '4.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '4.jpg';
 
-        $editor->open($input);
-        $editor->crop(200,200,'smart');
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 200, 200, 'smart' );
+        $editor->save( $image, $output );
 
         $this->assertLessThanOrEqual(5, $editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
 
@@ -949,9 +933,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '5.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '5.jpg';
 
-        $editor->open($input);
-        $editor->crop(200,200,'smart');
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->crop( $image, 200, 200, 'smart' );
+        $editor->save( $image, $output );
 
         $this->assertLessThanOrEqual(5, $editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
     }
@@ -968,9 +952,9 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . '.gif';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.gif';
 
-        $editor->open($input);
-        $editor->flatten();
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->flatten( $image );
+        $editor->save( $image, $output );
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct));
     }
@@ -985,18 +969,18 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
         $output = DIR_TMP . '/' . __FUNCTION__ . 'H.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . 'H.jpg';
 
-        $editor->open($input);
-        $editor->flip('h');
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->flip( $image, 'h' );
+        $editor->save( $image, $output );
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
         $output = DIR_TMP . '/' . __FUNCTION__ . 'V.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . 'V.jpg';
 
-        $editor->open($input);
-        $editor->flip('v');
-        $editor->save($output);
+        $image = Grafika::createImage( $input );
+        $editor->flip( $image, 'v' );
+        $editor->save( $image, $output );
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
