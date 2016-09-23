@@ -11,6 +11,7 @@ use Grafika\Grafika;
 use Grafika\ImageInterface;
 use Grafika\ImageType;
 use Grafika\Color;
+use Grafika\Position;
 
 /**
  * GD Editor class. Uses the PHP GD library.
@@ -35,6 +36,103 @@ final class Editor implements EditorInterface
         }
 
         $image = $filter->apply($image);
+
+        return $this;
+    }
+
+    /**
+     * Blend two images together with the first image as the base and the second image on top. Supports several blend modes.
+     *
+     * @param Image $image1 The base image.
+     * @param Image $image2 The image placed on top of the base image.
+     * @param string $type The blend mode. Can be: normal, multiply, overlay or screen.
+     * @param Position $position The position of $image2 on $image1.
+     * @param int $opacity The opacity of $image2. Possible values 0.0 to 1.0.
+     *
+     * @return Editor
+     * @throws \Exception
+     */
+    public function blend(&$image1, $image2, $type='normal', $position=null, $opacity = 1){
+        // Set default
+        if($position===null){
+            $position = new Position(Position::TOP_LEFT);
+        }
+
+        // Position is for $image2. $image1 is canvas.
+        list($offsetX, $offsetY) = $position->intPosition($image1->getWidth(), $image1->getHeight(), $image2->getWidth(), $image2->getHeight());
+
+        // Check if it overlaps
+        if( ($offsetX >= $image1->getWidth() ) or
+            ($offsetX + $image2->getWidth() <= 0) or
+            ($offsetY >= $image1->getHeight() ) or
+            ($offsetY + $image2->getHeight() <= 0)){
+
+            throw new \Exception('Invalid blending. Image 2 is outside the canvas.');
+        }
+
+        // Loop start X
+        $loopStartX = 0;
+        $canvasStartX = $offsetX;
+        if($canvasStartX < 0){
+            $diff = 0 - $canvasStartX;
+            $loopStartX += $diff;
+        }
+
+        // Loop end X
+        $loopEndX = $image2->getWidth() - 1;
+        $canvasEndX = $offsetX + $image2->getWidth() - 1;
+        if($canvasEndX > $image1->getWidth() - 1){
+            $diff = $canvasEndX - ($image1->getWidth() - 1);
+            $loopEndX -= $diff;
+        }
+
+        // Loop start Y
+        $loopStartY = 0;
+        $canvasStartY = $offsetY;
+        if($canvasStartY < 0){
+            $diff = 0 - $canvasStartY;
+            $loopStartY += $diff;
+        }
+
+        // Loop end Y
+        $loopEndY = $image2->getHeight() - 1;
+        $canvasEndY = $offsetY + $image2->getHeight() - 1;
+        if($canvasEndY > $image1->getHeight() - 1){
+            $diff = $canvasEndY - ($image1->getHeight() - 1);
+            $loopEndY -= $diff;
+        }
+
+        $w   = $image1->getWidth();
+        $h   = $image1->getHeight();
+        $gd1 = $image1->getCore();
+        $gd2 = $image2->getCore();
+
+        $canvas = imagecreatetruecolor( $w, $h );
+        imagecopy( $canvas, $gd1, 0, 0, 0, 0, $w, $h );
+
+        $type = strtolower( $type );
+        if($type==='normal') {
+            if ( $opacity !== 1 ) {
+                $this->opacity($image2, $opacity);
+            }
+            imagecopy( $canvas, $gd2, $loopStartX + $offsetX, $loopStartY + $offsetY, 0, 0, $image2->getWidth(), $image2->getHeight());
+        } else if($type==='multiply'){
+            $this->_blendMultiply( $canvas, $gd1, $gd2, $loopStartY, $loopEndY, $loopStartX, $loopEndX, $offsetX, $offsetY, $opacity );
+        } else if($type==='overlay'){
+            $this->_blendOverlay( $canvas, $gd1, $gd2, $loopStartY, $loopEndY, $loopStartX, $loopEndX, $offsetX, $offsetY, $opacity );
+        } else if($type==='screen'){
+            $this->_blendScreen( $canvas, $gd1, $gd2, $loopStartY, $loopEndY, $loopStartX, $loopEndX, $offsetX, $offsetY, $opacity );
+        } else {
+            throw new \Exception(sprintf('Invalid blend type "%s".', $type));
+        }
+
+        $image1 = new Image(
+            $canvas,
+            $image1->getImageFile(),
+            $w,
+            $h,
+            $image1->getType()
+        );
 
         return $this;
     }
@@ -394,6 +492,8 @@ final class Editor implements EditorInterface
     }
 
     /**
+     * @deprecated
+     *
      * Overlay an image on top of the current image.
      *
      * @param Image $image
@@ -818,7 +918,7 @@ final class Editor implements EditorInterface
      *
      * @return array Returns array containing RGBA bins array('r'=>array(), 'g'=>array(), 'b'=>array(), 'a'=>array())
      */
-    function histogram(&$image, $slice = null)
+    function histogram(&$image, &$histogram, $slice = null)
     {
         $gd = $image->getCore();
 
@@ -872,7 +972,7 @@ final class Editor implements EditorInterface
                 }
             }
         }
-        return array(
+        $histogram = array(
             'r' => $rBin,
             'g' => $gBin,
             'b' => $bBin,
@@ -903,6 +1003,164 @@ final class Editor implements EditorInterface
             $entropy += $p * log($p, 2);
         }
         return $entropy * -1;
+    }
+
+    /**
+     * @param $canvas
+     * @param $gd1
+     * @param $gd2
+     * @param $loopStartY
+     * @param $loopEndY
+     * @param $loopStartX
+     * @param $loopEndX
+     * @param $offsetX
+     * @param $offsetY
+     *
+     * @param $opacity
+     *
+     * @return $this
+     */
+    private function _blendMultiply($canvas, $gd1, $gd2, $loopStartY, $loopEndY, $loopStartX, $loopEndX, $offsetX, $offsetY, $opacity){
+
+        for ( $y = $loopStartY; $y <= $loopEndY; $y ++ ) {
+            for ( $x = $loopStartX; $x <= $loopEndX; $x ++ ) {
+                $canvasX    = $x + $offsetX;
+                $canvasY    = $y + $offsetY;
+                $argb1 = imagecolorat( $gd1, $canvasX, $canvasY );
+                $r1    = ( $argb1 >> 16 ) & 0xFF;
+                $g1    = ( $argb1 >> 8 ) & 0xFF;
+                $b1    = $argb1 & 0xFF;
+
+                $argb2 = imagecolorat( $gd2, $x, $y );
+                $a2 = ($argb2 >> 24) & 0x7F; // 127 in hex. These are binary operations.
+                $r2    = ( $argb2 >> 16 ) & 0xFF;
+                $g2    = ( $argb2 >> 8 ) & 0xFF;
+                $b2    = $argb2 & 0xFF;
+
+                $r3 = round($r1 * $r2 / 255);
+                $g3 = round($g1 * $g2 / 255);
+                $b3 = round($b1 * $b2 / 255);
+
+                $reverse = 127 - $a2;
+                $reverse = round($reverse * $opacity);
+
+                $argb3 = imagecolorallocatealpha( $canvas, $r3, $g3, $b3, 127 - $reverse );
+                imagesetpixel( $canvas, $canvasX, $canvasY, $argb3 );
+            }
+        }
+        return $canvas;
+    }
+
+    /**
+     * @param $canvas
+     * @param $gd1
+     * @param $gd2
+     * @param $loopStartY
+     * @param $loopEndY
+     * @param $loopStartX
+     * @param $loopEndX
+     * @param $offsetX
+     * @param $offsetY
+     *
+     * @param $opacity
+     *
+     * @return $this
+     */
+    private function _blendOverlay($canvas, $gd1, $gd2, $loopStartY, $loopEndY, $loopStartX, $loopEndX, $offsetX, $offsetY, $opacity){
+
+        for ( $y = $loopStartY; $y <= $loopEndY; $y ++ ) {
+            for ( $x = $loopStartX; $x <= $loopEndX; $x ++ ) {
+                $canvasX    = $x + $offsetX;
+                $canvasY    = $y + $offsetY;
+                $argb1 = imagecolorat( $gd1, $canvasX, $canvasY );
+                $r1    = ( $argb1 >> 16 ) & 0xFF;
+                $g1    = ( $argb1 >> 8 ) & 0xFF;
+                $b1    = $argb1 & 0xFF;
+
+                $argb2 = imagecolorat( $gd2, $x, $y );
+                $a2 = ($argb2 >> 24) & 0x7F; // 127 in hex. These are binary operations.
+                $r2    = ( $argb2 >> 16 ) & 0xFF;
+                $g2    = ( $argb2 >> 8 ) & 0xFF;
+                $b2    = $argb2 & 0xFF;
+
+                $r1 /= 255;
+                $r2 /= 255;
+                if ($r1 < 0.5) {
+                    $r3 = 2 * ($r1 * $r2);
+                } else {
+                    $r3 = (1 - (2 *(1-$r1)) * (1-$r2));
+                }
+
+                $g1 /= 255;
+                $g2 /= 255;
+                if ($g1 < 0.5) {
+                    $g3 = 2 * ($g1 * $g2);
+                } else {
+                    $g3 = (1 - (2 *(1-$g1)) * (1-$g2));
+                }
+
+                $b1 /= 255;
+                $b2 /= 255;
+                if ($b1 < 0.5) {
+                    $b3 = 2 * ($b1 * $b2);
+                } else {
+                    $b3 = (1 - (2 *(1-$b1)) * (1-$b2));
+                }
+
+                $reverse = 127 - $a2;
+                $reverse = round($reverse * $opacity);
+
+                $argb3 = imagecolorallocatealpha( $canvas, $r3*255, $g3*255, $b3*255, 127 - $reverse );
+                imagesetpixel( $canvas, $canvasX, $canvasY, $argb3 );
+            }
+        }
+        return $canvas;
+    }
+
+    /**
+     * @param $canvas
+     * @param $gd1
+     * @param $gd2
+     * @param $loopStartY
+     * @param $loopEndY
+     * @param $loopStartX
+     * @param $loopEndX
+     * @param $offsetX
+     * @param $offsetY
+     *
+     * @param $opacity
+     *
+     * @return $this
+     */
+    private function _blendScreen($canvas, $gd1, $gd2, $loopStartY, $loopEndY, $loopStartX, $loopEndX, $offsetX, $offsetY, $opacity){
+
+        for ( $y = $loopStartY; $y <= $loopEndY; $y ++ ) {
+            for ( $x = $loopStartX; $x <= $loopEndX; $x ++ ) {
+                $canvasX    = $x + $offsetX;
+                $canvasY    = $y + $offsetY;
+                $argb1 = imagecolorat( $gd1, $canvasX, $canvasY );
+                $r1    = ( $argb1 >> 16 ) & 0xFF;
+                $g1    = ( $argb1 >> 8 ) & 0xFF;
+                $b1    = $argb1 & 0xFF;
+
+                $argb2 = imagecolorat( $gd2, $x, $y );
+                $a2 = ($argb2 >> 24) & 0x7F; // 127 in hex. These are binary operations.
+                $r2    = ( $argb2 >> 16 ) & 0xFF;
+                $g2    = ( $argb2 >> 8 ) & 0xFF;
+                $b2    = $argb2 & 0xFF;
+
+                $r3 = 255 - ( ( 255 - $r1 ) * ( 255 - $r2 ) ) / 255;
+                $g3 = 255 - ( ( 255 - $g1 ) * ( 255 - $g2 ) ) / 255;
+                $b3 = 255 - ( ( 255 - $b1 ) * ( 255 - $b2 ) ) / 255;
+
+                $reverse = 127 - $a2;
+                $reverse = round($reverse * $opacity);
+
+                $argb3 = imagecolorallocatealpha( $canvas, $r3, $g3, $b3, 127 - $reverse );
+                imagesetpixel( $canvas, $canvasX, $canvasY, $argb3 );
+            }
+        }
+        return $canvas;
     }
 
     /**
