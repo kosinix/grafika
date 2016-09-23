@@ -18,6 +18,19 @@ interface EditorInterface {
     public function apply( &$image, $filter );
 
     /**
+     * Blend two images together with the first image as the base and the second image on top. Supports several blend modes.
+     *
+     * @param ImageInterface $image1 The base image.
+     * @param ImageInterface $image2 The image placed on top of the base image.
+     * @param string $type The blend mode. Can be: normal, multiply, overlay or screen.
+     * @param Position $position The position of $image2 on $image1.
+     * @param int $opacity The opacity of $image2. Possible values 0.0 to 1.0.
+     *
+     * @return EditorInterface An instance of image editor.
+     */
+    public function blend(&$image1, $image2, $type='normal', $position=null, $opacity = 1);
+
+    /**
      * Compare two images and returns a hamming distance. A value of 0 indicates a likely similar picture. A value between 1 and 10 is potentially a variation. A value greater than 10 is likely a different image.
      *
      * @param string|ImageInterface $image1 Can be an instance of Image or string containing the file system path to image.
