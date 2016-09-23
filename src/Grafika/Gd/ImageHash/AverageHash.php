@@ -39,7 +39,7 @@ class AverageHash
         $height = 8;
 
         $image = clone $image; // Make sure we are working on the clone if Image is passed
-        $editor->resizeExact($image, $width, $height); // Resize to exactly 9x8
+        $editor->resizeExact($image, $width, $height); // Resize to exactly 8x8
         $gd = $image->getCore();
 
         // Create an array of greyscale pixel values.
