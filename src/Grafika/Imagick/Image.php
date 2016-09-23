@@ -193,6 +193,82 @@ final class Image implements ImageInterface {
     }
 
     /**
+     * Get histogram from an entire image or its sub-region.
+     *
+     * @param array|null $slice Array of slice information. array( array( 0,0), array(100,50)) means x,y is 0,0 and width,height is 100,50
+     *
+     * @return array Returns array containing RGBA bins array('r'=>array(), 'g'=>array(), 'b'=>array(), 'a'=>array())
+     */
+    public function histogram($slice = null)
+    {
+
+        if(null === $slice){
+            $sliceX = 0;
+            $sliceY = 0;
+            $sliceW = $this->getWidth();
+            $sliceH = $this->getHeight();
+        } else {
+            $sliceX = $slice[0][0];
+            $sliceY = $slice[0][1];
+            $sliceW = $slice[1][0];
+            $sliceH = $slice[1][1];
+        }
+
+        $rBin = array();
+        $gBin = array();
+        $bBin = array();
+        $aBin = array();
+
+        // Loop using image
+        $pixelIterator = $this->getCore()->getPixelIterator();
+        foreach ($pixelIterator as $y => $rows) { /* Loop through pixel rows */
+            if($y >= $sliceY and $y < $sliceY+$sliceH) {
+                foreach ($rows as $x => $px) { /* Loop through the pixels in the row (columns) */
+                    if($x >= $sliceX and $x < $sliceX+$sliceW) {
+                        /**
+                         * @var $px \ImagickPixel */
+                        $pixel = $px->getColor();
+                        $r = $pixel['r'];
+                        $g = $pixel['g'];
+                        $b = $pixel['b'];
+                        $a = $pixel['a'];
+
+                        if ( ! isset($rBin[$r])) {
+                            $rBin[$r] = 1;
+                        } else {
+                            $rBin[$r]++;
+                        }
+
+                        if ( ! isset($gBin[$g])) {
+                            $gBin[$g] = 1;
+                        } else {
+                            $gBin[$g]++;
+                        }
+
+                        if ( ! isset($bBin[$b])) {
+                            $bBin[$b] = 1;
+                        } else {
+                            $bBin[$b]++;
+                        }
+
+                        if ( ! isset($aBin[$a])) {
+                            $aBin[$a] = 1;
+                        } else {
+                            $aBin[$a]++;
+                        }
+                    }
+                }
+            }
+        }
+        return array(
+            'r' => $rBin,
+            'g' => $gBin,
+            'b' => $bBin,
+            'a' => $aBin
+        );
+    }
+
+    /**
      * Returns animated flag.
      *
      * @return bool True if animated GIF.

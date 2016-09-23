@@ -911,101 +911,6 @@ final class Editor implements EditorInterface
     }
 
     /**
-     * Get histogram from an entire image or its sub-region of image.
-     *
-     * @param Image $image
-     * @param array|null $slice Array of slice information. array( array( 0,0), array(100,50)) means x,y is 0,0 and width,height is 100,50
-     *
-     * @return array Returns array containing RGBA bins array('r'=>array(), 'g'=>array(), 'b'=>array(), 'a'=>array())
-     */
-    function histogram(&$image, &$histogram, $slice = null)
-    {
-        $gd = $image->getCore();
-
-        if(null === $slice){
-            $sliceX = 0;
-            $sliceY = 0;
-            $sliceW = $image->getWidth();
-            $sliceH = $image->getHeight();
-        } else {
-            $sliceX = $slice[0][0];
-            $sliceY = $slice[0][1];
-            $sliceW = $slice[1][0];
-            $sliceH = $slice[1][1];
-        }
-
-
-        $rBin = array();
-        $gBin = array();
-        $bBin = array();
-        $aBin = array();
-        for ($y = $sliceY; $y < $sliceY+$sliceH; $y++) {
-            for ($x = $sliceX; $x < $sliceX+$sliceW; $x++) {
-                $rgb = imagecolorat($gd, $x, $y);
-                $a   = ($rgb >> 24) & 0x7F; // 127 in hex. These are binary operations.
-                $r   = ($rgb >> 16) & 0xFF;
-                $g   = ($rgb >> 8) & 0xFF;
-                $b   = $rgb & 0xFF;
-
-                if ( ! isset($rBin[$r])) {
-                    $rBin[$r] = 1;
-                } else {
-                    $rBin[$r]++;
-                }
-
-                if ( ! isset($gBin[$g])) {
-                    $gBin[$g] = 1;
-                } else {
-                    $gBin[$g]++;
-                }
-
-                if ( ! isset($bBin[$b])) {
-                    $bBin[$b] = 1;
-                } else {
-                    $bBin[$b]++;
-                }
-
-                if ( ! isset($aBin[$a])) {
-                    $aBin[$a] = 1;
-                } else {
-                    $aBin[$a]++;
-                }
-            }
-        }
-        $histogram = array(
-            'r' => $rBin,
-            'g' => $gBin,
-            'b' => $bBin,
-            'a' => $aBin
-        );
-    }
-
-    /**
-     * Calculate entropy based on histogram.
-     *
-     * @param $hist
-     *
-     * @return float|int
-     */
-    function entropy($hist){
-        $entropy = 0;
-        $hist_size = array_sum($hist['r']) + array_sum($hist['g']) + array_sum($hist['b']);
-        foreach($hist['r'] as $p){
-            $p = $p / $hist_size;
-            $entropy += $p * log($p, 2);
-        }
-        foreach($hist['g'] as $p){
-            $p = $p / $hist_size;
-            $entropy += $p * log($p, 2);
-        }
-        foreach($hist['b'] as $p){
-            $p = $p / $hist_size;
-            $entropy += $p * log($p, 2);
-        }
-        return $entropy * -1;
-    }
-
-    /**
      * @param $canvas
      * @param $gd1
      * @param $gd2
@@ -1115,6 +1020,31 @@ final class Editor implements EditorInterface
             }
         }
         return $canvas;
+    }
+
+    /**
+     * Calculate entropy based on histogram.
+     *
+     * @param $hist
+     *
+     * @return float|int
+     */
+    private function _entropy($hist){
+        $entropy = 0;
+        $hist_size = array_sum($hist['r']) + array_sum($hist['g']) + array_sum($hist['b']);
+        foreach($hist['r'] as $p){
+            $p = $p / $hist_size;
+            $entropy += $p * log($p, 2);
+        }
+        foreach($hist['g'] as $p){
+            $p = $p / $hist_size;
+            $entropy += $p * log($p, 2);
+        }
+        foreach($hist['b'] as $p){
+            $p = $p / $hist_size;
+            $entropy += $p * log($p, 2);
+        }
+        return $entropy * -1;
     }
 
     /**
@@ -1329,14 +1259,14 @@ final class Editor implements EditorInterface
 
         for($y = 0; $y < $resizeH-$smallCropH; $y+=$step){
             for($x = 0; $x < $resizeW-$smallCropW; $x+=$step){
-                $hist[$x.'-'.$y] = $this->entropy($this->histogram($image, array(array($x, $y), array($smallCropW, $smallCropH))));
+                $hist[$x.'-'.$y] = $this->_entropy($image->histogram(array(array($x, $y), array($smallCropW, $smallCropH))));
             }
             if($resizeW-$smallCropW <= 0){
-                $hist['0-'.$y] = $this->entropy($this->histogram($image,array(array(0, 0), array($smallCropW, $smallCropH))));
+                $hist['0-'.$y] = $this->_entropy($image->histogram(array(array(0, 0), array($smallCropW, $smallCropH))));
             }
         }
         if($resizeH-$smallCropH <= 0){
-            $hist['0-0'] = $this->entropy($this->histogram($image, array(array(0, 0), array($smallCropW, $smallCropH))));
+            $hist['0-0'] = $this->_entropy($image->histogram(array(array(0, 0), array($smallCropW, $smallCropH))));
         }
 
         asort($hist);

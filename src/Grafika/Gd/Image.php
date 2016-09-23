@@ -277,6 +277,74 @@ final class Image implements ImageInterface {
     }
 
     /**
+     * Get histogram from an entire image or its sub-region.
+     *
+     * @param array|null $slice Array of slice information. array( array( 0,0), array(100,50)) means x,y is 0,0 and width,height is 100,50
+     *
+     * @return array Returns array containing RGBA bins array('r'=>array(), 'g'=>array(), 'b'=>array(), 'a'=>array())
+     */
+    public function histogram($slice = null)
+    {
+        $gd = $this->getCore();
+
+        if(null === $slice){
+            $sliceX = 0;
+            $sliceY = 0;
+            $sliceW = $this->getWidth();
+            $sliceH = $this->getHeight();
+        } else {
+            $sliceX = $slice[0][0];
+            $sliceY = $slice[0][1];
+            $sliceW = $slice[1][0];
+            $sliceH = $slice[1][1];
+        }
+
+        $rBin = array();
+        $gBin = array();
+        $bBin = array();
+        $aBin = array();
+        for ($y = $sliceY; $y < $sliceY+$sliceH; $y++) {
+            for ($x = $sliceX; $x < $sliceX+$sliceW; $x++) {
+                $rgb = imagecolorat($gd, $x, $y);
+                $a   = ($rgb >> 24) & 0x7F; // 127 in hex. These are binary operations.
+                $r   = ($rgb >> 16) & 0xFF;
+                $g   = ($rgb >> 8) & 0xFF;
+                $b   = $rgb & 0xFF;
+
+                if ( ! isset($rBin[$r])) {
+                    $rBin[$r] = 1;
+                } else {
+                    $rBin[$r]++;
+                }
+
+                if ( ! isset($gBin[$g])) {
+                    $gBin[$g] = 1;
+                } else {
+                    $gBin[$g]++;
+                }
+
+                if ( ! isset($bBin[$b])) {
+                    $bBin[$b] = 1;
+                } else {
+                    $bBin[$b]++;
+                }
+
+                if ( ! isset($aBin[$a])) {
+                    $aBin[$a] = 1;
+                } else {
+                    $aBin[$a]++;
+                }
+            }
+        }
+        return array(
+            'r' => $rBin,
+            'g' => $gBin,
+            'b' => $bBin,
+            'a' => $aBin
+        );
+    }
+
+    /**
      * Load a GIF image.
      *
      * @param string $imageFile
