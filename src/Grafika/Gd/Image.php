@@ -81,6 +81,36 @@ final class Image implements ImageInterface {
     }
 
     /**
+     * Output a binary raw dump of an image in a specified format.
+     * 
+     * @param string|ImageType $type Image format of the dump.
+     *
+     * @throws \Exception When unsupported type.
+     */
+    public function blob( $type = 'JPEG' ) {
+
+        if ( ImageType::GIF == $type ) {
+
+            imagegif( $this->gd );
+
+        } else if ( ImageType::JPEG == $type ) {
+
+            imagejpeg( $this->gd );
+
+        } else if ( ImageType::PNG == $type ) {
+
+            imagepng( $this->gd );
+
+        } else if ( ImageType::WBMP == $type ) {
+
+            imagewbmp( $this->gd );
+
+        } else {
+            throw new \Exception( sprintf( 'File type "%s" not supported.', $type ) );
+        }
+    }
+
+    /**
      * @param $imageFile
      *
      * @return Image
