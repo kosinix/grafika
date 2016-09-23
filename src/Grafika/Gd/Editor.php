@@ -378,7 +378,22 @@ final class Editor implements EditorInterface
      * @return Editor
      */
     public function flatten(&$image){
-        $image->flatten();
+
+        if($image->isAnimated()) {
+            $gift = new GifHelper();
+            $hex  = $gift->encode($image->getBlocks());
+            $gd   = imagecreatefromstring(pack('H*', $hex)); // Recreate resource from blocks
+
+            $image = new Image(
+                $gd,
+                $image->getImageFile(),
+                $image->getWidth(),
+                $image->getHeight(),
+                $image->getType(),
+                '', // blocks
+                false // animated
+            );
+        }
         return $this;
     }
 
