@@ -8,11 +8,28 @@ namespace Grafika;
 interface ImageInterface {
 
     /**
+     * Output a binary raw dump of an image in a specified format.
+     *
+     * @param string|ImageType $type Image format of the dump.
+     */
+    public function blob( $type );
+
+    /**
+     * Create Image from image file.
+     *
      * @param $imageFile
      *
      * @return mixed
      */
     public static function createFromFile( $imageFile );
+
+    /**
+     * Create Image from core.
+     * @param $core
+     *
+     * @return mixed
+     */
+    public static function createFromCore( $core );
 
     /**
      * @param int $width

@@ -2,6 +2,7 @@
 namespace Grafika\Imagick;
 
 use Grafika\ImageInterface;
+use Grafika\ImageType;
 
 /**
  * Image class for Imagick.
@@ -65,7 +66,19 @@ final class Image implements ImageInterface {
 
         $this->imagick = $copy;
     }
-    
+
+    /**
+     * Output a binary raw dump of an image in a specified format.
+     *
+     * @param string|ImageType $type Image format of the dump.
+     *
+     * @throws \Exception When unsupported type.
+     */
+    public function blob( $type = 'JPEG' ) {
+        $this->imagick->setImageFormat($type);
+        echo $this->imagick->getImageBlob();
+    }
+
     /**
      * @param $imageFile
      *
@@ -93,6 +106,17 @@ final class Image implements ImageInterface {
             $imagick->getImageFormat(),
             $animated
         );
+    }
+
+    /**
+     * Create an Image from an instance of Imagick.
+     *
+     * @param \Imagick $imagick Instance of Imagick.
+     *
+     * @return Image
+     */
+    public static function createFromCore( $imagick ) {
+        return new self( $imagick, '', $imagick->getImageWidth(), $imagick->getImageHeight(), $imagick->getImageFormat() );
     }
 
     /**

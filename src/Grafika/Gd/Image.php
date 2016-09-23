@@ -81,39 +81,80 @@ final class Image implements ImageInterface {
     }
 
     /**
-     * @param $imageFile
+     * Output a binary raw dump of an image in a specified format.
+     *
+     * @param string|ImageType $type Image format of the dump.
+     *
+     * @throws \Exception When unsupported type.
+     */
+    public function blob( $type = 'JPEG' ) {
+
+        if ( ImageType::GIF == $type ) {
+
+            imagegif( $this->gd );
+
+        } else if ( ImageType::JPEG == $type ) {
+
+            imagejpeg( $this->gd );
+
+        } else if ( ImageType::PNG == $type ) {
+
+            imagepng( $this->gd );
+
+        } else if ( ImageType::WBMP == $type ) {
+
+            imagewbmp( $this->gd );
+
+        } else {
+            throw new \Exception( sprintf( 'File type "%s" not supported.', $type ) );
+        }
+    }
+
+    /**
+     * Create Image from image file.
+     *
+     * @param string $imageFile Path to image.
      *
      * @return Image
      * @throws \Exception
      */
-    public static function createFromFile( $imageFile ){
+    public static function createFromFile( $imageFile ) {
         if ( ! file_exists( $imageFile ) ) {
-            throw new \Exception( sprintf('Could not open "%s". File does not exist.', $imageFile) );
+            throw new \Exception( sprintf( 'Could not open "%s". File does not exist.', $imageFile ) );
         }
 
-        $type = self::_guessType($imageFile);
-        if ( ImageType::GIF == $type) {
+        $type = self::_guessType( $imageFile );
+        if ( ImageType::GIF == $type ) {
 
-            return self::_createGif($imageFile);
+            return self::_createGif( $imageFile );
 
-        } else if ( ImageType::JPEG == $type) {
+        } else if ( ImageType::JPEG == $type ) {
 
-            return self::_createJpeg($imageFile);
+            return self::_createJpeg( $imageFile );
 
-        } else if ( ImageType::PNG == $type) {
+        } else if ( ImageType::PNG == $type ) {
 
-            return self::_createPng($imageFile);
+            return self::_createPng( $imageFile );
 
-        } else if ( ImageType::WBMP == $type) {
+        } else if ( ImageType::WBMP == $type ) {
 
-            return self::_createWbmp($imageFile);
+            return self::_createWbmp( $imageFile );
 
         } else {
-            throw new \Exception( sprintf('Could not open "%s". File type not supported.', $imageFile) );
+            throw new \Exception( sprintf( 'Could not open "%s". File type not supported.', $imageFile ) );
         }
     }
 
-
+    /**
+     * Create an Image from a GD resource. The file type defaults to unknown.
+     *
+     * @param resource $gd GD resource.
+     *
+     * @return Image
+     */
+    public static function createFromCore( $gd ) {
+        return new self( $gd, '', imagesx( $gd ), imagesy( $gd ), ImageType::UNKNOWN );
+    }
 
     /**
      * Create a blank image.
