@@ -1259,14 +1259,14 @@ final class Editor implements EditorInterface
 
         for($y = 0; $y < $resizeH-$smallCropH; $y+=$step){
             for($x = 0; $x < $resizeW-$smallCropW; $x+=$step){
-                $hist[$x.'-'.$y] = $this->entropy($this->histogram($image, array(array($x, $y), array($smallCropW, $smallCropH))));
+                $hist[$x.'-'.$y] = $this->_entropy($image->histogram(array(array($x, $y), array($smallCropW, $smallCropH))));
             }
             if($resizeW-$smallCropW <= 0){
-                $hist['0-'.$y] = $this->entropy($this->histogram($image,array(array(0, 0), array($smallCropW, $smallCropH))));
+                $hist['0-'.$y] = $this->_entropy($image->histogram(array(array(0, 0), array($smallCropW, $smallCropH))));
             }
         }
         if($resizeH-$smallCropH <= 0){
-            $hist['0-0'] = $this->entropy($this->histogram($image, array(array(0, 0), array($smallCropW, $smallCropH))));
+            $hist['0-0'] = $this->_entropy($image->histogram(array(array(0, 0), array($smallCropW, $smallCropH))));
         }
 
         asort($hist);
