@@ -799,11 +799,11 @@ final class Editor implements EditorInterface
     /**
      * Calculate entropy based on histogram.
      *
-     * @param $hist
+     * @param array $hist Histogram returned by Image->histogram
      *
      * @return float|int
      */
-    function entropy($hist){
+    private function _entropy($hist){
         $entropy = 0;
         $hist_size = array_sum($hist['r']) + array_sum($hist['g']) + array_sum($hist['b']);
         foreach($hist['r'] as $p){
