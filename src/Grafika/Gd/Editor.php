@@ -50,7 +50,7 @@ final class Editor implements EditorInterface
      * @param int $opacity The opacity of $image2. Possible values 0.0 to 1.0.
      *
      * @return Editor
-     * @throws \Exception
+     * @throws \Exception When added image is outside of canvas or invalid blend type
      */
     public function blend(&$image1, $image2, $type='normal', $position=null, $opacity = 1){
         // Set default
