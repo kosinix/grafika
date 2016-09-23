@@ -314,7 +314,18 @@ final class Editor implements EditorInterface
      * @return self
      */
     public function flatten(&$image){
-        $image->flatten();
+        if($image->isAnimated()){
+            $imagick = $image->getCore()->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
+            $image = new Image(
+                $imagick,
+                $image->getImageFile(),
+                $image->getWidth(),
+                $image->getHeight(),
+                $image->getType(),
+                '', // blocks
+                false // animated
+            );
+        }
         return $this;
     }
 
