@@ -87,7 +87,7 @@ final class Image implements ImageInterface {
      *
      * @throws \Exception When unsupported type.
      */
-    public function blob( $type = 'JPEG' ) {
+    public function blob( $type = 'PNG' ) {
 
         if ( ImageType::GIF == $type ) {
 

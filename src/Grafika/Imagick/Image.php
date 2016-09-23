@@ -74,7 +74,7 @@ final class Image implements ImageInterface {
      *
      * @throws \Exception When unsupported type.
      */
-    public function blob( $type = 'JPEG' ) {
+    public function blob( $type = 'PNG' ) {
         $this->imagick->setImageFormat($type);
         echo $this->imagick->getImageBlob();
     }
