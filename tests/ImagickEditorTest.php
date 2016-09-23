@@ -7,6 +7,7 @@ use Grafika\Imagick\Filter\Blur;
 use Grafika\Imagick\Filter\Brightness;
 use Grafika\Imagick\Filter\Colorize;
 use Grafika\Imagick\Image;
+use Grafika\Position;
 
 /**
  * Class ImagickEditorTest
@@ -969,6 +970,26 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
         $image = Grafika::createImage( $input );
         $editor->flip( $image, 'v' );
         $editor->save( $image, $output );
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+
+    }
+
+    /**
+     * @depends testEqualFalse
+     * @param EditorInterface $editor
+     */
+    public function testBlend($editor)
+    {
+        $input1 = DIR_TEST_IMG . '/lena.png';
+        $input2 = DIR_TEST_IMG . '/blend.png';
+        $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
+
+        $image1 = Grafika::createImage( $input1 );
+        $image2 = Grafika::createImage( $input2 );
+        $editor->blend( $image1, $image2, 'overlay', new Position('center'), 0.5 ); // Center, overlay blend, opacity 50%
+        $editor->save( $image1, $output );
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
