@@ -134,6 +134,16 @@ interface EditorInterface {
     public function opacity( &$image, $opacity );
 
     /**
+     * Open an image file and return an Image.
+     *
+     * @param ImageInterface $image
+     * @param string $imageFile
+     *
+     * @return EditorInterface An instance of image editor.
+     */
+    public function open( &$image, $imageFile );
+
+    /**
      * Overlay an image on top of the current image.
      *
      * @param ImageInterface $image
