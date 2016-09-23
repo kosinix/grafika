@@ -119,12 +119,12 @@ final class Editor implements EditorInterface
 
         if (is_string($image1)) { // If string passed, turn it into a Image object
             $image1 = Image::createFromFile($image1);
-            $image1->flatten();
+            $this->flatten( $image1 );
         }
 
         if (is_string($image2)) { // If string passed, turn it into a Image object
             $image2 = Image::createFromFile($image2);
-            $image2->flatten();
+            $this->flatten( $image2 );
         }
 
         $hash = new DifferenceHash();
@@ -239,12 +239,12 @@ final class Editor implements EditorInterface
 
         if (is_string($image1)) { // If string passed, turn it into a Image object
             $image1 = Image::createFromFile($image1);
-            $image1->flatten();
+            $this->flatten( $image1 );
         }
 
         if (is_string($image2)) { // If string passed, turn it into a Image object
             $image2 = Image::createFromFile($image2);
-            $image2->flatten();
+            $this->flatten( $image2 );
         }
 
         // Check if image dimensions are equal
