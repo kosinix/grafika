@@ -986,6 +986,26 @@ class GdEditorTest extends PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * @depends testEqualFalse
+     * @param EditorInterface $editor
+     */
+    public function testBlend($editor)
+    {
+        $input1 = DIR_TEST_IMG . '/lena.png';
+        $input2 = DIR_TEST_IMG . '/blend.png';
+        $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
+        $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
+
+        $image1 = Grafika::createImage( $input1 );
+        $image2 = Grafika::createImage( $input2 );
+        $editor->blend( $image1, $image2, 'overlay', new \Grafika\Position('center'), 0.5 ); // Center, overlay blend, opacity 50%
+        $editor->save( $image1, $output );
+
+        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+
+    }
+
     // On before every test
     protected function setUp()
     {
