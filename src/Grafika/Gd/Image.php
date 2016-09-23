@@ -145,7 +145,16 @@ final class Image implements ImageInterface {
         }
     }
 
-
+    /**
+     * Create an Image from a GD resource. The file type defaults to unknown.
+     *
+     * @param resource $gd GD resource.
+     *
+     * @return Image
+     */
+    public static function createFromResource( $gd ) {
+        return new self( $gd, '', imagesx( $gd ), imagesy( $gd ), ImageType::UNKNOWN );
+    }
 
     /**
      * Create a blank image.
