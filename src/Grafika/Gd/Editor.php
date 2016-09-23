@@ -510,7 +510,7 @@ final class Editor implements EditorInterface
     }
 
     /**
-     * Open an image file and return an Image.
+     * Open an image file and assign Image to first parameter.
      *
      * @param Image $image
      * @param string $imageFile

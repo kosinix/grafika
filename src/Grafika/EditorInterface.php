@@ -134,7 +134,7 @@ interface EditorInterface {
     public function opacity( &$image, $opacity );
 
     /**
-     * Open an image file and return an Image.
+     * Open an image file and assign Image to first parameter.
      *
      * @param ImageInterface $image
      * @param string $imageFile
