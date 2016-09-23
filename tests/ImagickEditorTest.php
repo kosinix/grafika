@@ -107,19 +107,6 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
     /**
      * @depends testCreateEditor
      * @param EditorInterface $editor
-     */
-    public function testOpenWbmp($editor)
-    {
-
-        $input = DIR_TEST_IMG . '/sample.wbm';
-        $image = Grafika::createImage($input);
-
-        $this->assertTrue($image instanceof Image);
-    }
-
-    /**
-     * @depends testCreateEditor
-     * @param EditorInterface $editor
      * @return EditorInterface
      */
     public function testEqual($editor)
