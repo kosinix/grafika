@@ -152,7 +152,7 @@ final class Image implements ImageInterface {
      *
      * @return Image
      */
-    public static function createFromResource( $gd ) {
+    public static function createFromCore( $gd ) {
         return new self( $gd, '', imagesx( $gd ), imagesy( $gd ), ImageType::UNKNOWN );
     }
 
