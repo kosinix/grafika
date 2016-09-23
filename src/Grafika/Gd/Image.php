@@ -182,22 +182,6 @@ final class Image implements ImageInterface {
         return $this;
     }
 
-
-    /**
-     * Flatten if animated GIF. Do nothing otherwise.
-     */
-    public function flatten(){
-        if($this->animated) {
-            $gift = new GifHelper();
-            $hex  = $gift->encode($this->blocks);
-            $gd   = imagecreatefromstring(pack('H*', $hex)); // Recreate resource from blocks
-
-            $this->animated = false;
-            $this->gd       = $gd;
-            $this->blocks   = '';
-        }
-    }
-
     /**
      * Enable/Disable transparency
      *

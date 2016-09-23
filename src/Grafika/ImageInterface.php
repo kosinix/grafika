@@ -40,11 +40,6 @@ interface ImageInterface {
     public static function createBlank($width = 1, $height = 1);
 
     /**
-     * Flatten if animated GIF. Do nothing otherwise.
-     */
-    public function flatten();
-
-    /**
      * Returns animated flag.
      *
      * @return bool True if animated GIF.

@@ -137,17 +137,6 @@ final class Image implements ImageInterface {
     }
 
     /**
-     * Flatten if animated GIF. Do nothing otherwise.
-     */
-    public function flatten()
-    {
-        if($this->animated){
-            $this->imagick = $this->imagick->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
-            $this->animated = false;
-        }
-    }
-
-    /**
      * Get Imagick instance
      *
      * @return \Imagick
