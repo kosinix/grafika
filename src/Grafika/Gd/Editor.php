@@ -59,7 +59,7 @@ final class Editor implements EditorInterface
         }
 
         // Position is for $image2. $image1 is canvas.
-        list($offsetX, $offsetY) = $position->intPosition($image1->getWidth(), $image1->getHeight(), $image2->getWidth(), $image2->getHeight());
+        list($offsetX, $offsetY) = $position->getXY($image1->getWidth(), $image1->getHeight(), $image2->getWidth(), $image2->getHeight());
 
         // Check if it overlaps
         if( ($offsetX >= $image1->getWidth() ) or
