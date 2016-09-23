@@ -10,6 +10,7 @@ use Grafika\ImageInterface;
 use Grafika\ImageType;
 use Grafika\Color;
 use Grafika\Imagick\ImageHash\DifferenceHash;
+use Grafika\Position;
 
 /**
  * Imagick Editor class. Uses the PHP Imagick library.
@@ -34,6 +35,72 @@ final class Editor implements EditorInterface
         }
 
         $image = $filter->apply($image);
+
+        return $this;
+    }
+
+    /**
+     * Blend two images together with the first image as the base and the second image on top. Supports several blend modes.
+     *
+     * @param Image $image1 The base image.
+     * @param Image $image2 The image placed on top of the base image.
+     * @param string $type The blend mode. Can be: normal, multiply, overlay or screen.
+     * @param Position $position The position of $image2 on $image1.
+     * @param int $opacity The opacity of $image2. Possible values 0.0 to 1.0.
+     *
+     * @return Editor
+     * @throws \Exception When added image is outside of canvas or invalid blend type
+     */
+    public function blend(&$image1, $image2, $type='normal', $position=null, $opacity = 1){
+        // Set default
+        if($position===null){
+            $position = new Position(Position::TOP_LEFT);
+        }
+
+        // Position is for $image2. $image1 is canvas.
+        list($offsetX, $offsetY) = $position->getXY($image1->getWidth(), $image1->getHeight(), $image2->getWidth(), $image2->getHeight());
+
+        // Check if it overlaps
+        if( ($offsetX >= $image1->getWidth() ) or
+            ($offsetX + $image2->getWidth() <= 0) or
+            ($offsetY >= $image1->getHeight() ) or
+            ($offsetY + $image2->getHeight() <= 0)){
+
+            throw new \Exception('Invalid blending. Image 2 is outside the canvas.');
+        }
+
+        // Loop start X
+        $loopStartX = 0;
+        $canvasStartX = $offsetX;
+        if($canvasStartX < 0){
+            $diff = 0 - $canvasStartX;
+            $loopStartX += $diff;
+        }
+
+        // Loop start Y
+        $loopStartY = 0;
+        $canvasStartY = $offsetY;
+        if($canvasStartY < 0){
+            $diff = 0 - $canvasStartY;
+            $loopStartY += $diff;
+        }
+
+        if ( $opacity !== 1 ) {
+            $this->opacity($image2, $opacity);
+        }
+
+        $type = strtolower( $type );
+        if($type==='normal') {
+            $image1->getCore()->compositeImage($image2->getCore(), \Imagick::COMPOSITE_OVER, $loopStartX + $offsetX, $loopStartY + $offsetY);
+        } else if($type==='multiply'){
+            $image1->getCore()->compositeImage($image2->getCore(), \Imagick::COMPOSITE_MULTIPLY, $loopStartX + $offsetX, $loopStartY + $offsetY);
+        } else if($type==='overlay'){
+            $image1->getCore()->compositeImage($image2->getCore(), \Imagick::COMPOSITE_OVERLAY, $loopStartX + $offsetX, $loopStartY + $offsetY);
+        } else if($type==='screen'){
+            $image1->getCore()->compositeImage($image2->getCore(), \Imagick::COMPOSITE_SCREEN, $loopStartX + $offsetX, $loopStartY + $offsetY);
+        } else {
+            throw new \Exception(sprintf('Invalid blend type "%s".', $type));
+        }
 
         return $this;
     }
