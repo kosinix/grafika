@@ -911,31 +911,6 @@ final class Editor implements EditorInterface
     }
 
     /**
-     * Calculate entropy based on histogram.
-     *
-     * @param $hist
-     *
-     * @return float|int
-     */
-    function entropy($hist){
-        $entropy = 0;
-        $hist_size = array_sum($hist['r']) + array_sum($hist['g']) + array_sum($hist['b']);
-        foreach($hist['r'] as $p){
-            $p = $p / $hist_size;
-            $entropy += $p * log($p, 2);
-        }
-        foreach($hist['g'] as $p){
-            $p = $p / $hist_size;
-            $entropy += $p * log($p, 2);
-        }
-        foreach($hist['b'] as $p){
-            $p = $p / $hist_size;
-            $entropy += $p * log($p, 2);
-        }
-        return $entropy * -1;
-    }
-
-    /**
      * @param $canvas
      * @param $gd1
      * @param $gd2
@@ -1045,6 +1020,31 @@ final class Editor implements EditorInterface
             }
         }
         return $canvas;
+    }
+
+    /**
+     * Calculate entropy based on histogram.
+     *
+     * @param $hist
+     *
+     * @return float|int
+     */
+    private function _entropy($hist){
+        $entropy = 0;
+        $hist_size = array_sum($hist['r']) + array_sum($hist['g']) + array_sum($hist['b']);
+        foreach($hist['r'] as $p){
+            $p = $p / $hist_size;
+            $entropy += $p * log($p, 2);
+        }
+        foreach($hist['g'] as $p){
+            $p = $p / $hist_size;
+            $entropy += $p * log($p, 2);
+        }
+        foreach($hist['b'] as $p){
+            $p = $p / $hist_size;
+            $entropy += $p * log($p, 2);
+        }
+        return $entropy * -1;
     }
 
     /**
