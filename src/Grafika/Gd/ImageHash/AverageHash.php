@@ -28,18 +28,19 @@ class AverageHash
      *
      * @param Image $image
      *
+     * @param Editor $editor
+     *
      * @return string
      */
-    public function hash(Image $image)
+    public function hash($image, $editor)
     {
         // Resize the image.
         $width = 8;
         $height = 8;
 
-        $editor = new Editor();
-        $editor->setImage($image);
-        $editor->resizeExact( $width, $height); // Resize to exactly 9x8
-        $gd = $editor->getImage()->getCore();
+        $image = clone $image; // Make sure we are working on the clone if Image is passed
+        $editor->resizeExact($image, $width, $height); // Resize to exactly 9x8
+        $gd = $image->getCore();
 
         // Create an array of greyscale pixel values.
         $pixels = array();
