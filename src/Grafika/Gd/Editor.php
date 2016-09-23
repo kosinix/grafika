@@ -126,6 +126,8 @@ final class Editor implements EditorInterface
             throw new \Exception(sprintf('Invalid blend type "%s".', $type));
         }
 
+        imagedestroy( $gd1 ); // Free resource
+
         $image1 = new Image(
             $canvas,
             $image1->getImageFile(),
@@ -380,10 +382,12 @@ final class Editor implements EditorInterface
     public function flatten(&$image){
 
         if($image->isAnimated()) {
+            $old = $image->getCore();
             $gift = new GifHelper();
             $hex  = $gift->encode($image->getBlocks());
             $gd   = imagecreatefromstring(pack('H*', $hex)); // Recreate resource from blocks
 
+            imagedestroy( $old ); // Free resource
             $image = new Image(
                 $gd,
                 $image->getImageFile(),
@@ -422,7 +426,6 @@ final class Editor implements EditorInterface
     public function free( &$image )
     {
         imagedestroy($image->getCore());
-        unset( $image );
         return $this;
     }
 
@@ -804,12 +807,14 @@ final class Editor implements EditorInterface
         $color = ($color !== null) ? $color : new Color('#000000');
         list($r, $g, $b, $alpha) = $color->getRgba();
 
-        $new = imagerotate($image->getCore(), $angle, imagecolorallocatealpha($image->getCore(), $r, $g, $b, $alpha));
+        $old = $image->getCore();
+        $new = imagerotate($old, $angle, imagecolorallocatealpha($old, $r, $g, $b, $alpha));
 
         if(false === $new){
             throw new \Exception('Error rotating image.');
         }
 
+        imagedestroy( $old ); // Free resource
         $image = new Image( $new, $image->getImageFile(), $image->getWidth(), $image->getHeight(), $image->getType() );
 
         return $this;
