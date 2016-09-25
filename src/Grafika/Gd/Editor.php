@@ -510,6 +510,19 @@ final class Editor implements EditorInterface
     }
 
     /**
+     * Open an image file and assign Image to first parameter.
+     *
+     * @param Image $image
+     * @param string $imageFile
+     *
+     * @return Editor
+     */
+    public function open(&$image, $imageFile){
+        $image = Image::createFromFile( $imageFile );
+        return $this;
+    }
+
+    /**
      * @deprecated
      *
      * Overlay an image on top of the current image.
