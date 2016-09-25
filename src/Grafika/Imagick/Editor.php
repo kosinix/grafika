@@ -359,7 +359,6 @@ final class Editor implements EditorInterface
     public function free( &$image )
     {
         $image->getCore()->clear();
-        unset( $image );
         return $this;
     }
 
