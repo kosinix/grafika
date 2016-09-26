@@ -14,13 +14,8 @@ class PhpDocParser
     }
 
     public function methodSignature($methodInfo){
-        $string = $methodInfo['scope'].' ';
-        if(isset($methodInfo['return']['type'])) {
-            $string .= $methodInfo['return']['type'].' ';
-        } else {
-            $string .= 'void ';
-        }
-        $string .= $methodInfo['name'].' ( ';
+
+        $string = $methodInfo['name'].' ( ';
 
         if(isset($methodInfo['param'])){
             $tmp = array();
@@ -36,8 +31,12 @@ class PhpDocParser
             }
             $string .= implode(', ', $tmp);
         }
-        $string .= ' )';
-
+        $string .= ' ) ';
+        if(isset($methodInfo['return']['type'])) {
+            $string .= $methodInfo['return']['type'].' ';
+        } else {
+            $string .= 'void ';
+        }
         return $string;
     }
 
