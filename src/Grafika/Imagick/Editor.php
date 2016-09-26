@@ -45,17 +45,18 @@ final class Editor implements EditorInterface
      * @param Image $image1 The base image.
      * @param Image $image2 The image placed on top of the base image.
      * @param string $type The blend mode. Can be: normal, multiply, overlay or screen.
-     * @param Position $position The position of $image2 on $image1.
-     * @param int $opacity The opacity of $image2. Possible values 0.0 to 1.0.
+     * @param float $opacity The opacity of $image2. Possible values 0.0 to 1.0 where 0.0 is fully transparent and 1.0 is fully opaque. Defaults to 1.0.
+     * @param string $position The position of $image2 on $image1. Possible values top-left, top-center, top-right, center-left, center, center-right, bottom-left, bottom-center, bottom-right and smart. Defaults to top-left.
+     * @param int $offsetX Number of pixels to add to the X position of $image2.
+     * @param int $offsetY Number of pixels to add to the Y position of $image2.
      *
      * @return Editor
      * @throws \Exception When added image is outside of canvas or invalid blend type
      */
-    public function blend(&$image1, $image2, $type='normal', $position=null, $opacity = 1){
-        // Set default
-        if($position===null){
-            $position = new Position(Position::TOP_LEFT);
-        }
+    public function blend(&$image1, $image2, $type='normal', $opacity = 1.0, $position = 'top-left', $offsetX = 0, $offsetY = 0 ){
+
+        // Turn into position object
+        $position = new Position($position, $offsetX, $offsetY);
 
         // Position is for $image2. $image1 is canvas.
         list($offsetX, $offsetY) = $position->getXY($image1->getWidth(), $image1->getHeight(), $image2->getWidth(), $image2->getHeight());
