@@ -4,7 +4,7 @@
         <h1>Requirements</h1>
         <p>The following prerequisites are needed for grafika to run.</p>
         <ul>
-            <li>PHP >= 5.3</li>
+            <li>PHP >= 5.3 minimum, PHP >= 7 recommended</li>
             <li><a href="http://php.net/manual/en/book.image.php">GD</a> library >= 2.0</li>
             <li><a href="http://php.net/manual/en/book.imagick.php">Imagick</a> library (highly recommended but not required) >= 3.3.0 and ImageMagick >= 6.5.3</li>
         </ul>
