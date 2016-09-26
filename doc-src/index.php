@@ -16,8 +16,8 @@
             <li><strong>Animated GIF Support</strong> - It can resize animated GIFs on both GD and Imagick. On GD, Grafika uses its own GIF parser to do this.</li>
             <li><strong>5 Resize Modes</strong> - Resize is a first class citizen in Grafika. Call them directly using resizeFit, resizeFill, resizeExact, resizeExactWidth, and resizeExactHeight or use the generic resize api.</li>
             <li><strong>Image Compare</strong> - Find how similar two images are or check if they are exactly equal.</li>
-            <li><strong>Advance Filters</strong> - Sobel and Floyd-Steinberg Dithering. More will be added in future releases.</li>
-            <li><strong>Bezier Curves</strong> - Create anti-aliased quadratic and cubic beziers both on GD and Imagick.</li>
+            <li><strong>Advance Filters</strong> - Sobel edge-detection, diffusion and ordered dithering. More will be added in future releases.</li>
+            <li><strong>Image Blending</strong> - Blend 2 images using the following modes: normal, multiply, overlay and screen.</li>
             <li><strong>Normalized API</strong> - No need to worry about the differences between GD and Imagick API, Grafika normalizes these operations for you.</li>
         </ul>
         <h6>Basic Filters</h6>
@@ -77,17 +77,17 @@ imagedestroy($newImage); // Free up memory
 
 $editor = Grafika::createEditor();
 
-$editor->open( "path/to/jpeg/image.jpg" );
-$editor->resizeExact( 200, 200 );
-$editor->save( "path/to/edited.jpg", null, 90 );</code></pre>
+$editor->open( $image, "path/to/jpeg/image.jpg" );
+$editor->resizeExact( $image, 200, 200 );
+$editor->save( $image, "path/to/edited.jpg", null, 90 );</code></pre>
 
         <p>You can even chain the api calls (think jQuery):</p>
 <pre><code>use Grafika\Grafika;
 
 Grafika::createEditor()
-        ->open( "path/to/jpeg/image.jpg" )
-        ->resizeExact( 200, 200 )
-        ->save( "path/to/edited.jpg", null, 90 );</code></pre>
+        ->open( $image, "path/to/jpeg/image.jpg" )
+        ->resizeExact( $image, 200, 200 )
+        ->save( $image, "path/to/edited.jpg", null, 90 );</code></pre>
 
         <p>See docs for more info.</p>
 
