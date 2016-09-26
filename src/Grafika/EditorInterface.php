@@ -144,20 +144,6 @@ interface EditorInterface {
      * @return EditorInterface An instance of image editor.
      */
     public function open( &$image, $imageFile );
-
-    /**
-     * Overlay an image on top of the current image.
-     *
-     * @param ImageInterface $image
-     * @param ImageInterface|string $overlay Can be a string containing a file path of the image to overlay or an Image object.
-     * @param string|int $xPos Horizontal position of image. Can be 'left','center','right' or integer number. Defaults to 'center'.
-     * @param string|int $yPos Vertical position of image. Can be 'top', 'center','bottom' or integer number. Defaults to 'center'.
-     * @param null $width Width of overlay in pixels.
-     * @param null $height Height of overlay in pixels.
-     *
-     * @return EditorInterface An instance of image editor.
-     */
-    public function overlay( &$image, $overlay, $xPos = 'center', $yPos = 'center', $width = null, $height = null );
     
     /**
      * Wrapper function for the resizeXXX family of functions. Resize an image to a given width, height and mode.
