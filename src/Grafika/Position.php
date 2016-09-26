@@ -112,7 +112,7 @@ class Position {
             $x = (int)round(($canvasWidth / 2) - ($imageWidth / 2));
             $y = (int)round(($canvasHeight / 2) - ($imageHeight / 2));
         } else {
-            throw new \Exception('Invalid parameter position.');
+            throw new \Exception( sprintf( 'Invalid position "%s".', $this->position ) );
         }
 
         return array(
