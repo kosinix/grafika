@@ -165,37 +165,15 @@ final class Editor implements EditorInterface
             return $this;
         }
 
-        if ('top-left' === $position) {
-            $x = 0;
-            $y = 0;
-        } else if ('top-center' === $position) {
-            $x = (int)round(($image->getWidth() / 2) - ($cropWidth / 2));
-            $y = 0;
-        } else if ('top-right' === $position) {
-            $x = $image->getWidth() - $cropWidth;
-            $y = 0;
-        } else if ('center-left' === $position) {
-            $x = 0;
-            $y = (int)round(($image->getHeight() / 2) - ($cropHeight / 2));
-        } else if ('center-right' === $position) {
-            $x = $image->getWidth() - $cropWidth;
-            $y = (int)round(($image->getHeight() / 2) - ($cropHeight / 2));
-        } else if ('bottom-left' === $position) {
-            $x = 0;
-            $y = $image->getHeight() - $cropHeight;
-        } else if ('bottom-center' === $position) {
-            $x = (int)round(($image->getWidth() / 2) - ($cropWidth / 2));
-            $y = $image->getHeight() - $cropHeight;
-        } else if ('bottom-right' === $position) {
-            $x = $image->getWidth() - $cropWidth;
-            $y = $image->getHeight() - $cropHeight;
-        } else if ('smart' === $position) { // Smart crop
-            list($x, $y) = $this->_smartCrop($image, $cropWidth, $cropHeight);
-        } else if ('center' === $position) {
-            $x = (int)round(($image->getWidth() / 2) - ($cropWidth / 2));
-            $y = (int)round(($image->getHeight() / 2) - ($cropHeight / 2));
+        if ( 'smart' === $position ) { // Smart crop
+            list( $x, $y ) = $this->_smartCrop( $image, $cropWidth, $cropHeight );
         } else {
-            throw new \Exception('Invalid parameter position.');
+            // Turn into an instance of Position
+            $position = new Position( $position, $offsetX, $offsetY );
+
+            // Crop position as x,y coordinates
+            list( $x, $y ) = $position->getXY( $image->getWidth(), $image->getHeight(), $cropWidth, $cropHeight );
+
         }
 
         $x += $offsetX;
