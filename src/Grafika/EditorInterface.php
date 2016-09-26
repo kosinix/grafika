@@ -10,8 +10,8 @@ interface EditorInterface {
     /**
      * Apply a filter to the image. See Filters section for a list of available filters.
      *
-     * @param ImageInterface $image
-     * @param FilterInterface $filter
+     * @param ImageInterface $image Instance of Image.
+     * @param FilterInterface $filter Instance implementing the FilterInterface.
      *
      * @return EditorInterface An instance of image editor.
      */
@@ -46,7 +46,7 @@ interface EditorInterface {
     /**
      * Crop the image to the given dimension and position.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param int $cropWidth Crop width in pixels.
      * @param int $cropHeight Crop Height in pixels.
      * @param string $position The crop position. Possible values top-left, top-center, top-right, center-left, center, center-right, bottom-left, bottom-center, bottom-right and smart. Defaults to center.
@@ -60,8 +60,8 @@ interface EditorInterface {
     /**
      * Draw a DrawingObject on the image. See Drawing Objects section.
      *
-     * @param ImageInterface $image
-     * @param DrawingObjectInterface $drawingObject
+     * @param ImageInterface $image Instance of Image.
+     * @param DrawingObjectInterface $drawingObject Instance of DrawingObject.
      *
      * @return EditorInterface An instance of image editor.
      */
