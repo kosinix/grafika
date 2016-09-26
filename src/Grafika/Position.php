@@ -120,4 +120,27 @@ class Position {
             $y + $this->offsetY
         );
     }
+
+    /**
+     * @return string
+     */
+    public function getText() {
+        return $this->position;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOffsetY() {
+        return $this->offsetY;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOffsetX() {
+        return $this->offsetX;
+    }
+
+
 }
