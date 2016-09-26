@@ -5,31 +5,15 @@ namespace Grafika;
  * Interface ImageInterface
  * @package Grafika
  */
-interface ImageInterface {
+interface ImageInterface
+{
 
     /**
      * Output a binary raw dump of an image in a specified format.
      *
      * @param string|ImageType $type Image format of the dump.
      */
-    public function blob( $type );
-
-    /**
-     * Create Image from image file.
-     *
-     * @param $imageFile
-     *
-     * @return mixed
-     */
-    public static function createFromFile( $imageFile );
-
-    /**
-     * Create Image from core.
-     * @param $core
-     *
-     * @return mixed
-     */
-    public static function createFromCore( $core );
+    public function blob($type);
 
     /**
      * @param int $width
@@ -40,11 +24,22 @@ interface ImageInterface {
     public static function createBlank($width = 1, $height = 1);
 
     /**
-     * Returns animated flag.
+     * Create Image from core.
      *
-     * @return bool True if animated GIF.
+     * @param $core
+     *
+     * @return mixed
      */
-    public function isAnimated();
+    public static function createFromCore($core);
+
+    /**
+     * Create Image from image file.
+     *
+     * @param $imageFile
+     *
+     * @return mixed
+     */
+    public static function createFromFile($imageFile);
 
     /**
      * @return mixed
@@ -54,7 +49,17 @@ interface ImageInterface {
     /**
      * @return mixed
      */
+    public function getHeight();
+
+    /**
+     * @return mixed
+     */
     public function getImageFile();
+
+    /**
+     * @return mixed
+     */
+    public function getType();
 
     /**
      * @return mixed
@@ -62,12 +67,10 @@ interface ImageInterface {
     public function getWidth();
 
     /**
-     * @return mixed
+     * Returns animated flag.
+     *
+     * @return bool True if animated GIF.
      */
-    public function getHeight();
+    public function isAnimated();
 
-    /**
-     * @return mixed
-     */
-    public function getType();
 }
