@@ -28,6 +28,47 @@ class Documentation {
             
         }
     }
+    
+    protected function isAssoc(array $array) {
+        return count(array_filter(array_keys($array), 'is_string')) > 0;
+    }
+
+    protected function arrayToStr($array){
+        $string = 'array(';
+
+        if($this->isAssoc($array)){
+            $string .= ' ';
+            $el = array();
+            foreach($array as $name=>$val){
+                $el[] = $name.' => '.$this->formatValue($val);
+            }
+            $string .= implode(',', $el);
+            $string .= ' ';
+        } else {
+            $string .= ' ';
+            $el = array();
+            foreach($array as $name=>$val){
+                $el[] = $this->formatValue($val);
+            }
+            $string .= implode(', ', $el);
+            $string .= ' ';
+        }
+        return $string.')';
+
+    }
+
+    protected function formatValue($value){
+        if( is_bool( $value ) ){
+            $value = ($value) ? 'true' : 'false';
+        } else if ( is_string( $value ) ) {
+            $value = "'{$value}'"; // Surround with quotes
+        } else if( null === $value){
+            $value = 'null'; // Use the word null
+        } else if ( is_array($value)){
+            $value = $this->arrayToStr($value);
+        }
+        return $value;
+    }
 
     public function buildSignature( \ReflectionMethod $method){
         $params = array();
@@ -35,18 +76,8 @@ class Documentation {
         foreach($method->getParameters() as $param){
             $default = '';
             if($param->isOptional()) {
-                $defaultVal = $param->getDefaultValue();
-                if( is_bool( $defaultVal ) ){
-                    $defaultVal = ($defaultVal) ? 'true' : 'false';
-                } else if ( is_string( $defaultVal ) ) {
-                    $defaultVal = "'{$defaultVal}'"; // Surround with quotes
-                } else if( null === $defaultVal){
-                    $defaultVal = 'null'; // Use the word null
-                } else if ( is_array($defaultVal)){
-                    $defaultVal = 'array'; // TODO: make this print what's exactly is defined in class code.
-                }
 
-                $default = ' = '.$defaultVal;
+                $default = ' = '. $this->formatValue($param->getDefaultValue());
             }
             $params[] = '$'.$param->getName().$default;
         }
