@@ -84,6 +84,7 @@ class Documentation {
         $param_str = implode(', ', $params);
         return "{$method->getName()}( {$param_str} )";
     }
+
     public function buildParams( array $params ){
         $array = array();
         /**
@@ -93,10 +94,25 @@ class Documentation {
             $array[$i] = array(
                 'name' => $param->getName(),
                 'desc' => $this->param_desc($this->docBlock->all_params['param'][$i]),
+                'type' => $this->param_type($this->docBlock->all_params['param'][$i]),
             );
         }
         return $array;
     }
+
+    public function param_type($paramLine){
+        $dollar = substr($paramLine, 0, 1);
+        if($dollar !== '$'){ // not var name
+            $space1 = strpos($paramLine, ' ');
+            if($space1 !== false){
+                return substr( $paramLine, 0, $space1 );
+
+            }
+        }
+
+        return '';
+    }
+
     public function param_desc($str){
         $space1 = strpos($str, ' ');
         if($space1 !== false){
