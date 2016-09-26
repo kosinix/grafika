@@ -25,45 +25,54 @@
 $input = 'crop-test.jpg';
 
 // Top
-$editor->open($input);
-$editor->crop(260, 150, 'top-left');
-$editor->save('testCrop1.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'top-left' );
+$editor->save( $image, 'testCrop1.jpg' );
+$editor->free( $image );
 
-$editor->open($input);
-$editor->crop(260, 150, 'top-center');
-$editor->save('testCrop2.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'top-center' );
+$editor->save( $image, 'testCrop2.jpg' );
+$editor->free( $image );
 
-$editor->open($input);
-$editor->crop(260, 150, 'top-right');
-$editor->save('testCrop3.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'top-right' );
+$editor->save( $image, 'testCrop3.jpg' );
+$editor->free( $image );
 
 // Middle row
-$editor->open($input);
-$editor->crop(260, 150, 'center-left');
-$editor->save('testCrop4.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'center-left' );
+$editor->save( $image, 'testCrop4.jpg' );
+$editor->free( $image );
 
-$editor->open($input);
-$editor->crop(260, 150, 'center');
-$editor->save('testCrop5.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'center' );
+$editor->save( $image, 'testCrop5.jpg' );
+$editor->free( $image );
 
-$editor->open($input);
-$editor->crop(260, 150, 'center-right');
-$editor->save('testCrop6.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'center-right' );
+$editor->save( $image, 'testCrop6.jpg' );
+$editor->free( $image );
 
 // Bottom row
-$editor->open($input);
-$editor->crop(260, 150, 'bottom-left');
-$editor->save('testCrop7.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'bottom-left' );
+$editor->save( $image, 'testCrop7.jpg' );
+$editor->free( $image );
 
-$editor->open($input);
-$editor->crop(260, 150, 'bottom-center');
-$editor->save('testCrop8.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'bottom-center' );
+$editor->save( $image, 'testCrop8.jpg' );
+$editor->free( $image );
 
-$editor->open($input);
-$editor->crop(260, 150, 'bottom-right');
-$editor->save('testCrop9.jpg');</code></pre>
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'bottom-right' );
+$editor->save( $image, 'testCrop9.jpg' );
+$editor->free( $image );</code></pre>
 
-        <p>The above code would look like this if arrange in 3x3 grid:</p>
+        <p>The above code would look like this if arranged in a 3x3 grid:</p>
 
         <table>
             <tr>
@@ -85,9 +94,9 @@ $editor->save('testCrop9.jpg');</code></pre>
 
         <h5>Smart Crop</h5>
         <p>Grafika can also do smart cropping wherein it decides the crop position with the important regions of the images preserved.</p>
-        <pre><code>$editor->open($input);
-$editor->crop(200, 200, 'smart');
-$editor->save('output.jpg');</code></pre>
+        <pre><code>$editor->open( $image, $input );
+$editor->crop( $image, 200, 200, 'smart' );
+$editor->save( $image, 'output.jpg' );</code></pre>
         <table style="min-width: 60%; max-width: 70%">
             <tbody><tr>
                 <th width="10%">Type</th>
