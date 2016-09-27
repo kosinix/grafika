@@ -33,7 +33,7 @@ function genHtml($relPath){
 
         $htmlName = basename($page, '.php').'.html';
         $contents = file_get_contents($docSrcUrl.'/'.$relPath.'/'.$page);
-        if($relPath==='editor' or $relPath === 'draw' or $relPath === 'filters'){
+        if($relPath==='editor' or $relPath === 'draw' or $relPath === 'filters' or $relPath === 'image'){
             $contents = str_replace('/github.com/grafika/doc-src/', '../', $contents);
         } else {
             $contents = str_replace('/github.com/grafika/doc-src/', '', $contents);
