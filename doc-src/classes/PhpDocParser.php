@@ -13,6 +13,12 @@ class PhpDocParser
         $this->reflection = $class;
     }
 
+    public function classDesc(){
+        $str = preg_replace(array('(\/\*\*[\s]+[*][\s])','([\s]\*\/)'), '', $this->reflection->getDocComment());
+        $str = preg_split('/(\n)|(\r)/', $str);
+        return $str[0];
+    }
+
     public function methodSignature($methodInfo){
 
         $string = $methodInfo['name'].' ( ';
