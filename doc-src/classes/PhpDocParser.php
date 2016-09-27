@@ -47,28 +47,33 @@ class PhpDocParser
     }
 
     public function documentMethod($name){
-        $method = $this->reflection->getMethod($name);
-        $docComment = $this->parseDocComment( $method->getDocComment() );
+        try {
+            $method     = $this->reflection->getMethod($name);
+            $docComment = $this->parseDocComment($method->getDocComment());
 
-        $params = $method->getParameters();
-        $docComment['name'] = $name;
-        $docComment['scope'] = 'public';
-        if($method->isPrivate()){
-            $docComment['scope'] = 'private';
-        } else if($method->isProtected()){
-            $docComment['scope'] = 'protected';
-        }
-        foreach($params as $param){
-            $docComment['param'][$param->getName()]['default'] = null;
-            $docComment['param'][$param->getName()]['byref'] = $param->isPassedByReference();
-
-            if($param->isOptional()) {
-                $docComment['param'][$param->getName()]['default'] = $param->getDefaultValue();
-            } else {
-                $docComment['param'][$param->getName()]['default'] = '__no_def__';
+            $params              = $method->getParameters();
+            $docComment['name']  = $name;
+            $docComment['scope'] = 'public';
+            if ($method->isPrivate()) {
+                $docComment['scope'] = 'private';
+            } else if ($method->isProtected()) {
+                $docComment['scope'] = 'protected';
             }
+            foreach ($params as $param) {
+                $docComment['param'][$param->getName()]['default'] = null;
+                $docComment['param'][$param->getName()]['byref']   = $param->isPassedByReference();
+
+                if ($param->isOptional()) {
+                    $docComment['param'][$param->getName()]['default'] = $param->getDefaultValue();
+                } else {
+                    $docComment['param'][$param->getName()]['default'] = '__no_def__';
+                }
+            }
+
+            return $docComment;
+        } catch (Exception $e) {
+            return '';
         }
-        return $docComment;
     }
 
     public function parseDocComment($docComment)
