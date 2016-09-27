@@ -7,12 +7,14 @@
                     <li><a href="<?php echo $doc_src; ?>index.php">What is Grafika?</a></li>
                     <li><a href="<?php echo $doc_src; ?>requirements.php">Requirements</a></li>
                     <li><a href="<?php echo $doc_src; ?>installation.php">Installation</a></li>
+                    <li><a href="<?php echo $doc_src; ?>migration1x.php">Migration from 1.x</a></li>
                 </ul>
             </li>
             <li>Examples</li>
             <li>
                 <ul>
                     <li><a href="<?php echo $doc_src; ?>creating-editors.php">Creating Editors</a></li>
+                    <li><a href="<?php echo $doc_src; ?>creating-images.php">Creating Images</a></li>
                     <li><a href="<?php echo $doc_src; ?>resizing.php">Resizing</a></li>
                     <li><a href="<?php echo $doc_src; ?>compare-images.php">Compare Images</a></li>
                     <li><a href="<?php echo $doc_src; ?>smart-crop.php">Smart Crop</a></li>
@@ -23,7 +25,7 @@
             <li>
                 <ul>
                     <li><a href="<?php echo $doc_src; ?>editor/apply.php">apply</a></li>
-                    <li><a href="<?php echo $doc_src; ?>editor/blank.php">blank</a></li>
+                    <li><a href="<?php echo $doc_src; ?>editor/blend.php">blend</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/compare.php">compare</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/crop.php">crop</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/draw.php">draw</a></li>
@@ -32,11 +34,9 @@
                     <li><a href="<?php echo $doc_src; ?>editor/flatten.php">flatten</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/flip.php">flip</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/free.php">free</a></li>
-                    <li><a href="<?php echo $doc_src; ?>editor/getImage.php">getImage</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/isAvailable.php">isAvailable</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/opacity.php">opacity</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/open.php">open</a></li>
-                    <li><a href="<?php echo $doc_src; ?>editor/overlay.php">overlay</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/resize.php">resize</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/resizeExact.php">resizeExact</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/resizeExactHeight.php">resizeExactHeight</a></li>
@@ -45,8 +45,19 @@
                     <li><a href="<?php echo $doc_src; ?>editor/resizeFit.php">resizeFit</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/rotate.php">rotate</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/save.php">save</a></li>
-                    <li><a href="<?php echo $doc_src; ?>editor/setImage.php">setImage</a></li>
                     <li><a href="<?php echo $doc_src; ?>editor/text.php">text</a></li>
+                </ul>
+            </li>
+            <li>Image Functions</li>
+            <li>
+                <ul>
+                    <li><a href="<?php echo $doc_src; ?>image/blob.php">blob</a></li>
+                    <li><a href="<?php echo $doc_src; ?>image/getCore.php">getCore</a></li>
+                    <li><a href="<?php echo $doc_src; ?>image/getHeight.php">getHeight</a></li>
+                    <li><a href="<?php echo $doc_src; ?>image/getImageFile.php">getImageFile</a></li>
+                    <li><a href="<?php echo $doc_src; ?>image/getType.php">getType</a></li>
+                    <li><a href="<?php echo $doc_src; ?>image/getWidth.php">getWidth</a></li>
+                    <li><a href="<?php echo $doc_src; ?>image/isAnimated.php">isAnimated</a></li>
                 </ul>
             </li>
             <li>Filters</li>
