@@ -224,9 +224,9 @@ interface EditorInterface {
     /**
      * Save the image to an image format.
      *
-     * @param ImageInterface $image Instance of Image.
+     * @param ImageInterface $image Instance of Image. Saving the image to a different format will have NO effect on the Image instance.
      * @param string $file File path where to save the image.
-     * @param null|string $type Type of image. Can be null, "GIF", "PNG", or "JPEG". If null, an appropriate file type will be used.
+     * @param null|string $type The image format to use. Can be null, "gif", "png", or "jpeg". If null, an appropriate format will be chosen based on the output file name in $file.
      * @param null|string $quality Quality of image. Applies to JPEG only. Accepts number 0 - 100 where 0 is lowest and 100 is the highest quality. Or null for default. Default quality if null is 75.
      * @param bool $interlace Set to true for progressive JPEG. Applies to JPEG only. Default false.
      * @param int $permission Default permission when creating non-existing target directory. Default is 0755. Note: Its using PHP's octal notation so you must prepend numbers with zero (0).
