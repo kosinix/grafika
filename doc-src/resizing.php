@@ -98,7 +98,7 @@ $editor->save( $image2, "images/testResizeExactHeightPortrait.jpg");</code></pre
         </div>
 
         <ul class="pager">
-            <li class="prev"><a href="creating-editors.php">Creating Editors</a></li>
+            <li class="prev"><a href="creating-images.php">Creating Images</a></li>
             <li class="next"><a href="compare-images.php">Compare Images</a></li>
         </ul>
     </div>
