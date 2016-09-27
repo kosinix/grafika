@@ -988,7 +988,7 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
 
         $image1 = Grafika::createImage( $input1 );
         $image2 = Grafika::createImage( $input2 );
-        $editor->blend( $image1, $image2, 'overlay', 0.5, 'center' ); // Center, overlay blend, opacity 50%
+        $editor->blend( $image1, $image2, 'overlay', 0.5, 'center' ); // overlay blend, opacity 50%, center position
         $editor->save( $image1, $output );
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
