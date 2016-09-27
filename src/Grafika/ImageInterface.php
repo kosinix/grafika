@@ -16,60 +16,64 @@ interface ImageInterface
     public function blob($type);
 
     /**
-     * @param int $width
-     * @param int $height
+     * Create a blank image.
      *
-     * @return mixed
+     * @param int $width Width of image in pixels.
+     * @param int $height Height of image in pixels.
+     *
+     * @return ImageInterface Instance of image.
      */
     public static function createBlank($width = 1, $height = 1);
 
     /**
      * Create Image from core.
      *
-     * @param $core
+     * @param resource|\Imagick $core GD resource for GD editor or Imagick instance for Imagick editor
      *
-     * @return mixed
+     * @return ImageInterface Instance of image.
      */
     public static function createFromCore($core);
 
     /**
      * Create Image from image file.
      *
-     * @param $imageFile
+     * @param string $imageFile Path to image file.
      *
-     * @return mixed
+     * @return ImageInterface Instance of image.
      */
     public static function createFromFile($imageFile);
 
     /**
-     * @return mixed
+     * Get Image core.
+     *
+     * @return resource|\Imagick GD resource or Imagick instance
      */
     public function getCore();
 
     /**
-     * @return mixed
+     * @return int Height in pixels.
      */
     public function getHeight();
 
     /**
-     * @return mixed
+     * @return string File path to image if Image was created from an image file.
      */
     public function getImageFile();
 
     /**
-     * @return mixed
+     * @return string Type of image. See ImageType.
      */
     public function getType();
 
     /**
-     * @return mixed
+     * @return int Width in pixels.
      */
     public function getWidth();
 
     /**
      * Returns animated flag.
      *
-     * @return bool True if animated GIF.
+     * @return bool True if animated GIF or false otherwise.
      */
     public function isAnimated();
 

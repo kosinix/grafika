@@ -13,7 +13,7 @@ interface EditorInterface {
      * @param ImageInterface $image Instance of Image.
      * @param FilterInterface $filter Instance implementing the FilterInterface.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function apply( &$image, $filter );
 
@@ -28,7 +28,7 @@ interface EditorInterface {
      * @param int $offsetX Number of pixels to add to the X position of $image2.
      * @param int $offsetY Number of pixels to add to the Y position of $image2.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function blend(&$image1, $image2, $type='normal', $opacity = 1.0, $position = 'top-left', $offsetX = 0, $offsetY = 0 );
 
@@ -53,7 +53,7 @@ interface EditorInterface {
      * @param int $offsetX Number of pixels to add to the X position of the crop.
      * @param int $offsetY Number of pixels to add to the Y position of the crop.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function crop( &$image, $cropWidth, $cropHeight, $position = 'center', $offsetX = 0, $offsetY = 0 );
 
@@ -63,7 +63,7 @@ interface EditorInterface {
      * @param ImageInterface $image Instance of Image.
      * @param DrawingObjectInterface $drawingObject Instance of DrawingObject.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function draw( &$image, $drawingObject );
 
@@ -81,40 +81,40 @@ interface EditorInterface {
     /**
      * Fill entire image with color.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param Color $color An instance of Grafika\Color class.
      * @param int $x X-coordinate of start point.
      * @param int $y Y-coordinate of start point.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function fill( &$image, $color, $x = 0, $y = 0 );
 
     /**
      * Flatten if animated GIF. Do nothing otherwise.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function flatten( &$image );
 
     /**
      * Flip an image.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param string $mode The type of flip: 'h' for horizontal flip or 'v' for vertical.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function flip( &$image, $mode);
 
     /**
      * Free the image clearing resources associated with it.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function free( &$image );
 
@@ -128,116 +128,116 @@ interface EditorInterface {
     /**
      * Change the image opacity.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param float $opacity The opacity level where 1.0 is fully opaque and 0.0 is fully transparent.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function opacity( &$image, $opacity );
 
     /**
      * Open an image file and assign Image to first parameter.
      *
-     * @param ImageInterface $image
-     * @param string $imageFile
+     * @param ImageInterface $image Instance of Image.
+     * @param string $imageFile Filesystem path to image file.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function open( &$image, $imageFile );
     
     /**
      * Wrapper function for the resizeXXX family of functions. Resize an image to a given width, height and mode.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      * @param string $mode Resize mode. Possible values: "exact", "exactHeight", "exactWidth", "fill", "fit".
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function resize( &$image, $newWidth, $newHeight, $mode='fit' );
 
     /**
      * Resize image to exact dimensions ignoring aspect ratio. Useful if you want to force exact width and height.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function resizeExact( &$image, $newWidth, $newHeight );
 
     /**
      * Resize image to exact height. Width is auto calculated. Useful for creating row of images with the same height.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param int $newHeight Height in pixels.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function resizeExactHeight( &$image, $newHeight );
 
     /**
      * Resize image to exact width. Height is auto calculated. Useful for creating column of images with the same width.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param int $newWidth Width in pixels.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function resizeExactWidth( &$image, $newWidth );
 
     /**
      * Resize image to fill all the space in the given dimension. Excess parts are cropped.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function resizeFill( &$image, $newWidth, $newHeight );
 
     /**
      * Resize an image to fit within the given width and height. The re-sized image will not exceed the given dimension. Useful if you want to preserve the aspect ratio.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Width in pixels.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function resizeFit( &$image, $newWidth, $newHeight );
 
     /**
      * Rotate an image counter-clockwise.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param int $angle The angle in degrees.
      * @param Color|null $color The Color object containing the background color.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function rotate( &$image, $angle, $color = null );
 
     /**
      * Save the image to an image format.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param string $file File path where to save the image.
      * @param null|string $type Type of image. Can be null, "GIF", "PNG", or "JPEG". If null, an appropriate file type will be used.
      * @param null|string $quality Quality of image. Applies to JPEG only. Accepts number 0 - 100 where 0 is lowest and 100 is the highest quality. Or null for default.
      * @param bool $interlace Set to true for progressive JPEG. Applies to JPEG only.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      */
     public function save( $image, $file, $type = null, $quality = null, $interlace = false );
 
     /**
      * Write text to image.
      *
-     * @param ImageInterface $image
+     * @param ImageInterface $image Instance of Image.
      * @param string $text The text to be written.
      * @param int $size The font size. Defaults to 12.
      * @param int $x The distance from the left edge of the image to the left of the text. Defaults to 0.
@@ -246,7 +246,7 @@ interface EditorInterface {
      * @param string $font Full path to font file. If blank, will default to Liberation Sans font.
      * @param int $angle Angle of text from 0 - 359. Defaults to 0.
      *
-     * @return EditorInterface An instance of image editor.
+     * @return EditorInterface An instance of Editor.
      * @throws \Exception
      */
     public function text( &$image, $text, $size = 12, $x = 0, $y = 12, $color = null, $font = '', $angle = 0 );
