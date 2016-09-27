@@ -84,7 +84,7 @@ try {
 }</pre>
         <ul class="pager">
             <li class="prev"><a href="installation.php">Installation</a></li>
-            <li class="next"><a href="resizing.php">Resizing</a></li>
+            <li class="next"><a href="creating-images.php">Creating Images</a></li>
         </ul>
     </div>
 <?php include 'parts/sidebar.php'; ?>
