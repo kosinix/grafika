@@ -89,6 +89,7 @@ final class Image implements ImageInterface {
      */
     public function blob( $type = 'PNG' ) {
 
+        $type = strtoupper($type);
         if ( ImageType::GIF == $type ) {
 
             imagegif( $this->gd );
