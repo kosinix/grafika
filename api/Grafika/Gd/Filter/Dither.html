@@ -88,7 +88,7 @@
     
 
             <div class="description">
-            <p>Dither image using Floyd-Steinberg algorithm. Dithering will reduce the color to black and white and add noise.</p>                    </div>
+            <p>Dither image. Dithering will reduce the color to black and white and add noise.</p>                    </div>
     
     
     
@@ -101,7 +101,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>()
+                    <a href="#method___construct">__construct</a>(string $type = &#039;diffusion&#039;)
         
                                             <p>Dither an image.</p>                </div>
                 <div class="col-md-2"></div>
@@ -113,8 +113,7 @@
                 <div class="col-md-8 type">
                     <a href="#method_apply">apply</a>(<a href="../../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Apply filter.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -125,9 +124,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line         line 15</div>
+        <div class="location">at line         line 23</div>
         <code>                    
-    <strong>__construct</strong>()
+    <strong>__construct</strong>(string $type = &#039;diffusion&#039;)
         </code>
     </h3>
     <div class="details">
@@ -137,6 +136,16 @@
                     <div class="method-description">
                                     <p>Dither an image.</p>                                </div>
                 <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$type</td>
+                <td>Dithering algorithm to use. Options: diffusion, ordered. Defaults to diffusion.</td>
+            </tr>
+            </table>
+
             
             
             
@@ -146,7 +155,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_apply">
-        <div class="location">at line         line 25</div>
+        <div class="location">at line         line 37</div>
         <code>                    <a href="../../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
     <strong>apply</strong>(<a href="../../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
         </code>
@@ -155,6 +164,8 @@
             
     
 
+                    <div class="method-description">
+                                    <p>Apply filter.</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -177,6 +188,15 @@
     </table>
 
             
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>

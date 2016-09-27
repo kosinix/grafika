@@ -98,7 +98,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_apply">apply</a>(<a href="../Grafika/FilterInterface.html"><abbr title="Grafika\FilterInterface">FilterInterface</abbr></a> $filter)
+                    <a href="#method_apply">apply</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, <a href="../Grafika/FilterInterface.html"><abbr title="Grafika\FilterInterface">FilterInterface</abbr></a> $filter)
         
                                             <p>Apply a filter to the image. See Filters section for a list of available filters.</p>                </div>
                 <div class="col-md-2"></div>
@@ -108,9 +108,9 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_blank">blank</a>(int $width, int $height)
+                    <a href="#method_blend">blend</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image1, <a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image2, string $type = &#039;normal&#039;, float $opacity = 1.0, string $position = &#039;top-left&#039;, int $offsetX, int $offsetY)
         
-                                            <p>Create a blank image given width and height.</p>                </div>
+                                            <p>Blend two images together with the first image as the base and the second image on top. Supports several blend modes.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -128,7 +128,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_crop">crop</a>(int $cropWidth, int $cropHeight, string $position = &#039;center&#039;, int $offsetX, int $offsetY)
+                    <a href="#method_crop">crop</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $cropWidth, int $cropHeight, string $position = &#039;center&#039;, int $offsetX, int $offsetY)
         
                                             <p>Crop the image to the given dimension and position.</p>                </div>
                 <div class="col-md-2"></div>
@@ -138,7 +138,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_draw">draw</a>(<a href="../Grafika/DrawingObjectInterface.html"><abbr title="Grafika\DrawingObjectInterface">DrawingObjectInterface</abbr></a> $drawingObject)
+                    <a href="#method_draw">draw</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, <a href="../Grafika/DrawingObjectInterface.html"><abbr title="Grafika\DrawingObjectInterface">DrawingObjectInterface</abbr></a> $drawingObject)
         
                                             <p>Draw a DrawingObject on the image. See Drawing Objects section.</p>                </div>
                 <div class="col-md-2"></div>
@@ -158,7 +158,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_fill">fill</a>(<a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a> $color, int $x, int $y)
+                    <a href="#method_fill">fill</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, <a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a> $color, int $x, int $y)
         
                                             <p>Fill entire image with color.</p>                </div>
                 <div class="col-md-2"></div>
@@ -168,7 +168,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_flatten">flatten</a>()
+                    <a href="#method_flatten">flatten</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
         
                                             <p>Flatten if animated GIF. Do nothing otherwise.</p>                </div>
                 <div class="col-md-2"></div>
@@ -178,29 +178,19 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_flip">flip</a>(string $mode)
+                    <a href="#method_flip">flip</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, string $mode)
         
                                             <p>Flip an image.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_free">free</a>()
+                    <a href="#method_free">free</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
         
-                                            <p>Free the current image clearing resources associated with it.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getImage">getImage</a>(bool $byRef = false)
-        
-                                            <p>Get image instance.</p>                </div>
+                                            <p>Free the image clearing resources associated with it.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -218,7 +208,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_opacity">opacity</a>(float $opacity)
+                    <a href="#method_opacity">opacity</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, float $opacity)
         
                                             <p>Change the image opacity.</p>                </div>
                 <div class="col-md-2"></div>
@@ -228,29 +218,9 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_open">open</a>(mixed $target)
+                    <a href="#method_open">open</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, string $imageFile)
         
-                                            <p>Opens an image file for manipulation specified by $target.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <abbr title="Grafika\$this">$this</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_openImage">openImage</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
-        
-                                            <p>Open an image by passing an instance of Image.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <abbr title="Grafika\$this">$this</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_openFile">openFile</a>(string $file)
-        
-                                            <p>Open an image by passing a file system path.</p>                </div>
+                                            <p>Open an image file and assign Image to first parameter. Grafika officially supports JPEG, PNG, GIF, and animated GIF. In theory, Grafika can open and edit other image formats as long as they are supported by GD and Imagick but it is currently untested.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -258,17 +228,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_overlay">overlay</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>|string $overlay, string|int $xPos = &#039;center&#039;, string|int $yPos = &#039;center&#039;, null $width = null, null $height = null)
-        
-                                            <p>Overlay an image on top of the current image.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_resize">resize</a>(int $newWidth, int $newHeight, string $mode = &#039;fit&#039;)
+                    <a href="#method_resize">resize</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $newWidth, int $newHeight, string $mode = &#039;fit&#039;)
         
                                             <p>Wrapper function for the resizeXXX family of functions. Resize an image to a given width, height and mode.</p>                </div>
                 <div class="col-md-2"></div>
@@ -278,7 +238,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_resizeExact">resizeExact</a>(int $newWidth, int $newHeight)
+                    <a href="#method_resizeExact">resizeExact</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $newWidth, int $newHeight)
         
                                             <p>Resize image to exact dimensions ignoring aspect ratio. Useful if you want to force exact width and height.</p>                </div>
                 <div class="col-md-2"></div>
@@ -288,7 +248,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_resizeExactHeight">resizeExactHeight</a>(int $newHeight)
+                    <a href="#method_resizeExactHeight">resizeExactHeight</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $newHeight)
         
                                             <p>Resize image to exact height. Width is auto calculated. Useful for creating row of images with the same height.</p>                </div>
                 <div class="col-md-2"></div>
@@ -298,7 +258,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_resizeExactWidth">resizeExactWidth</a>(int $newWidth)
+                    <a href="#method_resizeExactWidth">resizeExactWidth</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $newWidth)
         
                                             <p>Resize image to exact width. Height is auto calculated. Useful for creating column of images with the same width.</p>                </div>
                 <div class="col-md-2"></div>
@@ -308,7 +268,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_resizeFill">resizeFill</a>(int $newWidth, int $newHeight)
+                    <a href="#method_resizeFill">resizeFill</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $newWidth, int $newHeight)
         
                                             <p>Resize image to fill all the space in the given dimension. Excess parts are cropped.</p>                </div>
                 <div class="col-md-2"></div>
@@ -318,7 +278,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_resizeFit">resizeFit</a>(int $newWidth, int $newHeight)
+                    <a href="#method_resizeFit">resizeFit</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $newWidth, int $newHeight)
         
                                             <p>Resize an image to fit within the given width and height. The re-sized image will not exceed the given dimension. Useful if you want to preserve the aspect ratio.</p>                </div>
                 <div class="col-md-2"></div>
@@ -328,7 +288,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_rotate">rotate</a>(int $angle, <a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a>|null $color = null)
+                    <a href="#method_rotate">rotate</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $angle, <a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a>|null $color = null)
         
                                             <p>Rotate an image counter-clockwise.</p>                </div>
                 <div class="col-md-2"></div>
@@ -338,19 +298,9 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_save">save</a>(string $file, null|string $type = null, null|string $quality = null, bool $interlace = false)
+                    <a href="#method_save">save</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, string $file, null|string $type = null, null|string $quality = null, bool $interlace = false, int $permission = 493)
         
                                             <p>Save the image to an image format.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_setImage">setImage</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
-        
-                                            <p>Set image instance.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -358,7 +308,7 @@
                     <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_text">text</a>(string $text, int $size = 12, int $x, int $y = 12, <a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a> $color = null, string $font = &#039;&#039;, int $angle)
+                    <a href="#method_text">text</a>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, string $text, int $size = 12, int $x, int $y = 12, <a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a> $color = null, string $font = &#039;&#039;, int $angle)
         
                                             <p>Write text to image.</p>                </div>
                 <div class="col-md-2"></div>
@@ -371,9 +321,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_apply">
-        <div class="location">at line         line 17</div>
+        <div class="location">at line         line 18</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>apply</strong>(<a href="../Grafika/FilterInterface.html"><abbr title="Grafika\FilterInterface">FilterInterface</abbr></a> $filter)
+    <strong>apply</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, <a href="../Grafika/FilterInterface.html"><abbr title="Grafika\FilterInterface">FilterInterface</abbr></a> $filter)
         </code>
     </h3>
     <div class="details">
@@ -387,9 +337,14 @@
 
                     <table class="table table-condensed">
                     <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
+                    <tr>
                 <td><a href="../Grafika/FilterInterface.html"><abbr title="Grafika\FilterInterface">FilterInterface</abbr></a></td>
                 <td>$filter</td>
-                <td></td>
+                <td>Instance implementing the FilterInterface.</td>
             </tr>
             </table>
 
@@ -399,7 +354,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -410,10 +365,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_blank">
-        <div class="location">at line         line 27</div>
+                    <h3 id="method_blend">
+        <div class="location">at line         line 33</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>blank</strong>(int $width, int $height)
+    <strong>blend</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image1, <a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image2, string $type = &#039;normal&#039;, float $opacity = 1.0, string $position = &#039;top-left&#039;, int $offsetX, int $offsetY)
         </code>
     </h3>
     <div class="details">
@@ -421,20 +376,45 @@
     
 
                     <div class="method-description">
-                                    <p>Create a blank image given width and height.</p>                                </div>
+                                    <p>Blend two images together with the first image as the base and the second image on top. Supports several blend modes.</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>int</td>
-                <td>$width</td>
-                <td>Width of image in pixels.</td>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image1</td>
+                <td>The base image.</td>
+            </tr>
+                    <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image2</td>
+                <td>The image placed on top of the base image.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$type</td>
+                <td>The blend mode. Can be: normal, multiply, overlay or screen.</td>
+            </tr>
+                    <tr>
+                <td>float</td>
+                <td>$opacity</td>
+                <td>The opacity of $image2. Possible values 0.0 to 1.0 where 0.0 is fully transparent and 1.0 is fully opaque. Defaults to 1.0.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$position</td>
+                <td>The position of $image2 on $image1. Possible values top-left, top-center, top-right, center-left, center, center-right, bottom-left, bottom-center, bottom-right and smart. Defaults to top-left.</td>
             </tr>
                     <tr>
                 <td>int</td>
-                <td>$height</td>
-                <td>Height of image in pixels.</td>
+                <td>$offsetX</td>
+                <td>Number of pixels to add to the X position of $image2.</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$offsetY</td>
+                <td>Number of pixels to add to the Y position of $image2.</td>
             </tr>
             </table>
 
@@ -444,7 +424,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -456,7 +436,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_compare">
-        <div class="location">at line         line 38</div>
+        <div class="location">at line         line 44</div>
         <code>                    int
     <strong>compare</strong>(string|<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image1, string|<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image2)
         </code>
@@ -510,9 +490,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_crop">
-        <div class="location">at line         line 51</div>
+        <div class="location">at line         line 58</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>crop</strong>(int $cropWidth, int $cropHeight, string $position = &#039;center&#039;, int $offsetX, int $offsetY)
+    <strong>crop</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $cropWidth, int $cropHeight, string $position = &#039;center&#039;, int $offsetX, int $offsetY)
         </code>
     </h3>
     <div class="details">
@@ -525,6 +505,11 @@
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
                     <tr>
                 <td>int</td>
                 <td>$cropWidth</td>
@@ -558,7 +543,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -570,9 +555,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_draw">
-        <div class="location">at line         line 60</div>
+        <div class="location">at line         line 68</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>draw</strong>(<a href="../Grafika/DrawingObjectInterface.html"><abbr title="Grafika\DrawingObjectInterface">DrawingObjectInterface</abbr></a> $drawingObject)
+    <strong>draw</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, <a href="../Grafika/DrawingObjectInterface.html"><abbr title="Grafika\DrawingObjectInterface">DrawingObjectInterface</abbr></a> $drawingObject)
         </code>
     </h3>
     <div class="details">
@@ -586,9 +571,14 @@
 
                     <table class="table table-condensed">
                     <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
+                    <tr>
                 <td><a href="../Grafika/DrawingObjectInterface.html"><abbr title="Grafika\DrawingObjectInterface">DrawingObjectInterface</abbr></a></td>
                 <td>$drawingObject</td>
-                <td></td>
+                <td>Instance of DrawingObject.</td>
             </tr>
             </table>
 
@@ -598,7 +588,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -610,7 +600,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_equal">
-        <div class="location">at line         line 71</div>
+        <div class="location">at line         line 79</div>
         <code>                    bool
     <strong>equal</strong>(string|<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image1, string|<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image2)
         </code>
@@ -664,9 +654,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fill">
-        <div class="location">at line         line 82</div>
+        <div class="location">at line         line 91</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>fill</strong>(<a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a> $color, int $x, int $y)
+    <strong>fill</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, <a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a> $color, int $x, int $y)
         </code>
     </h3>
     <div class="details">
@@ -679,6 +669,11 @@
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
                     <tr>
                 <td><a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a></td>
                 <td>$color</td>
@@ -702,7 +697,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -714,9 +709,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_flatten">
-        <div class="location">at line         line 89</div>
+        <div class="location">at line         line 100</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>flatten</strong>()
+    <strong>flatten</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
         </code>
     </h3>
     <div class="details">
@@ -726,13 +721,23 @@
                     <div class="method-description">
                                     <p>Flatten if animated GIF. Do nothing otherwise.</p>                                </div>
                 <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
+            </table>
+
             
                             <h4>Return Value</h4>
 
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -744,9 +749,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_flip">
-        <div class="location">at line         line 98</div>
+        <div class="location">at line         line 110</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>flip</strong>(string $mode)
+    <strong>flip</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, string $mode)
         </code>
     </h3>
     <div class="details">
@@ -760,6 +765,11 @@
 
                     <table class="table table-condensed">
                     <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
+                    <tr>
                 <td>string</td>
                 <td>$mode</td>
                 <td>The type of flip: 'h' for horizontal flip or 'v' for vertical.</td>
@@ -772,7 +782,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -784,9 +794,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_free">
-        <div class="location">at line         line 103</div>
-        <code>                    
-    <strong>free</strong>()
+        <div class="location">at line         line 119</div>
+        <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
+    <strong>free</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
         </code>
     </h3>
     <div class="details">
@@ -794,36 +804,15 @@
     
 
                     <div class="method-description">
-                                    <p>Free the current image clearing resources associated with it.</p>                                </div>
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getImage">
-        <div class="location">at line         line 112</div>
-        <code>                    <a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
-    <strong>getImage</strong>(bool $byRef = false)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Get image instance.</p>                                </div>
+                                    <p>Free the image clearing resources associated with it.</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>bool</td>
-                <td>$byRef</td>
-                <td>True to return image by reference or false to return a copy. Defaults to copy.</td>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
             </tr>
             </table>
 
@@ -832,8 +821,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
-            <td>An instance of image.</td>
+            <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -845,7 +834,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isAvailable">
-        <div class="location">at line         line 119</div>
+        <div class="location">at line         line 126</div>
         <code>                    bool
     <strong>isAvailable</strong>()
         </code>
@@ -875,9 +864,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_opacity">
-        <div class="location">at line         line 128</div>
+        <div class="location">at line         line 136</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>opacity</strong>(float $opacity)
+    <strong>opacity</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, float $opacity)
         </code>
     </h3>
     <div class="details">
@@ -891,6 +880,11 @@
 
                     <table class="table table-condensed">
                     <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
+                    <tr>
                 <td>float</td>
                 <td>$opacity</td>
                 <td>The opacity level where 1.0 is fully opaque and 0.0 is fully transparent.</td>
@@ -903,7 +897,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -915,49 +909,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_open">
-        <div class="location">at line         line 137</div>
-        <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>open</strong>(mixed $target)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Opens an image file for manipulation specified by $target.</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>mixed</td>
-                <td>$target</td>
-                <td>Can be an instance of Image or a string containing file system path to the image.</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_openImage">
         <div class="location">at line         line 146</div>
-        <code>                    <abbr title="Grafika\$this">$this</abbr>
-    <strong>openImage</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
+        <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
+    <strong>open</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, string $imageFile)
         </code>
     </h3>
     <div class="details">
@@ -965,7 +919,7 @@
     
 
                     <div class="method-description">
-                                    <p>Open an image by passing an instance of Image.</p>                                </div>
+                                    <p>Open an image file and assign Image to first parameter. Grafika officially supports JPEG, PNG, GIF, and animated GIF. In theory, Grafika can open and edit other image formats as long as they are supported by GD and Imagick but it is currently untested.</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -973,116 +927,12 @@
                     <tr>
                 <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
                 <td>$image</td>
-                <td></td>
+                <td>Instance of Image.</td>
             </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="Grafika\$this">$this</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_openFile">
-        <div class="location">at line         line 156</div>
-        <code>                    <abbr title="Grafika\$this">$this</abbr>
-    <strong>openFile</strong>(string $file)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Open an image by passing a file system path.</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
                     <tr>
                 <td>string</td>
-                <td>$file</td>
-                <td>A full path to the image in the file system.</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="Grafika\$this">$this</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_overlay">
-        <div class="location">at line         line 169</div>
-        <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>overlay</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>|string $overlay, string|int $xPos = &#039;center&#039;, string|int $yPos = &#039;center&#039;, null $width = null, null $height = null)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Overlay an image on top of the current image.</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>|string</td>
-                <td>$overlay</td>
-                <td>Can be a string containing a file path of the image to overlay or an Image object.</td>
-            </tr>
-                    <tr>
-                <td>string|int</td>
-                <td>$xPos</td>
-                <td>Horizontal position of image. Can be 'left','center','right' or integer number. Defaults to 'center'.</td>
-            </tr>
-                    <tr>
-                <td>string|int</td>
-                <td>$yPos</td>
-                <td>Vertical position of image. Can be 'top', 'center','bottom' or integer number. Defaults to 'center'.</td>
-            </tr>
-                    <tr>
-                <td>null</td>
-                <td>$width</td>
-                <td>Width of overlay in pixels.</td>
-            </tr>
-                    <tr>
-                <td>null</td>
-                <td>$height</td>
-                <td>Height of overlay in pixels.</td>
+                <td>$imageFile</td>
+                <td>File system path to image file.</td>
             </tr>
             </table>
 
@@ -1092,7 +942,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -1104,9 +954,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resize">
-        <div class="location">at line         line 180</div>
+        <div class="location">at line         line 158</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>resize</strong>(int $newWidth, int $newHeight, string $mode = &#039;fit&#039;)
+    <strong>resize</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $newWidth, int $newHeight, string $mode = &#039;fit&#039;)
         </code>
     </h3>
     <div class="details">
@@ -1119,6 +969,11 @@
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
                     <tr>
                 <td>int</td>
                 <td>$newWidth</td>
@@ -1142,7 +997,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -1154,9 +1009,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeExact">
-        <div class="location">at line         line 190</div>
+        <div class="location">at line         line 169</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>resizeExact</strong>(int $newWidth, int $newHeight)
+    <strong>resizeExact</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $newWidth, int $newHeight)
         </code>
     </h3>
     <div class="details">
@@ -1170,6 +1025,11 @@
 
                     <table class="table table-condensed">
                     <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
+                    <tr>
                 <td>int</td>
                 <td>$newWidth</td>
                 <td>Width in pixels.</td>
@@ -1187,7 +1047,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -1199,9 +1059,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeExactHeight">
-        <div class="location">at line         line 199</div>
+        <div class="location">at line         line 179</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>resizeExactHeight</strong>(int $newHeight)
+    <strong>resizeExactHeight</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $newHeight)
         </code>
     </h3>
     <div class="details">
@@ -1215,6 +1075,11 @@
 
                     <table class="table table-condensed">
                     <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
+                    <tr>
                 <td>int</td>
                 <td>$newHeight</td>
                 <td>Height in pixels.</td>
@@ -1227,7 +1092,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -1239,9 +1104,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeExactWidth">
-        <div class="location">at line         line 208</div>
+        <div class="location">at line         line 189</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>resizeExactWidth</strong>(int $newWidth)
+    <strong>resizeExactWidth</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $newWidth)
         </code>
     </h3>
     <div class="details">
@@ -1255,6 +1120,11 @@
 
                     <table class="table table-condensed">
                     <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
+                    <tr>
                 <td>int</td>
                 <td>$newWidth</td>
                 <td>Width in pixels.</td>
@@ -1267,7 +1137,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -1279,9 +1149,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeFill">
-        <div class="location">at line         line 218</div>
+        <div class="location">at line         line 200</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>resizeFill</strong>(int $newWidth, int $newHeight)
+    <strong>resizeFill</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $newWidth, int $newHeight)
         </code>
     </h3>
     <div class="details">
@@ -1294,6 +1164,11 @@
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
                     <tr>
                 <td>int</td>
                 <td>$newWidth</td>
@@ -1312,7 +1187,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -1324,9 +1199,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resizeFit">
-        <div class="location">at line         line 228</div>
+        <div class="location">at line         line 211</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>resizeFit</strong>(int $newWidth, int $newHeight)
+    <strong>resizeFit</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $newWidth, int $newHeight)
         </code>
     </h3>
     <div class="details">
@@ -1339,6 +1214,11 @@
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
                     <tr>
                 <td>int</td>
                 <td>$newWidth</td>
@@ -1357,7 +1237,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -1369,9 +1249,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_rotate">
-        <div class="location">at line         line 238</div>
+        <div class="location">at line         line 222</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>rotate</strong>(int $angle, <a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a>|null $color = null)
+    <strong>rotate</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, int $angle, <a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a>|null $color = null)
         </code>
     </h3>
     <div class="details">
@@ -1384,6 +1264,11 @@
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
                     <tr>
                 <td>int</td>
                 <td>$angle</td>
@@ -1402,7 +1287,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -1414,9 +1299,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_save">
-        <div class="location">at line         line 250</div>
+        <div class="location">at line         line 236</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>save</strong>(string $file, null|string $type = null, null|string $quality = null, bool $interlace = false)
+    <strong>save</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, string $file, null|string $type = null, null|string $quality = null, bool $interlace = false, int $permission = 493)
         </code>
     </h3>
     <div class="details">
@@ -1430,6 +1315,11 @@
 
                     <table class="table table-condensed">
                     <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image. Saving the image to a different format will have NO effect on the Image instance.</td>
+            </tr>
+                    <tr>
                 <td>string</td>
                 <td>$file</td>
                 <td>File path where to save the image.</td>
@@ -1437,17 +1327,22 @@
                     <tr>
                 <td>null|string</td>
                 <td>$type</td>
-                <td>Type of image. Can be null, "GIF", "PNG", or "JPEG". If null, an appropriate file type will be used.</td>
+                <td>The image format to use. Can be null, "gif", "png", or "jpeg". If null, an appropriate format will be chosen based on the output file name in $file.</td>
             </tr>
                     <tr>
                 <td>null|string</td>
                 <td>$quality</td>
-                <td>Quality of image. Applies to JPEG only. Accepts number 0 - 100 where 0 is lowest and 100 is the highest quality. Or null for default.</td>
+                <td>Quality of image. Applies to JPEG only. Accepts number 0 - 100 where 0 is lowest and 100 is the highest quality. Or null for default. Default quality if null is 75.</td>
             </tr>
                     <tr>
                 <td>bool</td>
                 <td>$interlace</td>
-                <td>Set to true for progressive JPEG. Applies to JPEG only.</td>
+                <td>Set to true for progressive JPEG. Applies to JPEG only. Default false.</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$permission</td>
+                <td>Default permission when creating non-existing target directory. Default is 0755. Note: Its using PHP's octal notation so you must prepend numbers with zero (0).</td>
             </tr>
             </table>
 
@@ -1457,7 +1352,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
@@ -1468,41 +1363,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_setImage">
-        <div class="location">at line         line 257</div>
-        <code>                    
-    <strong>setImage</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Set image instance.</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
-                <td>$image</td>
-                <td>An instance of a class implementing Grafika/ImageInterface.</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_text">
-        <div class="location">at line         line 273</div>
+        <div class="location">at line         line 253</div>
         <code>                    <a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a>
-    <strong>text</strong>(string $text, int $size = 12, int $x, int $y = 12, <a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a> $color = null, string $font = &#039;&#039;, int $angle)
+    <strong>text</strong>(<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a> $image, string $text, int $size = 12, int $x, int $y = 12, <a href="../Grafika/Color.html"><abbr title="Grafika\Color">Color</abbr></a> $color = null, string $font = &#039;&#039;, int $angle)
         </code>
     </h3>
     <div class="details">
@@ -1515,6 +1379,11 @@
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+                <td>$image</td>
+                <td>Instance of Image.</td>
+            </tr>
                     <tr>
                 <td>string</td>
                 <td>$text</td>
@@ -1558,7 +1427,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../Grafika/EditorInterface.html"><abbr title="Grafika\EditorInterface">EditorInterface</abbr></a></td>
-            <td>An instance of image editor.</td>
+            <td>An instance of Editor.</td>
         </tr>
     </table>
 
