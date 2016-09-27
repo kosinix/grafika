@@ -24,14 +24,14 @@ class PhpDocParser
                 if($param['byref']) $str.='&';
                 $str .= $param['name'];
 
-                if($param['default']!==null){
+                if($param['default']!=='__no_def__'){
                     $str .= ' = ' . $this->formatValue($param['default']);
                 }
                 $tmp[] = $str;
             }
             $string .= implode(', ', $tmp);
         }
-        $string .= ' ) ';
+        $string .= ' ): ';
         if(isset($methodInfo['return']['type'])) {
             $string .= $methodInfo['return']['type'].' ';
         } else {
@@ -58,6 +58,8 @@ class PhpDocParser
 
             if($param->isOptional()) {
                 $docComment['param'][$param->getName()]['default'] = $param->getDefaultValue();
+            } else {
+                $docComment['param'][$param->getName()]['default'] = '__no_def__';
             }
         }
         return $docComment;
