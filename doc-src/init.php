@@ -2,8 +2,6 @@
 
 $root = realpath(__DIR__.'/../');
 require_once $root.'/src/autoloader.php'; // Grafika
-require_once $root.'/doc-src/classes/DocBlock.php';
-require_once $root.'/doc-src/classes/Documentation.php';
 require_once $root.'/doc-src/classes/PhpDocParser.php';
 $needle = 'doc-src/';
 $haystack = $_SERVER['SCRIPT_NAME'];
