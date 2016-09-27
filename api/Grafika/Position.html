@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>Grafika\Position | API</title>
+
+            <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/sami.css">
+        <script src="../js/jquery-1.11.1.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/typeahead.min.js"></script>
+        <script src="../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:Grafika_Position" data-root-path="../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <form id="search-form" action="../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../index.html">API</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../classes.html">Classes</a></li>
+                                            <li><a href="../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../interfaces.html">Interfaces</a></li>
+                    <li><a href="../traits.html">Traits</a></li>
+                    <li><a href="../doc-index.html">Index</a></li>
+                    <li><a href="../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                                                            <li><a href="../Grafika.html">Grafika</a></li>
+    
+                <li>Position</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            Position
+                
+        </h1>
+    </div>
+
+    <p>    class
+    <strong>Position</strong>
+</p>
+
+        
+    
+
+            <div class="description">
+            <p>Hold and computes position of objects added to canvas.</p>                    </div>
+    
+    
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>TOP_LEFT</td>
+                <td class="last">
+                    <p><em>Top left of the canvas.</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TOP_CENTER</td>
+                <td class="last">
+                    <p><em>Top center of the canvas.</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TOP_RIGHT</td>
+                <td class="last">
+                    <p><em>Top right of the canvas.</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>CENTER_LEFT</td>
+                <td class="last">
+                    <p><em>Center left of the canvas.</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>CENTER</td>
+                <td class="last">
+                    <p><em>Center of the canvas.</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>CENTER_RIGHT</td>
+                <td class="last">
+                    <p><em>Center right of the canvas.</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>BOTTOM_LEFT</td>
+                <td class="last">
+                    <p><em>Center left of the canvas.</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>BOTTOM_CENTER</td>
+                <td class="last">
+                    <p><em>Bottom center of the canvas.</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>BOTTOM_RIGHT</td>
+                <td class="last">
+                    <p><em>Bottom right of the canvas.</em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>(string $position = &#039;center&#039;, int $offsetX, int $offsetY)
+        
+                                            <p>Position constructor.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getXY">getXY</a>(int $canvasWidth, int $canvasHeight, int $imageWidth, int $imageHeight)
+        
+                                            <p>Translate the textual position + offsets into x,y values.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getText">getText</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getOffsetY">getOffsetY</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getOffsetX">getOffsetX</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at line         line 69</div>
+        <code>                    
+    <strong>__construct</strong>(string $position = &#039;center&#039;, int $offsetX, int $offsetY)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Position constructor.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$position</td>
+                <td>Defaults to center.</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$offsetX</td>
+                <td>Defaults to 0.</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$offsetY</td>
+                <td>Defaults to 0.</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getXY">
+        <div class="location">at line         line 86</div>
+        <code>                    array
+    <strong>getXY</strong>(int $canvasWidth, int $canvasHeight, int $imageWidth, int $imageHeight)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Translate the textual position + offsets into x,y values.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$canvasWidth</td>
+                <td>Width of canvas.</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$canvasHeight</td>
+                <td>Height of canvas.</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$imageWidth</td>
+                <td>Width of image/object added.</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$imageHeight</td>
+                <td>Height of image/object added.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>Array of X and Y coordinates: array($x, $y).</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td>When invalid position.</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getText">
+        <div class="location">at line         line 127</div>
+        <code>                    string
+    <strong>getText</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getOffsetY">
+        <div class="location">at line         line 134</div>
+        <code>                    int
+    <strong>getOffsetY</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getOffsetX">
+        <div class="location">at line         line 141</div>
+        <code>                    int
+    <strong>getOffsetX</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>

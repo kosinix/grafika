@@ -10,12 +10,12 @@
         <img src="images/sample.gif" alt="">
 
         <p>Code:</p>
-<pre><code>use Grafika\Grafika; // Import package
+<pre><code>use Grafika\Grafika;
 
-$editor = Grafika::createEditor(); // Create the best available editor
-$editor->open('animated.gif');
-$editor->resizeFit(600, 310);
-$editor->save('output.gif');</code></pre>
+$editor = Grafika::createEditor();
+$editor->open( $image, 'animated.gif' );
+$editor->resizeFit( $image, 600, 310 );
+$editor->save( $image, 'output.gif' );</code></pre>
 
         <p>Output:</p>
         <img src="images/testResizeFitEnlarge.gif" alt="">
@@ -24,12 +24,12 @@ $editor->save('output.gif');</code></pre>
         <p>Flattening an animated GIF will remove its animation and convert to just a regular GIF.</p>
 
         <p>Code:</p>
-<pre><code>use Grafika\Grafika; // Import package
+<pre><code>use Grafika\Grafika;
 
-$editor = Grafika::createEditor(); // Create the best available editor
-$editor->open('animated.gif');
-$editor->flatten();
-$editor->save('output.gif');</code></pre>
+$editor = Grafika::createEditor();
+$editor->open( $image, 'animated.gif' );
+$editor->flatten( $image );
+$editor->save( $image, 'output.gif' );</code></pre>
 
         <p>Output:</p>
         <p><img src="images/testFlattenAnimatedGif.gif" alt=""></p>

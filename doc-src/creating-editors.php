@@ -68,7 +68,7 @@ try {
 }</pre>
         <p>However, you might not need the code above as GD is mostly available. You can just create a GD editor directly.</p>
         <h3>Change Editor Order Globally</h3>
-        <p>The previous code will only change the order of editor evaluation one time for that function call. Sometimes it is useful to change the order of evaluation globally. For example if you prefer GD to be use when creating drawing objects or filters.</p>
+        <p>The previous code will only change the order of editor evaluation one time for that function call. Sometimes it is useful to change the order of evaluation globally. For example if you prefer to use GD when creating drawing objects or filters. Below, all succeeding function calls will use the new order of evaluation:</p>
         <pre><code></code>use Grafika\Grafika; // Import package
 
 try {
@@ -84,7 +84,7 @@ try {
 }</pre>
         <ul class="pager">
             <li class="prev"><a href="installation.php">Installation</a></li>
-            <li class="next"><a href="resizing.php">Resizing</a></li>
+            <li class="next"><a href="creating-images.php">Creating Images</a></li>
         </ul>
     </div>
 <?php include 'parts/sidebar.php'; ?>

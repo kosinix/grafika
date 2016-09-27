@@ -9,36 +9,36 @@
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" media="screen">
 </head>
 <body>
-<button id="sidebar-show" class="sidebar-show"></button><div id="content" class="content">
-    <h1>CubicBezier</h1>
-    <p>
-Creates a cubic bezier. Cubic bezier has 2 control points.</p>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>CubicBezier</h1>
 
-    <h5>Parameters</h5>
-            <div class="params">
-            
-                <h6>point1</h6>
+        <p>Creates a cubic bezier. Cubic bezier has 2 control points.</p>
 
-                <p> Array of X and Y value for start point.</p>
-            
-                <h6>control1</h6>
+        <h5>Parameters</h5>
+                    <div class="params">
+                
+                    <h6>point1</h6>
 
-                <p> Array of X and Y value for control point 1.</p>
-            
-                <h6>control2</h6>
+                    <p>Array of X and Y value for start point.</p>
+                
+                    <h6>control1</h6>
 
-                <p> Array of X and Y value for control point 2.</p>
-            
-                <h6>point2</h6>
+                    <p>Array of X and Y value for control point 1.</p>
+                
+                    <h6>control2</h6>
 
-                <p> Array of X and Y value for end point.</p>
-            
-                <h6>color</h6>
+                    <p>Array of X and Y value for control point 2.</p>
+                
+                    <h6>point2</h6>
 
-                <p> Color of the curve. Accepts hex string or a Color object. Defaults to black.</p>
-                    </div>
-    
-    <h5>Examples</h5>
+                    <p>Array of X and Y value for end point.</p>
+                
+                    <h6>color</h6>
+
+                    <p>Color of the curve. Accepts hex string or a Color object. Defaults to black.</p>
+                            </div>
+        
+        <h5>Examples</h5>
     <p>Detect and create based on available editor:</p>
     <pre><code>use Grafika\Grafika;
 use Grafika\Gd\DrawingObject\CubicBezier as GdCubicBezier;
@@ -52,7 +52,7 @@ if('Imagick'===$editorName){
 } else if ('Gd'===$editorName) {
     $drawingObject = new GdCubicBezier(array(42, 230), array(230, 237), array(42, 45), array(230, 43), '#000000');
 }
-$editor->draw( $drawingObject );
+$editor->draw( $image, $drawingObject );
 </code></pre>
 
     <p>Or let Grafika do it automatically using createDrawingObject:</p>
@@ -61,7 +61,7 @@ $editor->draw( $drawingObject );
 //...
 
 $drawingObject = Grafika::createDrawingObject('CubicBezier', array(42, 230), array(230, 237), array(42, 45), array(230, 43), '#000000');
-$editor->draw( $drawingObject ); // Draw on an image </code></pre>
+$editor->draw( $image, $drawingObject ); // Draw on an image </code></pre>
     <p>The result of the above code:</p>
     <p><img src="../images/testCubicBezier.jpg" alt="testCubicBezier"></p>
 </div>
@@ -74,12 +74,14 @@ $editor->draw( $drawingObject ); // Draw on an image </code></pre>
                     <li><a href="../index.html">What is Grafika?</a></li>
                     <li><a href="../requirements.html">Requirements</a></li>
                     <li><a href="../installation.html">Installation</a></li>
+                    <li><a href="../migration1x.html">Migration from 1.x</a></li>
                 </ul>
             </li>
             <li>Examples</li>
             <li>
                 <ul>
                     <li><a href="../creating-editors.html">Creating Editors</a></li>
+                    <li><a href="../creating-images.html">Creating Images</a></li>
                     <li><a href="../resizing.html">Resizing</a></li>
                     <li><a href="../compare-images.html">Compare Images</a></li>
                     <li><a href="../smart-crop.html">Smart Crop</a></li>
@@ -90,7 +92,7 @@ $editor->draw( $drawingObject ); // Draw on an image </code></pre>
             <li>
                 <ul>
                     <li><a href="../editor/apply.html">apply</a></li>
-                    <li><a href="../editor/blank.html">blank</a></li>
+                    <li><a href="../editor/blend.html">blend</a></li>
                     <li><a href="../editor/compare.html">compare</a></li>
                     <li><a href="../editor/crop.html">crop</a></li>
                     <li><a href="../editor/draw.html">draw</a></li>
@@ -99,11 +101,9 @@ $editor->draw( $drawingObject ); // Draw on an image </code></pre>
                     <li><a href="../editor/flatten.html">flatten</a></li>
                     <li><a href="../editor/flip.html">flip</a></li>
                     <li><a href="../editor/free.html">free</a></li>
-                    <li><a href="../editor/getImage.html">getImage</a></li>
                     <li><a href="../editor/isAvailable.html">isAvailable</a></li>
                     <li><a href="../editor/opacity.html">opacity</a></li>
                     <li><a href="../editor/open.html">open</a></li>
-                    <li><a href="../editor/overlay.html">overlay</a></li>
                     <li><a href="../editor/resize.html">resize</a></li>
                     <li><a href="../editor/resizeExact.html">resizeExact</a></li>
                     <li><a href="../editor/resizeExactHeight.html">resizeExactHeight</a></li>
@@ -112,8 +112,19 @@ $editor->draw( $drawingObject ); // Draw on an image </code></pre>
                     <li><a href="../editor/resizeFit.html">resizeFit</a></li>
                     <li><a href="../editor/rotate.html">rotate</a></li>
                     <li><a href="../editor/save.html">save</a></li>
-                    <li><a href="../editor/setImage.html">setImage</a></li>
                     <li><a href="../editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Image Functions</li>
+            <li>
+                <ul>
+                    <li><a href="../image/blob.html">blob</a></li>
+                    <li><a href="../image/getCore.html">getCore</a></li>
+                    <li><a href="../image/getHeight.html">getHeight</a></li>
+                    <li><a href="../image/getImageFile.html">getImageFile</a></li>
+                    <li><a href="../image/getType.html">getType</a></li>
+                    <li><a href="../image/getWidth.html">getWidth</a></li>
+                    <li><a href="../image/isAnimated.html">isAnimated</a></li>
                 </ul>
             </li>
             <li>Filters</li>

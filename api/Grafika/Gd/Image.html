@@ -112,64 +112,42 @@
                 <div class="col-md-8 type">
                     <a href="#method___clone">__clone</a>()
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Method called when 'clone' keyword is used.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;mixed
+                    
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_createFromFile">createFromFile</a>($imageFile)
+                    <a href="#method_blob">blob</a>(string|<a href="../../Grafika/ImageType.html"><abbr title="Grafika\ImageType">ImageType</abbr></a> $type = &#039;PNG&#039;)
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Output a binary raw dump of an image in a specified format.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;<a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
+                    static&nbsp;<a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_createJpeg">createJpeg</a>(string $imageFile)
-        <small><sup><span class="label label-danger">deprecated</span></sup></small>
-                                            <p>Load a JPEG image.</p>                </div>
+                    <a href="#method_createFromFile">createFromFile</a>(string $imageFile)
+        
+                                            <p>Create Image from image file.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;<a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
+                    static&nbsp;<a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_createPng">createPng</a>(string $imageFile)
-        <small><sup><span class="label label-danger">deprecated</span></sup></small>
-                                            <p>Load a PNG image.</p>                </div>
+                    <a href="#method_createFromCore">createFromCore</a>(resource $gd)
+        
+                                            <p>Create an Image from a GD resource. The file type defaults to unknown.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;<a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_createGif">createGif</a>(string $imageFile)
-        <small><sup><span class="label label-danger">deprecated</span></sup></small>
-                                            <p>Load a GIF image.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    static&nbsp;<a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_createWbmp">createWbmp</a>(string $imageFile)
-        <small><sup><span class="label label-danger">deprecated</span></sup></small>
-                                            <p>Load a WBMP image.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    static&nbsp;mixed
+                    static&nbsp;<a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_createBlank">createBlank</a>(int $width = 1, int $height = 1)
@@ -185,16 +163,6 @@
                     <a href="#method_alphaBlendingMode">alphaBlendingMode</a>(bool $flag)
         
                                             <p>Set the blending mode for an image. Allows transparent overlays on top of an image.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_flatten">flatten</a>()
-        
-                                            <p>Flatten if animated GIF. Do nothing otherwise.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -219,7 +187,7 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    resource|Imagick
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getCore">getCore</a>()
@@ -229,7 +197,7 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getImageFile">getImageFile</a>()
@@ -239,7 +207,7 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    int
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getWidth">getWidth</a>()
@@ -249,7 +217,7 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    int
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getHeight">getHeight</a>()
@@ -259,7 +227,7 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getType">getType</a>()
@@ -277,6 +245,16 @@
                                             <p>Get blocks.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_histogram">histogram</a>(array|null $slice = null)
+        
+                                            <p>Get histogram from an entire image or its sub-region.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -285,7 +263,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line         line 61</div>
+        <div class="location">at line         line 60</div>
         <code>                    
     <strong>__construct</strong>(resource $gd, string $imageFile, int $width, int $height, string $type, string $blocks = &#039;&#039;, bool $animated = false)
         </code>
@@ -346,7 +324,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method___clone">
-        <div class="location">at line         line 71</div>
+        <div class="location">at line         line 73</div>
         <code>                    
     <strong>__clone</strong>()
         </code>
@@ -355,9 +333,51 @@
             
     
 
+                    <div class="method-description">
+                                    <p>Method called when 'clone' keyword is used.</p>                                </div>
                 <div class="tags">
             
             
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_blob">
+        <div class="location">at line         line 90</div>
+        <code>                    
+    <strong>blob</strong>(string|<a href="../../Grafika/ImageType.html"><abbr title="Grafika\ImageType">ImageType</abbr></a> $type = &#039;PNG&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Output a binary raw dump of an image in a specified format.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string|<a href="../../Grafika/ImageType.html"><abbr title="Grafika\ImageType">ImageType</abbr></a></td>
+                <td>$type</td>
+                <td>Image format of the dump. See Grafika\ImageType for supported formats.</td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td>When unsupported type.</td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
@@ -365,23 +385,25 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createFromFile">
-        <div class="location">at line         line 87</div>
-        <code>        static            mixed
-    <strong>createFromFile</strong>($imageFile)
+        <div class="location">at line         line 122</div>
+        <code>        static            <a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
+    <strong>createFromFile</strong>(string $imageFile)
         </code>
     </h3>
     <div class="details">
             
     
 
+                    <div class="method-description">
+                                    <p>Create Image from image file.</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$imageFile</td>
-                <td></td>
+                <td>Path to image file.</td>
             </tr>
             </table>
 
@@ -390,8 +412,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
-            <td></td>
+            <td><a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+            <td>Instance of image.</td>
         </tr>
     </table>
 
@@ -411,33 +433,26 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_createJpeg">
-        <div class="location">at line         line 124</div>
-        <code>        static            <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
-    <strong>createJpeg</strong>(string $imageFile)
-        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
+                    <h3 id="method_createFromCore">
+        <div class="location">at line         line 156</div>
+        <code>        static            <a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
+    <strong>createFromCore</strong>(resource $gd)
+        </code>
     </h3>
     <div class="details">
             
-            <p>
-                <small><sup><span class="label label-danger">deprecated</span></sup></small>
-                            <tr>
-                    <td>TODO:</td>
-                    <td>Make function private. Use createFromFile instead.</td>
-                </tr>
-                    </p>
     
 
                     <div class="method-description">
-                                    <p>Load a JPEG image.</p>                                </div>
+                                    <p>Create an Image from a GD resource. The file type defaults to unknown.</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>string</td>
-                <td>$imageFile</td>
-                <td>File path to image.</td>
+                <td>resource</td>
+                <td>$gd</td>
+                <td>GD resource.</td>
             </tr>
             </table>
 
@@ -446,189 +461,12 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td><a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a></td>
-            <td></td>
+            <td><a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+            <td>Instance of image.</td>
         </tr>
     </table>
 
             
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_createPng">
-        <div class="location">at line         line 144</div>
-        <code>        static            <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
-    <strong>createPng</strong>(string $imageFile)
-        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
-    </h3>
-    <div class="details">
-            
-            <p>
-                <small><sup><span class="label label-danger">deprecated</span></sup></small>
-                            <tr>
-                    <td>TODO:</td>
-                    <td>Make function private. Use createFromFile instead.</td>
-                </tr>
-                    </p>
-    
-
-                    <div class="method-description">
-                                    <p>Load a PNG image.</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$imageFile</td>
-                <td>File path to image.</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_createGif">
-        <div class="location">at line         line 167</div>
-        <code>        static            <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
-    <strong>createGif</strong>(string $imageFile)
-        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
-    </h3>
-    <div class="details">
-            
-            <p>
-                <small><sup><span class="label label-danger">deprecated</span></sup></small>
-                            <tr>
-                    <td>TODO:</td>
-                    <td>Make function private. Use createFromFile instead.</td>
-                </tr>
-                    </p>
-    
-
-                    <div class="method-description">
-                                    <p>Load a GIF image.</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$imageFile</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_createWbmp">
-        <div class="location">at line         line 202</div>
-        <code>        static            <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
-    <strong>createWbmp</strong>(string $imageFile)
-        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
-    </h3>
-    <div class="details">
-            
-            <p>
-                <small><sup><span class="label label-danger">deprecated</span></sup></small>
-                            <tr>
-                    <td>TODO:</td>
-                    <td>Make function private. Use createFromFile instead.</td>
-                </tr>
-                    </p>
-    
-
-                    <div class="method-description">
-                                    <p>Load a WBMP image.</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$imageFile</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
-                <td></td>
-            </tr>
-            </table>
-
             
                     </div>
     </div>
@@ -636,8 +474,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createBlank">
-        <div class="location">at line         line 220</div>
-        <code>        static            mixed
+        <div class="location">at line         line 168</div>
+        <code>        static            <a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
     <strong>createBlank</strong>(int $width = 1, int $height = 1)
         </code>
     </h3>
@@ -654,12 +492,12 @@
                     <tr>
                 <td>int</td>
                 <td>$width</td>
-                <td></td>
+                <td>Width of image in pixels.</td>
             </tr>
                     <tr>
                 <td>int</td>
                 <td>$height</td>
-                <td></td>
+                <td>Height of image in pixels.</td>
             </tr>
             </table>
 
@@ -668,8 +506,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
-            <td></td>
+            <td><a href="../../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+            <td>Instance of image.</td>
         </tr>
     </table>
 
@@ -681,7 +519,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_alphaBlendingMode">
-        <div class="location">at line         line 232</div>
+        <div class="location">at line         line 180</div>
         <code>                    <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
     <strong>alphaBlendingMode</strong>(bool $flag)
         </code>
@@ -720,29 +558,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_flatten">
-        <div class="location">at line         line 242</div>
-        <code>                    
-    <strong>flatten</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Flatten if animated GIF. Do nothing otherwise.</p>                                </div>
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_fullAlphaMode">
-        <div class="location">at line         line 260</div>
+        <div class="location">at line         line 192</div>
         <code>                    <a href="../../Grafika/Gd/Image.html"><abbr title="Grafika\Gd\Image">Image</abbr></a>
     <strong>fullAlphaMode</strong>(bool $flag)
         </code>
@@ -782,7 +599,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isAnimated">
-        <div class="location">at line         line 274</div>
+        <div class="location">at line         line 206</div>
         <code>                    bool
     <strong>isAnimated</strong>()
         </code>
@@ -800,7 +617,7 @@
                     <table class="table table-condensed">
         <tr>
             <td>bool</td>
-            <td>True if animated GIF.</td>
+            <td>True if animated GIF or false otherwise.</td>
         </tr>
     </table>
 
@@ -812,8 +629,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getCore">
-        <div class="location">at line         line 283</div>
-        <code>                    mixed
+        <div class="location">at line         line 215</div>
+        <code>                    resource|Imagick
     <strong>getCore</strong>()
         </code>
     </h3>
@@ -829,8 +646,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
-            <td></td>
+            <td>resource|Imagick</td>
+            <td>GD resource or Imagick instance</td>
         </tr>
     </table>
 
@@ -842,8 +659,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getImageFile">
-        <div class="location">at line         line 292</div>
-        <code>                    mixed
+        <div class="location">at line         line 224</div>
+        <code>                    string
     <strong>getImageFile</strong>()
         </code>
     </h3>
@@ -859,8 +676,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
-            <td></td>
+            <td>string</td>
+            <td>File path to image if Image was created from an image file.</td>
         </tr>
     </table>
 
@@ -872,8 +689,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getWidth">
-        <div class="location">at line         line 301</div>
-        <code>                    mixed
+        <div class="location">at line         line 233</div>
+        <code>                    int
     <strong>getWidth</strong>()
         </code>
     </h3>
@@ -889,8 +706,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
-            <td></td>
+            <td>int</td>
+            <td>Width in pixels.</td>
         </tr>
     </table>
 
@@ -902,8 +719,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getHeight">
-        <div class="location">at line         line 310</div>
-        <code>                    mixed
+        <div class="location">at line         line 242</div>
+        <code>                    int
     <strong>getHeight</strong>()
         </code>
     </h3>
@@ -919,8 +736,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
-            <td></td>
+            <td>int</td>
+            <td>Height in pixels.</td>
         </tr>
     </table>
 
@@ -932,8 +749,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getType">
-        <div class="location">at line         line 319</div>
-        <code>                    mixed
+        <div class="location">at line         line 251</div>
+        <code>                    string
     <strong>getType</strong>()
         </code>
     </h3>
@@ -949,8 +766,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
-            <td></td>
+            <td>string</td>
+            <td>Type of image. See ImageType.</td>
         </tr>
     </table>
 
@@ -962,7 +779,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getBlocks">
-        <div class="location">at line         line 328</div>
+        <div class="location">at line         line 260</div>
         <code>                    <abbr title="Grafika\Gd\string.">string.</abbr>
     <strong>getBlocks</strong>()
         </code>
@@ -981,6 +798,46 @@
         <tr>
             <td><abbr title="Grafika\Gd\string.">string.</abbr></td>
             <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_histogram">
+        <div class="location">at line         line 271</div>
+        <code>                    array
+    <strong>histogram</strong>(array|null $slice = null)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get histogram from an entire image or its sub-region.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array|null</td>
+                <td>$slice</td>
+                <td>Array of slice information. array( array( 0,0), array(100,50)) means x,y is 0,0 and width,height is 100,50</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>Returns array containing RGBA bins array('r'=>array(), 'g'=>array(), 'b'=>array(), 'a'=>array())</td>
         </tr>
     </table>
 

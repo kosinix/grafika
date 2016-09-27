@@ -9,25 +9,64 @@
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" media="screen">
 </head>
 <body>
-<button id="sidebar-show" class="sidebar-show"></button><div id="content" class="content">
-    <h1>setImage</h1>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>blend</h1>
 
-    <p>
-Set image instance.</p>
+<p>Blend two images together with the first image as the base and the second image on top. Supports several blend modes.</p>
 
-    <pre><code>setImage( $image )</code></pre>
+<pre><code>blend ( ImageInterface &$image1, ImageInterface $image2, string $type = 'normal', float $opacity = 1, string $position = 'top-left', int $offsetX = 0, int $offsetY = 0 ): EditorInterface </code></pre>
 
-    <h5>Parameters</h5>
-            <div class="params">
-            
-                <h6>image</h6>
+<h5>Parameters</h5>
+    <div class="params">
+        
+            <h6>image1</h6>
 
-                <p> An instance of a class implementing Grafika/ImageInterface.</p>
-                    </div>
-    
-    <h5>Returns</h5>
-            <p>No value is returned.</p>
-    </div><div id="sidebar" class="sidebar">
+            <p>The base image.</p>
+        
+            <h6>image2</h6>
+
+            <p>The image placed on top of the base image.</p>
+        
+            <h6>type</h6>
+
+            <p>The blend mode. Can be: normal, multiply, overlay or screen.</p>
+        
+            <h6>opacity</h6>
+
+            <p>The opacity of $image2. Possible values 0.0 to 1.0 where 0.0 is fully transparent and 1.0 is fully opaque. Defaults to 1.0.</p>
+        
+            <h6>position</h6>
+
+            <p>The position of $image2 on $image1. Possible values top-left, top-center, top-right, center-left, center, center-right, bottom-left, bottom-center, bottom-right and smart. Defaults to top-left.</p>
+        
+            <h6>offsetX</h6>
+
+            <p>Number of pixels to add to the X position of $image2.</p>
+        
+            <h6>offsetY</h6>
+
+            <p>Number of pixels to add to the Y position of $image2.</p>
+            </div>
+
+<h5>Returns</h5>
+    An instance of Editor.        <h5>Examples</h5>
+        <pre><code>$input1 = 'lena.png';
+$input2 = 'blend.png';
+$output = 'test.jpg';
+
+$image1 = Grafika::createImage( $input1 );
+$image2 = Grafika::createImage( $input2 );
+$editor->blend( $image1, $image2, 'overlay', 0.5, 'center' ); // overlay blend, opacity 50%, center position
+$editor->save( $image1, $output );</code></pre>
+
+        <p>Image 1: <br>
+            <img src="../images/lena.png" alt="lena"> <br>
+            Image 2: <br>
+            <img src="../images/blend.png" alt="blend"></p>
+        <p>Output: <br>
+            <img src="../images/testBlend.jpg" alt="test"></p>
+    </div>
+<div id="sidebar" class="sidebar">
     <div class="scrollable">
         <ul class="menu">
             <li>Getting Started</li>
@@ -36,12 +75,14 @@ Set image instance.</p>
                     <li><a href="../index.html">What is Grafika?</a></li>
                     <li><a href="../requirements.html">Requirements</a></li>
                     <li><a href="../installation.html">Installation</a></li>
+                    <li><a href="../migration1x.html">Migration from 1.x</a></li>
                 </ul>
             </li>
             <li>Examples</li>
             <li>
                 <ul>
                     <li><a href="../creating-editors.html">Creating Editors</a></li>
+                    <li><a href="../creating-images.html">Creating Images</a></li>
                     <li><a href="../resizing.html">Resizing</a></li>
                     <li><a href="../compare-images.html">Compare Images</a></li>
                     <li><a href="../smart-crop.html">Smart Crop</a></li>
@@ -52,7 +93,7 @@ Set image instance.</p>
             <li>
                 <ul>
                     <li><a href="../editor/apply.html">apply</a></li>
-                    <li><a href="../editor/blank.html">blank</a></li>
+                    <li><a href="../editor/blend.html">blend</a></li>
                     <li><a href="../editor/compare.html">compare</a></li>
                     <li><a href="../editor/crop.html">crop</a></li>
                     <li><a href="../editor/draw.html">draw</a></li>
@@ -61,11 +102,9 @@ Set image instance.</p>
                     <li><a href="../editor/flatten.html">flatten</a></li>
                     <li><a href="../editor/flip.html">flip</a></li>
                     <li><a href="../editor/free.html">free</a></li>
-                    <li><a href="../editor/getImage.html">getImage</a></li>
                     <li><a href="../editor/isAvailable.html">isAvailable</a></li>
                     <li><a href="../editor/opacity.html">opacity</a></li>
                     <li><a href="../editor/open.html">open</a></li>
-                    <li><a href="../editor/overlay.html">overlay</a></li>
                     <li><a href="../editor/resize.html">resize</a></li>
                     <li><a href="../editor/resizeExact.html">resizeExact</a></li>
                     <li><a href="../editor/resizeExactHeight.html">resizeExactHeight</a></li>
@@ -74,8 +113,19 @@ Set image instance.</p>
                     <li><a href="../editor/resizeFit.html">resizeFit</a></li>
                     <li><a href="../editor/rotate.html">rotate</a></li>
                     <li><a href="../editor/save.html">save</a></li>
-                    <li><a href="../editor/setImage.html">setImage</a></li>
                     <li><a href="../editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Image Functions</li>
+            <li>
+                <ul>
+                    <li><a href="../image/blob.html">blob</a></li>
+                    <li><a href="../image/getCore.html">getCore</a></li>
+                    <li><a href="../image/getHeight.html">getHeight</a></li>
+                    <li><a href="../image/getImageFile.html">getImageFile</a></li>
+                    <li><a href="../image/getType.html">getType</a></li>
+                    <li><a href="../image/getWidth.html">getWidth</a></li>
+                    <li><a href="../image/isAnimated.html">isAnimated</a></li>
                 </ul>
             </li>
             <li>Filters</li>

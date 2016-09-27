@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>Grafika</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" media="screen">
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen">
+</head>
+<body>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>Migration from 1.x</h1>
+        <p>The following are the changes from 1.x to version 2.x</p>
+        <h2>Backward Incompatible Changes</h2>
+        <h6>Editor Functions and Image instance</h6>
+
+        <p>The Editor API now passes the reference to an Image instance on every editor functions. Previously the Image instance is stored internally when <code>open</code> is called.</p>
+        <p>Previously in version 1.x:</p>
+        <pre><code>use Grafika\Grafika;
+
+$editor = Grafika::createEditor();
+
+// Open image and assign it internally
+$editor->open( "path/to/jpeg/image.jpg" );
+
+// Do something to the image and save it
+$editor->resize( 200, 200 );
+$editor->save( "path/to/edited.jpg" );</code></pre>
+        <p>Now in version 2.x:</p>
+        <pre><code>use Grafika\Grafika;
+
+$editor = Grafika::createEditor();
+
+// Open image and assign it to $image variable
+$editor->open( $image, "path/to/jpeg/image.jpg" );
+
+// Do something to the image and save it. We pass the $image reference to the editor functions
+$editor->resize( $image, 200, 200 );
+$editor->save( $image, "path/to/edited.jpg" );</code></pre>
+        <p>The code is more verbose, but it actually has advantages:</p>
+        <ol>
+            <li>Editor functions are now self-contained since the input are passed in the parameters, not in an internal class variable. This prevent unintended side effects.</li>
+            <li>Editor functions can now be used inside the editor itself without creating a new Editor instance.</li>
+            <li>Its clear what Image instance you are editing at the moment.</li>
+        </ol>
+        <p>Affected Editor functions:</p>
+        <ul>
+            <li>apply</li>
+            <li>crop</li>
+            <li>draw</li>
+            <li>fill</li>
+            <li>flatten</li>
+            <li>flip</li>
+            <li>free</li>
+            <li>opacity</li>
+            <li>open</li>
+            <li>overlay</li>
+            <li>resize</li>
+            <li>resizeExact</li>
+            <li>resizeExactHeight</li>
+            <li>resizeExactWidth</li>
+            <li>resizeFill</li>
+            <li>resizeFit</li>
+            <li>rotate</li>
+            <li>save</li>
+            <li>text</li>
+        </ul>
+        <h6>Removed Editor Functions</h6>
+        <ul>
+            <li>getImage - There is no need to store the Image internally.</li>
+            <li>setImage - The same with getImage.</li>
+            <li>blank - Use Grafika::createBlankImage instead.</li>
+            <li>overlay - Functionality overlaps with blend. Use blend instead.</li>
+        </ul>
+        <ul class="pager">
+            <li class="prev"><a href="installation.html">Installation</a></li>
+            <li class="next"><a href="creating-editors.html">Creating Editors</a></li>
+        </ul>
+    </div>
+<div id="sidebar" class="sidebar">
+    <div class="scrollable">
+        <ul class="menu">
+            <li>Getting Started</li>
+            <li>
+                <ul>
+                    <li><a href="index.html">What is Grafika?</a></li>
+                    <li><a href="requirements.html">Requirements</a></li>
+                    <li><a href="installation.html">Installation</a></li>
+                    <li><a href="migration1x.html">Migration from 1.x</a></li>
+                </ul>
+            </li>
+            <li>Examples</li>
+            <li>
+                <ul>
+                    <li><a href="creating-editors.html">Creating Editors</a></li>
+                    <li><a href="creating-images.html">Creating Images</a></li>
+                    <li><a href="resizing.html">Resizing</a></li>
+                    <li><a href="compare-images.html">Compare Images</a></li>
+                    <li><a href="smart-crop.html">Smart Crop</a></li>
+                    <li><a href="animated-gif.html">Animated GIF</a></li>
+                </ul>
+            </li>
+            <li>Editor Functions</li>
+            <li>
+                <ul>
+                    <li><a href="editor/apply.html">apply</a></li>
+                    <li><a href="editor/blend.html">blend</a></li>
+                    <li><a href="editor/compare.html">compare</a></li>
+                    <li><a href="editor/crop.html">crop</a></li>
+                    <li><a href="editor/draw.html">draw</a></li>
+                    <li><a href="editor/equal.html">equal</a></li>
+                    <li><a href="editor/fill.html">fill</a></li>
+                    <li><a href="editor/flatten.html">flatten</a></li>
+                    <li><a href="editor/flip.html">flip</a></li>
+                    <li><a href="editor/free.html">free</a></li>
+                    <li><a href="editor/isAvailable.html">isAvailable</a></li>
+                    <li><a href="editor/opacity.html">opacity</a></li>
+                    <li><a href="editor/open.html">open</a></li>
+                    <li><a href="editor/resize.html">resize</a></li>
+                    <li><a href="editor/resizeExact.html">resizeExact</a></li>
+                    <li><a href="editor/resizeExactHeight.html">resizeExactHeight</a></li>
+                    <li><a href="editor/resizeExactWidth.html">resizeExactWidth</a></li>
+                    <li><a href="editor/resizeFill.html">resizeFill</a></li>
+                    <li><a href="editor/resizeFit.html">resizeFit</a></li>
+                    <li><a href="editor/rotate.html">rotate</a></li>
+                    <li><a href="editor/save.html">save</a></li>
+                    <li><a href="editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Image Functions</li>
+            <li>
+                <ul>
+                    <li><a href="image/blob.html">blob</a></li>
+                    <li><a href="image/getCore.html">getCore</a></li>
+                    <li><a href="image/getHeight.html">getHeight</a></li>
+                    <li><a href="image/getImageFile.html">getImageFile</a></li>
+                    <li><a href="image/getType.html">getType</a></li>
+                    <li><a href="image/getWidth.html">getWidth</a></li>
+                    <li><a href="image/isAnimated.html">isAnimated</a></li>
+                </ul>
+            </li>
+            <li>Filters</li>
+            <li>
+                <ul>
+                    <li><a href="filters/Blur.html">Blur</a></li>
+                    <li><a href="filters/Brightness.html">Brightness</a></li>
+                    <li><a href="filters/Colorize.html">Colorize</a></li>
+                    <li><a href="filters/Contrast.html">Contrast</a></li>
+                    <li><a href="filters/Dither.html">Dither</a></li>
+                    <li><a href="filters/Gamma.html">Gamma</a></li>
+                    <li><a href="filters/Grayscale.html">Grayscale</a></li>
+                    <li><a href="filters/Invert.html">Invert</a></li>
+                    <li><a href="filters/Pixelate.html">Pixelate</a></li>
+                    <li><a href="filters/Sharpen.html">Sharpen</a></li>
+                    <li><a href="filters/Sobel.html">Sobel</a></li>
+                </ul>
+            </li>
+            <li>Drawing Objects</li>
+            <li>
+                <ul>
+                    <li><a href="draw/CubicBezier.html">CubicBezier</a></li>
+                    <li><a href="draw/Ellipse.html">Ellipse</a></li>
+                    <li><a href="draw/Line.html">Line</a></li>
+                    <li><a href="draw/Polygon.html">Polygon</a></li>
+                    <li><a href="draw/QuadraticBezier.html">QuadraticBezier</a></li>
+                    <li><a href="draw/Rectangle.html">Rectangle</a></li>
+                </ul>
+            </li>
+            <li>Additional Info</li>
+            <li>
+                <ul>
+                    <li><a href="license.html">License</a></li>
+                    <li><a href="development.html">Development</a></li>
+                </ul>
+            </li>
+        </ul>
+        <p class="credit">Grafika by Kosinix - Nico Amarilla</p>
+    </div>
+    <button id="sidebar-x" class="sidebar-x"></button>
+    <div id="handle" class="handle"></div>
+</div>    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="js/site.js"></script>
+</body>

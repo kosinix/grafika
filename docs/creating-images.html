@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>Grafika</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" media="screen">
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen">
+</head>
+<body>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>Creating Images</h1>
+        <p>Before you can perform image processing, you need to create an instance of Image. The Image object unifies the differences in GD and Imagick and holds all the pertinent info about the image. See Image Functions section for more info.</p>
+        <h6>Editor Open</h6>
+        <p>The common way of creating an image is by using the editor open method:</p>
+        <pre><code>use Grafika\Grafika;
+
+$editor = Grafika::createEditor();
+$editor->open( $image, 'path/to/image.jpg');</code></pre>
+        <p>Now $image holds an Image instance that you can pass along to editor methods:</p>
+<pre><code>//...
+$editor->resizeExact( $image, 200, 100 );
+//...
+$editor->flip( $image, 'h' );</code></pre>
+
+        <h6>Grafika::createImage</h6>
+        <p>If you dont have an editor instance, you can create an image directly:</p>
+        <pre><code>use Grafika\Grafika;
+
+$image = Grafika::createImage('path/to/image.jpg');
+</code></pre>
+
+        <h6>Blank Image</h6>
+        <p>You can also create a blank image:</p>
+        <pre><code>use Grafika\Grafika;
+
+$image = Grafika::createBlankImage(100,100);</code></pre>
+
+        <h6>Making a Copy</h6>
+        <p>Creating a copy of an image is as easy as using the clone keyword:</p>
+        <pre><code>$copy = clone $image;</code></pre>
+        <p>Now $copy is independent of the changes you will make in $image. You can leverage this functionality to easily make a backup:</p>
+
+        <pre><code>//...
+
+$backup = clone $image; // Full copy
+
+$editor->crop( $image, 100, 100 ); // Crop it
+
+$editor->save( $image, 'cropped.jpg' ); // Cropped version
+$editor->save( $backup, 'original.jpg' ); // Unaffected by crop version</code></pre>
+
+        <ul class="pager">
+            <li class="prev"><a href="creating-editors.html">Creating Editors</a></li>
+            <li class="next"><a href="resizing.html">Resizing</a></li>
+        </ul>
+    </div>
+<div id="sidebar" class="sidebar">
+    <div class="scrollable">
+        <ul class="menu">
+            <li>Getting Started</li>
+            <li>
+                <ul>
+                    <li><a href="index.html">What is Grafika?</a></li>
+                    <li><a href="requirements.html">Requirements</a></li>
+                    <li><a href="installation.html">Installation</a></li>
+                    <li><a href="migration1x.html">Migration from 1.x</a></li>
+                </ul>
+            </li>
+            <li>Examples</li>
+            <li>
+                <ul>
+                    <li><a href="creating-editors.html">Creating Editors</a></li>
+                    <li><a href="creating-images.html">Creating Images</a></li>
+                    <li><a href="resizing.html">Resizing</a></li>
+                    <li><a href="compare-images.html">Compare Images</a></li>
+                    <li><a href="smart-crop.html">Smart Crop</a></li>
+                    <li><a href="animated-gif.html">Animated GIF</a></li>
+                </ul>
+            </li>
+            <li>Editor Functions</li>
+            <li>
+                <ul>
+                    <li><a href="editor/apply.html">apply</a></li>
+                    <li><a href="editor/blend.html">blend</a></li>
+                    <li><a href="editor/compare.html">compare</a></li>
+                    <li><a href="editor/crop.html">crop</a></li>
+                    <li><a href="editor/draw.html">draw</a></li>
+                    <li><a href="editor/equal.html">equal</a></li>
+                    <li><a href="editor/fill.html">fill</a></li>
+                    <li><a href="editor/flatten.html">flatten</a></li>
+                    <li><a href="editor/flip.html">flip</a></li>
+                    <li><a href="editor/free.html">free</a></li>
+                    <li><a href="editor/isAvailable.html">isAvailable</a></li>
+                    <li><a href="editor/opacity.html">opacity</a></li>
+                    <li><a href="editor/open.html">open</a></li>
+                    <li><a href="editor/resize.html">resize</a></li>
+                    <li><a href="editor/resizeExact.html">resizeExact</a></li>
+                    <li><a href="editor/resizeExactHeight.html">resizeExactHeight</a></li>
+                    <li><a href="editor/resizeExactWidth.html">resizeExactWidth</a></li>
+                    <li><a href="editor/resizeFill.html">resizeFill</a></li>
+                    <li><a href="editor/resizeFit.html">resizeFit</a></li>
+                    <li><a href="editor/rotate.html">rotate</a></li>
+                    <li><a href="editor/save.html">save</a></li>
+                    <li><a href="editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Image Functions</li>
+            <li>
+                <ul>
+                    <li><a href="image/blob.html">blob</a></li>
+                    <li><a href="image/getCore.html">getCore</a></li>
+                    <li><a href="image/getHeight.html">getHeight</a></li>
+                    <li><a href="image/getImageFile.html">getImageFile</a></li>
+                    <li><a href="image/getType.html">getType</a></li>
+                    <li><a href="image/getWidth.html">getWidth</a></li>
+                    <li><a href="image/isAnimated.html">isAnimated</a></li>
+                </ul>
+            </li>
+            <li>Filters</li>
+            <li>
+                <ul>
+                    <li><a href="filters/Blur.html">Blur</a></li>
+                    <li><a href="filters/Brightness.html">Brightness</a></li>
+                    <li><a href="filters/Colorize.html">Colorize</a></li>
+                    <li><a href="filters/Contrast.html">Contrast</a></li>
+                    <li><a href="filters/Dither.html">Dither</a></li>
+                    <li><a href="filters/Gamma.html">Gamma</a></li>
+                    <li><a href="filters/Grayscale.html">Grayscale</a></li>
+                    <li><a href="filters/Invert.html">Invert</a></li>
+                    <li><a href="filters/Pixelate.html">Pixelate</a></li>
+                    <li><a href="filters/Sharpen.html">Sharpen</a></li>
+                    <li><a href="filters/Sobel.html">Sobel</a></li>
+                </ul>
+            </li>
+            <li>Drawing Objects</li>
+            <li>
+                <ul>
+                    <li><a href="draw/CubicBezier.html">CubicBezier</a></li>
+                    <li><a href="draw/Ellipse.html">Ellipse</a></li>
+                    <li><a href="draw/Line.html">Line</a></li>
+                    <li><a href="draw/Polygon.html">Polygon</a></li>
+                    <li><a href="draw/QuadraticBezier.html">QuadraticBezier</a></li>
+                    <li><a href="draw/Rectangle.html">Rectangle</a></li>
+                </ul>
+            </li>
+            <li>Additional Info</li>
+            <li>
+                <ul>
+                    <li><a href="license.html">License</a></li>
+                    <li><a href="development.html">Development</a></li>
+                </ul>
+            </li>
+        </ul>
+        <p class="credit">Grafika by Kosinix - Nico Amarilla</p>
+    </div>
+    <button id="sidebar-x" class="sidebar-x"></button>
+    <div id="handle" class="handle"></div>
+</div>    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="js/site.js"></script>
+</body>

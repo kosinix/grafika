@@ -13,7 +13,7 @@ These are the features that make Grafika unique from other libs:
 - [5 Resize Modes](http://kosinix.github.io/grafika/resizing.html) - Resize is a first class citizen in Grafika. Call them directly using resizeFit, resizeFill, resizeExact, resizeExactWidth, and resizeExactHeight or use the generic resize api.
 - [Image Compare](http://kosinix.github.io/grafika/compare-images.html) - Find how similar two images are using perceptual hashes or check if they are exactly equal.
 - [Advance Filters](http://kosinix.github.io/grafika/filters/Sobel.html) - Sobel and Floyd-Steinberg Dithering. More will be added in future releases.
-- [Bezier Curves](http://kosinix.github.io/grafika/draw/CubicBezier.html) - Create anti-aliased quadratic and cubic beziers both on GD and Imagick.
+- [Image Blending](http://kosinix.github.io/grafika/editor/blend.html) - Blend 2 images using the following modes: normal, multiply, overlay and screen.
 - **Normalized API** - No need to worry about the differences between GD and Imagick API, Grafika normalizes these operations for you.
 
 See documentation for a full list of features.

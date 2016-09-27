@@ -9,48 +9,52 @@
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" media="screen">
 </head>
 <body>
-<button id="sidebar-show" class="sidebar-show"></button><div id="content" class="content">
-    <h1>text</h1>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>text</h1>
 
-    <p>
-Write text to image.</p>
+<p>Write text to image.</p>
 
-    <pre><code>text( $text, $size = 12, $x = 0, $y = 12, $color = null, $font = '', $angle = 0 )</code></pre>
+<pre><code>text ( ImageInterface &$image, string $text, int $size = 12, int $x = 0, int $y = 12, Color $color = null, string $font = '', int $angle = 0 ): EditorInterface </code></pre>
 
-    <h5>Parameters</h5>
-            <div class="params">
-            
-                <h6>text</h6>
+<h5>Parameters</h5>
+    <div class="params">
+        
+            <h6>image</h6>
 
-                <p> The text to be written.</p>
-            
-                <h6>size</h6>
+            <p>Instance of Image.</p>
+        
+            <h6>text</h6>
 
-                <p> The font size. Defaults to 12.</p>
-            
-                <h6>x</h6>
+            <p>The text to be written.</p>
+        
+            <h6>size</h6>
 
-                <p> The distance from the left edge of the image to the left of the text. Defaults to 0.</p>
-            
-                <h6>y</h6>
+            <p>The font size. Defaults to 12.</p>
+        
+            <h6>x</h6>
 
-                <p> The distance from the top edge of the image to the baseline of the text. Defaults to 12 (equal to font size) so that the text is placed within the image.</p>
-            
-                <h6>color</h6>
+            <p>The distance from the left edge of the image to the left of the text. Defaults to 0.</p>
+        
+            <h6>y</h6>
 
-                <p> The Color object. Default text color is black.</p>
-            
-                <h6>font</h6>
+            <p>The distance from the top edge of the image to the baseline of the text. Defaults to 12 (equal to font size) so that the text is placed within the image.</p>
+        
+            <h6>color</h6>
 
-                <p> Full path to font file. If blank, will default to Liberation Sans font.</p>
-            
-                <h6>angle</h6>
+            <p>The Color object. Default text color is black.</p>
+        
+            <h6>font</h6>
 
-                <p> Angle of text from 0 - 359. Defaults to 0.</p>
-                    </div>
-    
-    <h5>Returns</h5>
-            EditorInterface -          An instance of image editor.    </div><div id="sidebar" class="sidebar">
+            <p>Full path to font file. If blank, will default to Liberation Sans font.</p>
+        
+            <h6>angle</h6>
+
+            <p>Angle of text from 0 - 359. Defaults to 0.</p>
+            </div>
+
+<h5>Returns</h5>
+    An instance of Editor.    </div>
+<div id="sidebar" class="sidebar">
     <div class="scrollable">
         <ul class="menu">
             <li>Getting Started</li>
@@ -59,12 +63,14 @@ Write text to image.</p>
                     <li><a href="../index.html">What is Grafika?</a></li>
                     <li><a href="../requirements.html">Requirements</a></li>
                     <li><a href="../installation.html">Installation</a></li>
+                    <li><a href="../migration1x.html">Migration from 1.x</a></li>
                 </ul>
             </li>
             <li>Examples</li>
             <li>
                 <ul>
                     <li><a href="../creating-editors.html">Creating Editors</a></li>
+                    <li><a href="../creating-images.html">Creating Images</a></li>
                     <li><a href="../resizing.html">Resizing</a></li>
                     <li><a href="../compare-images.html">Compare Images</a></li>
                     <li><a href="../smart-crop.html">Smart Crop</a></li>
@@ -75,7 +81,7 @@ Write text to image.</p>
             <li>
                 <ul>
                     <li><a href="../editor/apply.html">apply</a></li>
-                    <li><a href="../editor/blank.html">blank</a></li>
+                    <li><a href="../editor/blend.html">blend</a></li>
                     <li><a href="../editor/compare.html">compare</a></li>
                     <li><a href="../editor/crop.html">crop</a></li>
                     <li><a href="../editor/draw.html">draw</a></li>
@@ -84,11 +90,9 @@ Write text to image.</p>
                     <li><a href="../editor/flatten.html">flatten</a></li>
                     <li><a href="../editor/flip.html">flip</a></li>
                     <li><a href="../editor/free.html">free</a></li>
-                    <li><a href="../editor/getImage.html">getImage</a></li>
                     <li><a href="../editor/isAvailable.html">isAvailable</a></li>
                     <li><a href="../editor/opacity.html">opacity</a></li>
                     <li><a href="../editor/open.html">open</a></li>
-                    <li><a href="../editor/overlay.html">overlay</a></li>
                     <li><a href="../editor/resize.html">resize</a></li>
                     <li><a href="../editor/resizeExact.html">resizeExact</a></li>
                     <li><a href="../editor/resizeExactHeight.html">resizeExactHeight</a></li>
@@ -97,8 +101,19 @@ Write text to image.</p>
                     <li><a href="../editor/resizeFit.html">resizeFit</a></li>
                     <li><a href="../editor/rotate.html">rotate</a></li>
                     <li><a href="../editor/save.html">save</a></li>
-                    <li><a href="../editor/setImage.html">setImage</a></li>
                     <li><a href="../editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Image Functions</li>
+            <li>
+                <ul>
+                    <li><a href="../image/blob.html">blob</a></li>
+                    <li><a href="../image/getCore.html">getCore</a></li>
+                    <li><a href="../image/getHeight.html">getHeight</a></li>
+                    <li><a href="../image/getImageFile.html">getImageFile</a></li>
+                    <li><a href="../image/getType.html">getType</a></li>
+                    <li><a href="../image/getWidth.html">getWidth</a></li>
+                    <li><a href="../image/isAnimated.html">isAnimated</a></li>
                 </ul>
             </li>
             <li>Filters</li>

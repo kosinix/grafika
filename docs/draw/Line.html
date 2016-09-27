@@ -9,39 +9,40 @@
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" media="screen">
 </head>
 <body>
-<button id="sidebar-show" class="sidebar-show"></button><div id="content" class="content">
-    <h1>Line</h1>
-    <p>
-Creates a line.</p>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>Line</h1>
 
-    <h5>Parameters</h5>
-            <div class="params">
-            
-                <h6>point1</h6>
+        <p>Creates a line.</p>
 
-                <p> Array containing int X and int Y position of the starting point.</p>
-            
-                <h6>point2</h6>
+        <h5>Parameters</h5>
+                    <div class="params">
+                
+                    <h6>point1</h6>
 
-                <p> Array containing int X and int Y position of the starting point.</p>
-            
-                <h6>thickness</h6>
+                    <p>Array containing int X and int Y position of the starting point.</p>
+                
+                    <h6>point2</h6>
 
-                <p> Thickness in pixel. Note: This is currently ignored in GD editor and falls back to 1.</p>
-            
-                <h6>color</h6>
+                    <p>Array containing int X and int Y position of the starting point.</p>
+                
+                    <h6>thickness</h6>
 
-                <p> Color of the line. Defaults to black.</p>
-                    </div>
+                    <p>Thickness in pixel. Note: This is currently ignored in GD editor and falls back to 1.</p>
+                
+                    <h6>color</h6>
+
+                    <p>Color of the line. Defaults to black.</p>
+                            </div>
+        
         <h5>Examples</h5>
     <p>The following code would print the lines below:</p>
     <pre><code>// ...
 
-$editor->draw(Grafika::createDrawingObject('Line', array(0, 0), array(200, 200), 1, new Color('#FF0000')));
-$editor->draw(Grafika::createDrawingObject('Line', array(0, 200), array(200, 0), 1, new Color('#00FF00')));
-$editor->draw(Grafika::createDrawingObject('Line', array(0, 0), array(200, 100), 1, new Color('#0000FF')));
-$editor->draw(Grafika::createDrawingObject('Line', array(0, 100), array(200, 100)));
-$editor->draw(Grafika::createDrawingObject('Line', array(100, 0), array(100, 200)));</code></pre>
+$editor->draw($image, Grafika::createDrawingObject('Line', array(0, 0), array(200, 200), 1, new Color('#FF0000')));
+$editor->draw($image, Grafika::createDrawingObject('Line', array(0, 200), array(200, 0), 1, new Color('#00FF00')));
+$editor->draw($image, Grafika::createDrawingObject('Line', array(0, 0), array(200, 100), 1, new Color('#0000FF')));
+$editor->draw($image, Grafika::createDrawingObject('Line', array(0, 100), array(200, 100)));
+$editor->draw($image, Grafika::createDrawingObject('Line', array(100, 0), array(100, 200)));</code></pre>
     <img src="../images/testLines.jpg" alt="lines">
 </div>
 <div id="sidebar" class="sidebar">
@@ -53,12 +54,14 @@ $editor->draw(Grafika::createDrawingObject('Line', array(100, 0), array(100, 200
                     <li><a href="../index.html">What is Grafika?</a></li>
                     <li><a href="../requirements.html">Requirements</a></li>
                     <li><a href="../installation.html">Installation</a></li>
+                    <li><a href="../migration1x.html">Migration from 1.x</a></li>
                 </ul>
             </li>
             <li>Examples</li>
             <li>
                 <ul>
                     <li><a href="../creating-editors.html">Creating Editors</a></li>
+                    <li><a href="../creating-images.html">Creating Images</a></li>
                     <li><a href="../resizing.html">Resizing</a></li>
                     <li><a href="../compare-images.html">Compare Images</a></li>
                     <li><a href="../smart-crop.html">Smart Crop</a></li>
@@ -69,7 +72,7 @@ $editor->draw(Grafika::createDrawingObject('Line', array(100, 0), array(100, 200
             <li>
                 <ul>
                     <li><a href="../editor/apply.html">apply</a></li>
-                    <li><a href="../editor/blank.html">blank</a></li>
+                    <li><a href="../editor/blend.html">blend</a></li>
                     <li><a href="../editor/compare.html">compare</a></li>
                     <li><a href="../editor/crop.html">crop</a></li>
                     <li><a href="../editor/draw.html">draw</a></li>
@@ -78,11 +81,9 @@ $editor->draw(Grafika::createDrawingObject('Line', array(100, 0), array(100, 200
                     <li><a href="../editor/flatten.html">flatten</a></li>
                     <li><a href="../editor/flip.html">flip</a></li>
                     <li><a href="../editor/free.html">free</a></li>
-                    <li><a href="../editor/getImage.html">getImage</a></li>
                     <li><a href="../editor/isAvailable.html">isAvailable</a></li>
                     <li><a href="../editor/opacity.html">opacity</a></li>
                     <li><a href="../editor/open.html">open</a></li>
-                    <li><a href="../editor/overlay.html">overlay</a></li>
                     <li><a href="../editor/resize.html">resize</a></li>
                     <li><a href="../editor/resizeExact.html">resizeExact</a></li>
                     <li><a href="../editor/resizeExactHeight.html">resizeExactHeight</a></li>
@@ -91,8 +92,19 @@ $editor->draw(Grafika::createDrawingObject('Line', array(100, 0), array(100, 200
                     <li><a href="../editor/resizeFit.html">resizeFit</a></li>
                     <li><a href="../editor/rotate.html">rotate</a></li>
                     <li><a href="../editor/save.html">save</a></li>
-                    <li><a href="../editor/setImage.html">setImage</a></li>
                     <li><a href="../editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Image Functions</li>
+            <li>
+                <ul>
+                    <li><a href="../image/blob.html">blob</a></li>
+                    <li><a href="../image/getCore.html">getCore</a></li>
+                    <li><a href="../image/getHeight.html">getHeight</a></li>
+                    <li><a href="../image/getImageFile.html">getImageFile</a></li>
+                    <li><a href="../image/getType.html">getType</a></li>
+                    <li><a href="../image/getWidth.html">getWidth</a></li>
+                    <li><a href="../image/isAnimated.html">isAnimated</a></li>
                 </ul>
             </li>
             <li>Filters</li>

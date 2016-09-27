@@ -28,6 +28,47 @@ class Documentation {
             
         }
     }
+    
+    protected function isAssoc(array $array) {
+        return count(array_filter(array_keys($array), 'is_string')) > 0;
+    }
+
+    protected function arrayToStr($array){
+        $string = 'array(';
+
+        if($this->isAssoc($array)){
+            $string .= ' ';
+            $el = array();
+            foreach($array as $name=>$val){
+                $el[] = $name.' => '.$this->formatValue($val);
+            }
+            $string .= implode(',', $el);
+            $string .= ' ';
+        } else {
+            $string .= ' ';
+            $el = array();
+            foreach($array as $name=>$val){
+                $el[] = $this->formatValue($val);
+            }
+            $string .= implode(', ', $el);
+            $string .= ' ';
+        }
+        return $string.')';
+
+    }
+
+    protected function formatValue($value){
+        if( is_bool( $value ) ){
+            $value = ($value) ? 'true' : 'false';
+        } else if ( is_string( $value ) ) {
+            $value = "'{$value}'"; // Surround with quotes
+        } else if( null === $value){
+            $value = 'null'; // Use the word null
+        } else if ( is_array($value)){
+            $value = $this->arrayToStr($value);
+        }
+        return $value;
+    }
 
     public function buildSignature( \ReflectionMethod $method){
         $params = array();
@@ -35,24 +76,15 @@ class Documentation {
         foreach($method->getParameters() as $param){
             $default = '';
             if($param->isOptional()) {
-                $defaultVal = $param->getDefaultValue();
-                if( is_bool( $defaultVal ) ){
-                    $defaultVal = ($defaultVal) ? 'true' : 'false';
-                } else if ( is_string( $defaultVal ) ) {
-                    $defaultVal = "'{$defaultVal}'"; // Surround with quotes
-                } else if( null === $defaultVal){
-                    $defaultVal = 'null'; // Use the word null
-                } else if ( is_array($defaultVal)){
-                    $defaultVal = 'array'; // TODO: make this print what's exactly is defined in class code.
-                }
 
-                $default = ' = '.$defaultVal;
+                $default = ' = '. $this->formatValue($param->getDefaultValue());
             }
             $params[] = '$'.$param->getName().$default;
         }
         $param_str = implode(', ', $params);
         return "{$method->getName()}( {$param_str} )";
     }
+
     public function buildParams( array $params ){
         $array = array();
         /**
@@ -62,10 +94,25 @@ class Documentation {
             $array[$i] = array(
                 'name' => $param->getName(),
                 'desc' => $this->param_desc($this->docBlock->all_params['param'][$i]),
+                'type' => $this->param_type($this->docBlock->all_params['param'][$i]),
             );
         }
         return $array;
     }
+
+    public function param_type($paramLine){
+        $dollar = substr($paramLine, 0, 1);
+        if($dollar !== '$'){ // not var name
+            $space1 = strpos($paramLine, ' ');
+            if($space1 !== false){
+                return substr( $paramLine, 0, $space1 );
+
+            }
+        }
+
+        return '';
+    }
+
     public function param_desc($str){
         $space1 = strpos($str, ' ');
         if($space1 !== false){

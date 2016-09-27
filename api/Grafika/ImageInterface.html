@@ -95,34 +95,96 @@
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;mixed
+                    
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_createFromFile">createFromFile</a>($imageFile)
+                    <a href="#method_blob">blob</a>(string|<a href="../Grafika/ImageType.html"><abbr title="Grafika\ImageType">ImageType</abbr></a> $type)
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Output a binary raw dump of an image in a specified format.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;mixed
+                    static&nbsp;<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_createBlank">createBlank</a>(int $width = 1, int $height = 1)
         
+                                            <p>Create a blank image.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_createFromCore">createFromCore</a>(resource|Imagick $core)
+        
+                                            <p>Create Image from core.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;<a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_createFromFile">createFromFile</a>(string $imageFile)
+        
+                                            <p>Create Image from image file.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    resource|Imagick
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getCore">getCore</a>()
+        
+                                            <p>Get Image core.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getHeight">getHeight</a>()
+        
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_flatten">flatten</a>()
+                    <a href="#method_getImageFile">getImageFile</a>()
         
-                                            <p>Flatten if animated GIF. Do nothing otherwise.</p>                </div>
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getType">getType</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getWidth">getWidth</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -135,61 +197,6 @@
                                             <p>Returns animated flag.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    mixed
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getCore">getCore</a>()
-        
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    mixed
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getImageFile">getImageFile</a>()
-        
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    mixed
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getWidth">getWidth</a>()
-        
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    mixed
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getHeight">getHeight</a>()
-        
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    mixed
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getType">getType</a>()
-        
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
             </div>
 
 
@@ -197,37 +204,30 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method_createFromFile">
-        <div class="location">at line         line 15</div>
-        <code>        static            mixed
-    <strong>createFromFile</strong>($imageFile)
+                    <h3 id="method_blob">
+        <div class="location">at line         line 16</div>
+        <code>                    
+    <strong>blob</strong>(string|<a href="../Grafika/ImageType.html"><abbr title="Grafika\ImageType">ImageType</abbr></a> $type)
         </code>
     </h3>
     <div class="details">
             
     
 
+                    <div class="method-description">
+                                    <p>Output a binary raw dump of an image in a specified format.</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
-                <td>$imageFile</td>
-                <td></td>
+                <td>string|<a href="../Grafika/ImageType.html"><abbr title="Grafika\ImageType">ImageType</abbr></a></td>
+                <td>$type</td>
+                <td>Image format of the dump. See Grafika\ImageType for supported formats.</td>
             </tr>
             </table>
 
             
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
-            <td></td>
-        </tr>
-    </table>
-
             
             
                     </div>
@@ -236,8 +236,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createBlank">
-        <div class="location">at line         line 23</div>
-        <code>        static            mixed
+        <div class="location">at line         line 26</div>
+        <code>        static            <a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
     <strong>createBlank</strong>(int $width = 1, int $height = 1)
         </code>
     </h3>
@@ -245,6 +245,8 @@
             
     
 
+                    <div class="method-description">
+                                    <p>Create a blank image.</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -252,12 +254,12 @@
                     <tr>
                 <td>int</td>
                 <td>$width</td>
-                <td></td>
+                <td>Width of image in pixels.</td>
             </tr>
                     <tr>
                 <td>int</td>
                 <td>$height</td>
-                <td></td>
+                <td>Height of image in pixels.</td>
             </tr>
             </table>
 
@@ -266,8 +268,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
-            <td></td>
+            <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+            <td>Instance of image.</td>
         </tr>
     </table>
 
@@ -278,10 +280,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_flatten">
-        <div class="location">at line         line 28</div>
-        <code>                    
-    <strong>flatten</strong>()
+                    <h3 id="method_createFromCore">
+        <div class="location">at line         line 35</div>
+        <code>        static            <a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
+    <strong>createFromCore</strong>(resource|Imagick $core)
         </code>
     </h3>
     <div class="details">
@@ -289,9 +291,210 @@
     
 
                     <div class="method-description">
-                                    <p>Flatten if animated GIF. Do nothing otherwise.</p>                                </div>
+                                    <p>Create Image from core.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>resource|Imagick</td>
+                <td>$core</td>
+                <td>GD resource for GD editor or Imagick instance for Imagick editor</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+            <td>Instance of image.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_createFromFile">
+        <div class="location">at line         line 44</div>
+        <code>        static            <a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a>
+    <strong>createFromFile</strong>(string $imageFile)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Create Image from image file.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$imageFile</td>
+                <td>Path to image file.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../Grafika/ImageInterface.html"><abbr title="Grafika\ImageInterface">ImageInterface</abbr></a></td>
+            <td>Instance of image.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getCore">
+        <div class="location">at line         line 51</div>
+        <code>                    resource|Imagick
+    <strong>getCore</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get Image core.</p>                                </div>
                 <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>resource|Imagick</td>
+            <td>GD resource or Imagick instance</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getHeight">
+        <div class="location">at line         line 56</div>
+        <code>                    int
+    <strong>getHeight</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td>Height in pixels.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getImageFile">
+        <div class="location">at line         line 61</div>
+        <code>                    string
+    <strong>getImageFile</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>File path to image if Image was created from an image file.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getType">
+        <div class="location">at line         line 66</div>
+        <code>                    string
+    <strong>getType</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>Type of image. See ImageType.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getWidth">
+        <div class="location">at line         line 71</div>
+        <code>                    int
+    <strong>getWidth</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td>Width in pixels.</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -300,7 +503,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isAnimated">
-        <div class="location">at line         line 35</div>
+        <div class="location">at line         line 78</div>
         <code>                    bool
     <strong>isAnimated</strong>()
         </code>
@@ -318,147 +521,7 @@
                     <table class="table table-condensed">
         <tr>
             <td>bool</td>
-            <td>True if animated GIF.</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getCore">
-        <div class="location">at line         line 40</div>
-        <code>                    mixed
-    <strong>getCore</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getImageFile">
-        <div class="location">at line         line 45</div>
-        <code>                    mixed
-    <strong>getImageFile</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getWidth">
-        <div class="location">at line         line 50</div>
-        <code>                    mixed
-    <strong>getWidth</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getHeight">
-        <div class="location">at line         line 55</div>
-        <code>                    mixed
-    <strong>getHeight</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getType">
-        <div class="location">at line         line 60</div>
-        <code>                    mixed
-    <strong>getType</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
-            <td></td>
+            <td>True if animated GIF or false otherwise.</td>
         </tr>
     </table>
 
