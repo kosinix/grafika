@@ -18,10 +18,12 @@ echo 'Directory '.$docSrc.'/js'.' copied.. <br>';
 mkdir($doc . '/editor', 0755);
 mkdir($doc . '/filters', 0755);
 mkdir($doc . '/draw', 0755);
+mkdir($doc . '/image', 0755);
 genHtml('');
 genHtml('editor');
 genHtml('filters');
 genHtml('draw');
+genHtml('image');
 
 function genHtml($relPath){
     global $docSrcUrl, $docSrc, $doc;
