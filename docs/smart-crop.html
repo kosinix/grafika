@@ -34,45 +34,54 @@
 $input = 'crop-test.jpg';
 
 // Top
-$editor->open($input);
-$editor->crop(260, 150, 'top-left');
-$editor->save('testCrop1.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'top-left' );
+$editor->save( $image, 'testCrop1.jpg' );
+$editor->free( $image );
 
-$editor->open($input);
-$editor->crop(260, 150, 'top-center');
-$editor->save('testCrop2.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'top-center' );
+$editor->save( $image, 'testCrop2.jpg' );
+$editor->free( $image );
 
-$editor->open($input);
-$editor->crop(260, 150, 'top-right');
-$editor->save('testCrop3.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'top-right' );
+$editor->save( $image, 'testCrop3.jpg' );
+$editor->free( $image );
 
 // Middle row
-$editor->open($input);
-$editor->crop(260, 150, 'center-left');
-$editor->save('testCrop4.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'center-left' );
+$editor->save( $image, 'testCrop4.jpg' );
+$editor->free( $image );
 
-$editor->open($input);
-$editor->crop(260, 150, 'center');
-$editor->save('testCrop5.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'center' );
+$editor->save( $image, 'testCrop5.jpg' );
+$editor->free( $image );
 
-$editor->open($input);
-$editor->crop(260, 150, 'center-right');
-$editor->save('testCrop6.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'center-right' );
+$editor->save( $image, 'testCrop6.jpg' );
+$editor->free( $image );
 
 // Bottom row
-$editor->open($input);
-$editor->crop(260, 150, 'bottom-left');
-$editor->save('testCrop7.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'bottom-left' );
+$editor->save( $image, 'testCrop7.jpg' );
+$editor->free( $image );
 
-$editor->open($input);
-$editor->crop(260, 150, 'bottom-center');
-$editor->save('testCrop8.jpg');
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'bottom-center' );
+$editor->save( $image, 'testCrop8.jpg' );
+$editor->free( $image );
 
-$editor->open($input);
-$editor->crop(260, 150, 'bottom-right');
-$editor->save('testCrop9.jpg');</code></pre>
+$editor->open( $image, $input );
+$editor->crop( $image, 260, 150, 'bottom-right' );
+$editor->save( $image, 'testCrop9.jpg' );
+$editor->free( $image );</code></pre>
 
-        <p>The above code would look like this if arrange in 3x3 grid:</p>
+        <p>The above code would look like this if arranged in a 3x3 grid:</p>
 
         <table>
             <tr>
@@ -94,9 +103,9 @@ $editor->save('testCrop9.jpg');</code></pre>
 
         <h5>Smart Crop</h5>
         <p>Grafika can also do smart cropping wherein it decides the crop position with the important regions of the images preserved.</p>
-        <pre><code>$editor->open($input);
-$editor->crop(200, 200, 'smart');
-$editor->save('output.jpg');</code></pre>
+        <pre><code>$editor->open( $image, $input );
+$editor->crop( $image, 200, 200, 'smart' );
+$editor->save( $image, 'output.jpg' );</code></pre>
         <table style="min-width: 60%; max-width: 70%">
             <tbody><tr>
                 <th width="10%">Type</th>
@@ -149,12 +158,14 @@ $editor->save('output.jpg');</code></pre>
                     <li><a href="index.html">What is Grafika?</a></li>
                     <li><a href="requirements.html">Requirements</a></li>
                     <li><a href="installation.html">Installation</a></li>
+                    <li><a href="migration1x.html">Migration from 1.x</a></li>
                 </ul>
             </li>
             <li>Examples</li>
             <li>
                 <ul>
                     <li><a href="creating-editors.html">Creating Editors</a></li>
+                    <li><a href="creating-images.html">Creating Images</a></li>
                     <li><a href="resizing.html">Resizing</a></li>
                     <li><a href="compare-images.html">Compare Images</a></li>
                     <li><a href="smart-crop.html">Smart Crop</a></li>
@@ -165,7 +176,7 @@ $editor->save('output.jpg');</code></pre>
             <li>
                 <ul>
                     <li><a href="editor/apply.html">apply</a></li>
-                    <li><a href="editor/blank.html">blank</a></li>
+                    <li><a href="editor/blend.html">blend</a></li>
                     <li><a href="editor/compare.html">compare</a></li>
                     <li><a href="editor/crop.html">crop</a></li>
                     <li><a href="editor/draw.html">draw</a></li>
@@ -174,11 +185,9 @@ $editor->save('output.jpg');</code></pre>
                     <li><a href="editor/flatten.html">flatten</a></li>
                     <li><a href="editor/flip.html">flip</a></li>
                     <li><a href="editor/free.html">free</a></li>
-                    <li><a href="editor/getImage.html">getImage</a></li>
                     <li><a href="editor/isAvailable.html">isAvailable</a></li>
                     <li><a href="editor/opacity.html">opacity</a></li>
                     <li><a href="editor/open.html">open</a></li>
-                    <li><a href="editor/overlay.html">overlay</a></li>
                     <li><a href="editor/resize.html">resize</a></li>
                     <li><a href="editor/resizeExact.html">resizeExact</a></li>
                     <li><a href="editor/resizeExactHeight.html">resizeExactHeight</a></li>
@@ -187,8 +196,19 @@ $editor->save('output.jpg');</code></pre>
                     <li><a href="editor/resizeFit.html">resizeFit</a></li>
                     <li><a href="editor/rotate.html">rotate</a></li>
                     <li><a href="editor/save.html">save</a></li>
-                    <li><a href="editor/setImage.html">setImage</a></li>
                     <li><a href="editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Image Functions</li>
+            <li>
+                <ul>
+                    <li><a href="image/blob.html">blob</a></li>
+                    <li><a href="image/getCore.html">getCore</a></li>
+                    <li><a href="image/getHeight.html">getHeight</a></li>
+                    <li><a href="image/getImageFile.html">getImageFile</a></li>
+                    <li><a href="image/getType.html">getType</a></li>
+                    <li><a href="image/getWidth.html">getWidth</a></li>
+                    <li><a href="image/isAnimated.html">isAnimated</a></li>
                 </ul>
             </li>
             <li>Filters</li>

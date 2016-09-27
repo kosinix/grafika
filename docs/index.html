@@ -25,8 +25,8 @@
             <li><strong>Animated GIF Support</strong> - It can resize animated GIFs on both GD and Imagick. On GD, Grafika uses its own GIF parser to do this.</li>
             <li><strong>5 Resize Modes</strong> - Resize is a first class citizen in Grafika. Call them directly using resizeFit, resizeFill, resizeExact, resizeExactWidth, and resizeExactHeight or use the generic resize api.</li>
             <li><strong>Image Compare</strong> - Find how similar two images are or check if they are exactly equal.</li>
-            <li><strong>Advance Filters</strong> - Sobel and Floyd-Steinberg Dithering. More will be added in future releases.</li>
-            <li><strong>Bezier Curves</strong> - Create anti-aliased quadratic and cubic beziers both on GD and Imagick.</li>
+            <li><strong>Advance Filters</strong> - Sobel edge-detection, diffusion and ordered dithering. More will be added in future releases.</li>
+            <li><strong>Image Blending</strong> - Blend 2 images using the following modes: normal, multiply, overlay and screen.</li>
             <li><strong>Normalized API</strong> - No need to worry about the differences between GD and Imagick API, Grafika normalizes these operations for you.</li>
         </ul>
         <h6>Basic Filters</h6>
@@ -86,17 +86,17 @@ imagedestroy($newImage); // Free up memory
 
 $editor = Grafika::createEditor();
 
-$editor->open( "path/to/jpeg/image.jpg" );
-$editor->resizeExact( 200, 200 );
-$editor->save( "path/to/edited.jpg", null, 90 );</code></pre>
+$editor->open( $image, "path/to/jpeg/image.jpg" );
+$editor->resizeExact( $image, 200, 200 );
+$editor->save( $image, "path/to/edited.jpg", null, 90 );</code></pre>
 
         <p>You can even chain the api calls (think jQuery):</p>
 <pre><code>use Grafika\Grafika;
 
 Grafika::createEditor()
-        ->open( "path/to/jpeg/image.jpg" )
-        ->resizeExact( 200, 200 )
-        ->save( "path/to/edited.jpg", null, 90 );</code></pre>
+        ->open( $image, "path/to/jpeg/image.jpg" )
+        ->resizeExact( $image, 200, 200 )
+        ->save( $image, "path/to/edited.jpg", null, 90 );</code></pre>
 
         <p>See docs for more info.</p>
 
@@ -114,12 +114,14 @@ Grafika::createEditor()
                     <li><a href="index.html">What is Grafika?</a></li>
                     <li><a href="requirements.html">Requirements</a></li>
                     <li><a href="installation.html">Installation</a></li>
+                    <li><a href="migration1x.html">Migration from 1.x</a></li>
                 </ul>
             </li>
             <li>Examples</li>
             <li>
                 <ul>
                     <li><a href="creating-editors.html">Creating Editors</a></li>
+                    <li><a href="creating-images.html">Creating Images</a></li>
                     <li><a href="resizing.html">Resizing</a></li>
                     <li><a href="compare-images.html">Compare Images</a></li>
                     <li><a href="smart-crop.html">Smart Crop</a></li>
@@ -130,7 +132,7 @@ Grafika::createEditor()
             <li>
                 <ul>
                     <li><a href="editor/apply.html">apply</a></li>
-                    <li><a href="editor/blank.html">blank</a></li>
+                    <li><a href="editor/blend.html">blend</a></li>
                     <li><a href="editor/compare.html">compare</a></li>
                     <li><a href="editor/crop.html">crop</a></li>
                     <li><a href="editor/draw.html">draw</a></li>
@@ -139,11 +141,9 @@ Grafika::createEditor()
                     <li><a href="editor/flatten.html">flatten</a></li>
                     <li><a href="editor/flip.html">flip</a></li>
                     <li><a href="editor/free.html">free</a></li>
-                    <li><a href="editor/getImage.html">getImage</a></li>
                     <li><a href="editor/isAvailable.html">isAvailable</a></li>
                     <li><a href="editor/opacity.html">opacity</a></li>
                     <li><a href="editor/open.html">open</a></li>
-                    <li><a href="editor/overlay.html">overlay</a></li>
                     <li><a href="editor/resize.html">resize</a></li>
                     <li><a href="editor/resizeExact.html">resizeExact</a></li>
                     <li><a href="editor/resizeExactHeight.html">resizeExactHeight</a></li>
@@ -152,8 +152,19 @@ Grafika::createEditor()
                     <li><a href="editor/resizeFit.html">resizeFit</a></li>
                     <li><a href="editor/rotate.html">rotate</a></li>
                     <li><a href="editor/save.html">save</a></li>
-                    <li><a href="editor/setImage.html">setImage</a></li>
                     <li><a href="editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Image Functions</li>
+            <li>
+                <ul>
+                    <li><a href="image/blob.html">blob</a></li>
+                    <li><a href="image/getCore.html">getCore</a></li>
+                    <li><a href="image/getHeight.html">getHeight</a></li>
+                    <li><a href="image/getImageFile.html">getImageFile</a></li>
+                    <li><a href="image/getType.html">getType</a></li>
+                    <li><a href="image/getWidth.html">getWidth</a></li>
+                    <li><a href="image/isAnimated.html">isAnimated</a></li>
                 </ul>
             </li>
             <li>Filters</li>

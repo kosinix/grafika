@@ -9,36 +9,71 @@
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" media="screen">
 </head>
 <body>
-<button id="sidebar-show" class="sidebar-show"></button><div id="content" class="content">
-    <h1>save</h1>
+<button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
+        <h1>save</h1>
 
-    <p>
-Save the image to an image format.</p>
+        <p>Save the image to an image format.</p>
 
-    <pre><code>save( $file, $type = null, $quality = null, $interlace = false )</code></pre>
+        <pre><code>save ( ImageInterface $image, string $file, null|string $type = null, null|string $quality = null, bool $interlace = false, int $permission = 0755 ): EditorInterface </code></pre>
 
-    <h5>Parameters</h5>
-            <div class="params">
-            
-                <h6>file</h6>
+        <h5>Parameters</h5>
+                    <div class="params">
+                
+                    <h6>image</h6>
 
-                <p> File path where to save the image.</p>
-            
-                <h6>type</h6>
+                    <p>Instance of Image. Saving the image to a different format will have NO effect on the Image instance.</p>
+                
+                    <h6>file</h6>
 
-                <p> Type of image. Can be null, "GIF", "PNG", or "JPEG". If null, an appropriate file type will be used.</p>
-            
-                <h6>quality</h6>
+                    <p>File path where to save the image.</p>
+                
+                    <h6>type</h6>
 
-                <p> Quality of image. Applies to JPEG only. Accepts number 0 - 100 where 0 is lowest and 100 is the highest quality. Or null for default.</p>
-            
-                <h6>interlace</h6>
+                    <p>The image format to use. Can be null, "gif", "png", or "jpeg". If null, an appropriate format will be chosen based on the output file name in $file.</p>
+                
+                    <h6>quality</h6>
 
-                <p> Set to true for progressive JPEG. Applies to JPEG only.</p>
-                    </div>
-    
-    <h5>Returns</h5>
-            EditorInterface -          An instance of image editor.    </div><div id="sidebar" class="sidebar">
+                    <p>Quality of image. Applies to JPEG only. Accepts number 0 - 100 where 0 is lowest and 100 is the highest quality. Or null for default. Default quality if null is 75.</p>
+                
+                    <h6>interlace</h6>
+
+                    <p>Set to true for progressive JPEG. Applies to JPEG only. Default false.</p>
+                
+                    <h6>permission</h6>
+
+                    <p>Default permission when creating non-existing target directory. Default is 0755. Note: Its using PHP's octal notation so you must prepend numbers with zero (0).</p>
+                            </div>
+        
+        <h5>Returns</h5>
+                    An instance of Editor.        
+        <h5>Examples</h5>
+        <p>Opening a PNG and saving it:</p>
+        <pre><code>use Grafika\Grafika;
+
+$editor = Grafika::createEditor();
+$editor->open( $image, 'input.png' );
+$editor->save( $image, 'output.png' );</code></pre>
+
+        <p>Opening a PNG and saving it as JPEG:</p>
+
+        <pre><code>$editor->open( $image, 'input.png' );
+$editor->save( $image, 'output.jpg' );</code></pre>
+        <p>Notice the ".jpg" file extension. Grafika will automatically detect the file type based on the file name.</p>
+
+        <p>You can also force saving an image into a specific format despite its file name.</p>
+        <pre><code>$editor->open( $image, 'input.png' );
+$editor->save( $image, 'output.jpg', 'png' );</code></pre>
+        <p>This will save a PNG image to a file named "output.jpg". </p>
+        <p>JPEG quality can be set from 0-100. Here we save a JPEG to highest quality with interlacing:</p>
+        <pre><code>$editor->open( $image, 'input.png' );
+$editor->save( $image, 'output.jpg', null, 100, true );</code></pre>
+        <p>Notice that type is set to null which lets Grafika decide the file type based on the file name like in example 2.</p>
+        <p>Saving an image to non-existent directory will result to Grafika creating the said directory. The default permission can be changed:</p>
+        <pre><code>$editor->open( $image, 'input.png' );
+$editor->save( $image, '/non-existent-dir/non-existent-dir/output.png', null, null, false, 0777 );</code></pre>
+        <p>This will create the 2 directories with a permission of 0777. </p>
+    </div>
+<div id="sidebar" class="sidebar">
     <div class="scrollable">
         <ul class="menu">
             <li>Getting Started</li>
@@ -47,12 +82,14 @@ Save the image to an image format.</p>
                     <li><a href="../index.html">What is Grafika?</a></li>
                     <li><a href="../requirements.html">Requirements</a></li>
                     <li><a href="../installation.html">Installation</a></li>
+                    <li><a href="../migration1x.html">Migration from 1.x</a></li>
                 </ul>
             </li>
             <li>Examples</li>
             <li>
                 <ul>
                     <li><a href="../creating-editors.html">Creating Editors</a></li>
+                    <li><a href="../creating-images.html">Creating Images</a></li>
                     <li><a href="../resizing.html">Resizing</a></li>
                     <li><a href="../compare-images.html">Compare Images</a></li>
                     <li><a href="../smart-crop.html">Smart Crop</a></li>
@@ -63,7 +100,7 @@ Save the image to an image format.</p>
             <li>
                 <ul>
                     <li><a href="../editor/apply.html">apply</a></li>
-                    <li><a href="../editor/blank.html">blank</a></li>
+                    <li><a href="../editor/blend.html">blend</a></li>
                     <li><a href="../editor/compare.html">compare</a></li>
                     <li><a href="../editor/crop.html">crop</a></li>
                     <li><a href="../editor/draw.html">draw</a></li>
@@ -72,11 +109,9 @@ Save the image to an image format.</p>
                     <li><a href="../editor/flatten.html">flatten</a></li>
                     <li><a href="../editor/flip.html">flip</a></li>
                     <li><a href="../editor/free.html">free</a></li>
-                    <li><a href="../editor/getImage.html">getImage</a></li>
                     <li><a href="../editor/isAvailable.html">isAvailable</a></li>
                     <li><a href="../editor/opacity.html">opacity</a></li>
                     <li><a href="../editor/open.html">open</a></li>
-                    <li><a href="../editor/overlay.html">overlay</a></li>
                     <li><a href="../editor/resize.html">resize</a></li>
                     <li><a href="../editor/resizeExact.html">resizeExact</a></li>
                     <li><a href="../editor/resizeExactHeight.html">resizeExactHeight</a></li>
@@ -85,8 +120,19 @@ Save the image to an image format.</p>
                     <li><a href="../editor/resizeFit.html">resizeFit</a></li>
                     <li><a href="../editor/rotate.html">rotate</a></li>
                     <li><a href="../editor/save.html">save</a></li>
-                    <li><a href="../editor/setImage.html">setImage</a></li>
                     <li><a href="../editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Image Functions</li>
+            <li>
+                <ul>
+                    <li><a href="../image/blob.html">blob</a></li>
+                    <li><a href="../image/getCore.html">getCore</a></li>
+                    <li><a href="../image/getHeight.html">getHeight</a></li>
+                    <li><a href="../image/getImageFile.html">getImageFile</a></li>
+                    <li><a href="../image/getType.html">getType</a></li>
+                    <li><a href="../image/getWidth.html">getWidth</a></li>
+                    <li><a href="../image/isAnimated.html">isAnimated</a></li>
                 </ul>
             </li>
             <li>Filters</li>

@@ -11,44 +11,44 @@
 <body>
 <button id="sidebar-show" class="sidebar-show"></button>    <div id="content" class="content">
         <h1>Rectangle</h1>
-        <p>
-Creates a rectangle.</p>
+
+        <p>Creates a rectangle.</p>
 
         <h5>Parameters</h5>
                     <div class="params">
                 
                     <h6>width</h6>
 
-                    <p> Width of rectangle in pixels.</p>
+                    <p>Width of rectangle in pixels.</p>
                 
                     <h6>height</h6>
 
-                    <p> Height in pixels.</p>
+                    <p>Height in pixels.</p>
                 
                     <h6>pos</h6>
 
-                    <p> Array of X and Y position. X is the distance in pixels from the left of the canvass to the left of the rectangle. Y is the distance from the top of the canvass to the top of the rectangle. Defaults to array(0,0).</p>
+                    <p>Array of X and Y position. X is the distance in pixels from the left of the canvass to the left of the rectangle. Y is the distance from the top of the canvass to the top of the rectangle. Defaults to array(0,0).</p>
                 
                     <h6>borderSize</h6>
 
-                    <p> Size of the border in pixels. Defaults to 1 pixel. Set to 0 for no border.</p>
+                    <p>Size of the border in pixels. Defaults to 1 pixel. Set to 0 for no border.</p>
                 
                     <h6>borderColor</h6>
 
-                    <p> Border color. Defaults to black. Set to null for no color.</p>
+                    <p>Border color. Defaults to black. Set to null for no color.</p>
                 
                     <h6>fillColor</h6>
 
-                    <p> Fill color. Defaults to white. Set to null for no color.</p>
+                    <p>Fill color. Defaults to white. Set to null for no color.</p>
                             </div>
         
         <h5>Examples</h5>
         <pre><code>//...
 
-$editor->draw( Grafika::createDrawingObject('Rectangle', 85, 50)); // A 85x50 no filled rectangle with a black 1px border on location 0,0.
-$editor->draw( Grafika::createDrawingObject('Rectangle', 85, 50, array(105, 10), 0, null, new Color('#FF0000'))); // A 85x50 red rectangle with no border.
-$editor->draw( Grafika::createDrawingObject('Rectangle', 85, 50, array(105, 70), 0, null, new Color('#00FF00'))); // A 85x50 green rectangle with no border.
-$editor->draw( Grafika::createDrawingObject('Rectangle', 85, 50, array(0, 60), 1, '#000000', null)); // No fill rectangle</code></pre>
+$editor->draw( $image, Grafika::createDrawingObject('Rectangle', 85, 50)); // A 85x50 no filled rectangle with a black 1px border on location 0,0.
+$editor->draw( $image, Grafika::createDrawingObject('Rectangle', 85, 50, array(105, 10), 0, null, new Color('#FF0000'))); // A 85x50 red rectangle with no border.
+$editor->draw( $image, Grafika::createDrawingObject('Rectangle', 85, 50, array(105, 70), 0, null, new Color('#00FF00'))); // A 85x50 green rectangle with no border.
+$editor->draw( $image, Grafika::createDrawingObject('Rectangle', 85, 50, array(0, 60), 1, '#000000', null)); // No fill rectangle</code></pre>
 
         <p>The result of the above code:</p>
         <p><img src="../images/testRectangle.jpg" alt="testRectangle"></p>
@@ -62,12 +62,14 @@ $editor->draw( Grafika::createDrawingObject('Rectangle', 85, 50, array(0, 60), 1
                     <li><a href="../index.html">What is Grafika?</a></li>
                     <li><a href="../requirements.html">Requirements</a></li>
                     <li><a href="../installation.html">Installation</a></li>
+                    <li><a href="../migration1x.html">Migration from 1.x</a></li>
                 </ul>
             </li>
             <li>Examples</li>
             <li>
                 <ul>
                     <li><a href="../creating-editors.html">Creating Editors</a></li>
+                    <li><a href="../creating-images.html">Creating Images</a></li>
                     <li><a href="../resizing.html">Resizing</a></li>
                     <li><a href="../compare-images.html">Compare Images</a></li>
                     <li><a href="../smart-crop.html">Smart Crop</a></li>
@@ -78,7 +80,7 @@ $editor->draw( Grafika::createDrawingObject('Rectangle', 85, 50, array(0, 60), 1
             <li>
                 <ul>
                     <li><a href="../editor/apply.html">apply</a></li>
-                    <li><a href="../editor/blank.html">blank</a></li>
+                    <li><a href="../editor/blend.html">blend</a></li>
                     <li><a href="../editor/compare.html">compare</a></li>
                     <li><a href="../editor/crop.html">crop</a></li>
                     <li><a href="../editor/draw.html">draw</a></li>
@@ -87,11 +89,9 @@ $editor->draw( Grafika::createDrawingObject('Rectangle', 85, 50, array(0, 60), 1
                     <li><a href="../editor/flatten.html">flatten</a></li>
                     <li><a href="../editor/flip.html">flip</a></li>
                     <li><a href="../editor/free.html">free</a></li>
-                    <li><a href="../editor/getImage.html">getImage</a></li>
                     <li><a href="../editor/isAvailable.html">isAvailable</a></li>
                     <li><a href="../editor/opacity.html">opacity</a></li>
                     <li><a href="../editor/open.html">open</a></li>
-                    <li><a href="../editor/overlay.html">overlay</a></li>
                     <li><a href="../editor/resize.html">resize</a></li>
                     <li><a href="../editor/resizeExact.html">resizeExact</a></li>
                     <li><a href="../editor/resizeExactHeight.html">resizeExactHeight</a></li>
@@ -100,8 +100,19 @@ $editor->draw( Grafika::createDrawingObject('Rectangle', 85, 50, array(0, 60), 1
                     <li><a href="../editor/resizeFit.html">resizeFit</a></li>
                     <li><a href="../editor/rotate.html">rotate</a></li>
                     <li><a href="../editor/save.html">save</a></li>
-                    <li><a href="../editor/setImage.html">setImage</a></li>
                     <li><a href="../editor/text.html">text</a></li>
+                </ul>
+            </li>
+            <li>Image Functions</li>
+            <li>
+                <ul>
+                    <li><a href="../image/blob.html">blob</a></li>
+                    <li><a href="../image/getCore.html">getCore</a></li>
+                    <li><a href="../image/getHeight.html">getHeight</a></li>
+                    <li><a href="../image/getImageFile.html">getImageFile</a></li>
+                    <li><a href="../image/getType.html">getType</a></li>
+                    <li><a href="../image/getWidth.html">getWidth</a></li>
+                    <li><a href="../image/isAnimated.html">isAnimated</a></li>
                 </ul>
             </li>
             <li>Filters</li>
