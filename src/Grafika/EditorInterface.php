@@ -136,10 +136,10 @@ interface EditorInterface {
     public function opacity( &$image, $opacity );
 
     /**
-     * Open an image file and assign Image to first parameter.
+     * Open an image file and assign Image to first parameter. Grafika officially supports JPEG, PNG, GIF, and animated GIF. In theory, Grafika can open and edit other image formats as long as they are supported by GD and Imagick but it is currently untested.
      *
      * @param ImageInterface $image Instance of Image.
-     * @param string $imageFile Filesystem path to image file.
+     * @param string $imageFile File system path to image file.
      *
      * @return EditorInterface An instance of Editor.
      */
