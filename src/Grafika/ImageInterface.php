@@ -11,7 +11,7 @@ interface ImageInterface
     /**
      * Output a binary raw dump of an image in a specified format.
      *
-     * @param string|ImageType $type Image format of the dump.
+     * @param string|ImageType $type Image format of the dump. See Grafika\ImageType for supported formats.
      */
     public function blob($type);
 
