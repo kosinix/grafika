@@ -80,10 +80,10 @@ final class Editor implements EditorInterface
         }
 
         // Loop end X
-        $loopEndX = $image2->getWidth() - 1;
-        $canvasEndX = $offsetX + $image2->getWidth() - 1;
-        if($canvasEndX > $image1->getWidth() - 1){
-            $diff = $canvasEndX - ($image1->getWidth() - 1);
+        $loopEndX = $image2->getWidth();
+        $canvasEndX = $offsetX + $image2->getWidth();
+        if($canvasEndX > $image1->getWidth()){
+            $diff = $canvasEndX - $image1->getWidth();
             $loopEndX -= $diff;
         }
 
@@ -96,10 +96,10 @@ final class Editor implements EditorInterface
         }
 
         // Loop end Y
-        $loopEndY = $image2->getHeight() - 1;
-        $canvasEndY = $offsetY + $image2->getHeight() - 1;
-        if($canvasEndY > $image1->getHeight() - 1){
-            $diff = $canvasEndY - ($image1->getHeight() - 1);
+        $loopEndY = $image2->getHeight();
+        $canvasEndY = $offsetY + $image2->getHeight();
+        if($canvasEndY > $image1->getHeight()){
+            $diff = $canvasEndY - ($image1->getHeight());
             $loopEndY -= $diff;
         }
 
@@ -828,8 +828,8 @@ final class Editor implements EditorInterface
      */
     private function _blendMultiply($canvas, $gd1, $gd2, $loopStartY, $loopEndY, $loopStartX, $loopEndX, $offsetX, $offsetY, $opacity){
 
-        for ( $y = $loopStartY; $y <= $loopEndY; $y ++ ) {
-            for ( $x = $loopStartX; $x <= $loopEndX; $x ++ ) {
+        for ( $y = $loopStartY; $y < $loopEndY; $y++ ) {
+            for ( $x = $loopStartX; $x < $loopEndX; $x++ ) {
                 $canvasX    = $x + $offsetX;
                 $canvasY    = $y + $offsetY;
                 $argb1 = imagecolorat( $gd1, $canvasX, $canvasY );
@@ -874,8 +874,8 @@ final class Editor implements EditorInterface
      */
     private function _blendOverlay($canvas, $gd1, $gd2, $loopStartY, $loopEndY, $loopStartX, $loopEndX, $offsetX, $offsetY, $opacity){
 
-        for ( $y = $loopStartY; $y <= $loopEndY; $y ++ ) {
-            for ( $x = $loopStartX; $x <= $loopEndX; $x ++ ) {
+        for ( $y = $loopStartY; $y < $loopEndY; $y++ ) {
+            for ( $x = $loopStartX; $x < $loopEndX; $x++ ) {
                 $canvasX    = $x + $offsetX;
                 $canvasY    = $y + $offsetY;
                 $argb1 = imagecolorat( $gd1, $canvasX, $canvasY );
@@ -965,8 +965,8 @@ final class Editor implements EditorInterface
      */
     private function _blendScreen($canvas, $gd1, $gd2, $loopStartY, $loopEndY, $loopStartX, $loopEndX, $offsetX, $offsetY, $opacity){
 
-        for ( $y = $loopStartY; $y <= $loopEndY; $y ++ ) {
-            for ( $x = $loopStartX; $x <= $loopEndX; $x ++ ) {
+        for ( $y = $loopStartY; $y < $loopEndY; $y++ ) {
+            for ( $x = $loopStartX; $x < $loopEndX; $x++ ) {
                 $canvasX    = $x + $offsetX;
                 $canvasY    = $y + $offsetY;
                 $argb1 = imagecolorat( $gd1, $canvasX, $canvasY );
