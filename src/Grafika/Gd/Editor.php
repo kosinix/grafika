@@ -210,9 +210,6 @@ final class Editor implements EditorInterface
 
         }
 
-        $x += $offsetX;
-        $y += $offsetY;
-
         // Create blank image
         $newImageResource = imagecreatetruecolor($cropWidth, $cropHeight);
 

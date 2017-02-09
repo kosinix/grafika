@@ -176,9 +176,6 @@ final class Editor implements EditorInterface
 
         }
 
-        $x += $offsetX;
-        $y += $offsetY;
-
         $image->getCore()->cropImage($cropWidth, $cropHeight, $x, $y);
 
         return $this;
