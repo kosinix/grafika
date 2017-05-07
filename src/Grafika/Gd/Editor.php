@@ -504,7 +504,7 @@ final class Editor implements EditorInterface
      * @param Image $image
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
-     * @param string $mode Resize mode. Possible values: "exact", "exactHeight", "exactWidth", "fill", "fit".
+     * @param string $mode Resize mode. Possible values: "exact", "exactHeight", "exactWidth", "fill", "fit", "letterbox".
      *
      * @return Editor
      * @throws \Exception
@@ -532,6 +532,9 @@ final class Editor implements EditorInterface
                 break;
             case 'fit':
                 $this->resizeFit($image, $newWidth, $newHeight);
+                break;
+            case 'letterbox':
+                $this->resizeLetterbox($image, $newWidth, $newHeight, new Color('#FFFFFF'));
                 break;
             default:
                 throw new \Exception(sprintf('Invalid resize mode "%s".', $mode));
