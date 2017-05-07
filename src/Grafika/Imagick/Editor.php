@@ -564,6 +564,30 @@ final class Editor implements EditorInterface
     }
 
     /**
+     * Resize image to fit within the given width and height, then fill out the remaining space with a background color.
+     *
+     * @param Image $image
+     * @param int $newWidth Width in pixels.
+     * @param int $newHeight Height in pixels.
+     * @param Color $color The Color object containing the background color.
+     *
+     * @return Editor
+     */
+    public function resizeLetterbox(&$image, $newWidth, $newHeight, $color)
+    {
+
+        $canvas = Grafika::createBlankImage($newWidth, $newHeight);
+        $this->fill($canvas, $color);
+
+        $this->resizeFit($image, $newWidth, $newHeight);
+
+        $this->blend($canvas, $image, 'normal', 1, 'center');
+        $image = $canvas;
+
+        return $this;
+    }
+
+    /**
      * Rotate an image counter-clockwise.
      *
      * @param Image $image
