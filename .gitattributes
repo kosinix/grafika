@@ -9,3 +9,4 @@
 /phpunit.xml export-ignore
 /sami.phar export-ignore
 /samiconf.php export-ignore
+*.html linguist-language=PHP
