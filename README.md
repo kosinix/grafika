@@ -29,3 +29,4 @@ See documentation for a full list of features.
 
 ## License
 - MIT License
+- GPL 2
