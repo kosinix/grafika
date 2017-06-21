@@ -151,7 +151,7 @@ interface EditorInterface {
      * @param ImageInterface $image Instance of Image.
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
-     * @param string $mode Resize mode. Possible values: "exact", "exactHeight", "exactWidth", "fill", "fit".
+     * @param string $mode Resize mode. Possible values: "exact", "exactHeight", "exactWidth", "fill", "fit", "letterbox".
      *
      * @return EditorInterface An instance of Editor.
      */
@@ -209,6 +209,18 @@ interface EditorInterface {
      * @return EditorInterface An instance of Editor.
      */
     public function resizeFit( &$image, $newWidth, $newHeight );
+
+    /**
+     * Resize an image to fit within the given width and height, then fill out the remaining space with a background color. The re-sized image + color fill will exactly match the given dimensions. Useful if you want to preserve the aspect ratio but also fill out an exact size.
+     *
+     * @param ImageInterface $image Instance of Image.
+     * @param int $newWidth Width in pixels.
+     * @param int $newHeight Width in pixels.
+     * @param Color $color The Color object containing the background color.
+     *
+     * @return EditorInterface An instance of Editor.
+     */
+    public function resizeLetterbox( &$image, $newWidth, $newHeight, $color);
 
     /**
      * Rotate an image counter-clockwise.

@@ -402,7 +402,7 @@ final class Editor implements EditorInterface
      * @param Image $image
      * @param int $newWidth Width in pixels.
      * @param int $newHeight Height in pixels.
-     * @param string $mode Resize mode. Possible values: "exact", "exactHeight", "exactWidth", "fill", "fit".
+     * @param string $mode Resize mode. Possible values: "exact", "exactHeight", "exactWidth", "fill", "fit", "letterbox".
      *
      * @return Editor
      * @throws \Exception
@@ -430,6 +430,9 @@ final class Editor implements EditorInterface
                 break;
             case 'fit':
                 $this->resizeFit($image, $newWidth, $newHeight);
+                break;
+            case 'letterbox':
+                $this->resizeLetterbox($image, $newWidth, $newHeight, new Color('#FFFFFF'));
                 break;
             default:
                 throw new \Exception(sprintf('Invalid resize mode "%s".', $mode));
@@ -559,6 +562,30 @@ final class Editor implements EditorInterface
         }
 
         $this->_resize($image, $resizeWidth, $resizeHeight);
+
+        return $this;
+    }
+
+    /**
+     * Resize image to fit within the given width and height, then fill out the remaining space with a background color.
+     *
+     * @param Image $image
+     * @param int $newWidth Width in pixels.
+     * @param int $newHeight Height in pixels.
+     * @param Color $color The Color object containing the background color.
+     *
+     * @return Editor
+     */
+    public function resizeLetterbox(&$image, $newWidth, $newHeight, $color)
+    {
+
+        $canvas = Grafika::createBlankImage($newWidth, $newHeight);
+        $this->fill($canvas, $color);
+
+        $this->resizeFit($image, $newWidth, $newHeight);
+
+        $this->blend($canvas, $image, 'normal', 1, 'center');
+        $image = $canvas;
 
         return $this;
     }
