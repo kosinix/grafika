@@ -13,7 +13,7 @@ function deleteTmpDirectory()
 {
     $dir = __DIR__ . '/tmp';
     foreach (scandir($dir) as $file) {
-        if ('.' === $file || '..' === $file) {
+        if ('.' === $file || '..' === $file || '.gitignore' === $file) {
             continue;
         }
         if (is_dir("$dir/$file")) {
@@ -27,7 +27,7 @@ function deleteTmpDirectory()
 function rmdirRecursive($dir)
 {
     foreach (scandir($dir) as $file) {
-        if ('.' === $file || '..' === $file) {
+        if ('.' === $file || '..' === $file || '.gitignore' === $file) {
             continue;
         }
         if (is_dir("$dir/$file")) {
