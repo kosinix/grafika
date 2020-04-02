@@ -7,6 +7,14 @@ namespace Grafika;
  */
 interface EditorInterface {
 
+    const ALIGNMENT_X_LEFT = 'left';
+    const ALIGNMENT_X_CENTRE = 'centre';
+    const ALIGNMENT_X_RIGHT = 'right';
+
+    const ALIGNMENT_Y_TOP = 'top';
+    const ALIGNMENT_Y_MIDDLE = 'middle';
+    const ALIGNMENT_Y_BOTTOM = 'bottom';
+
     /**
      * Apply a filter to the image. See Filters section for a list of available filters.
      *
@@ -251,5 +259,19 @@ interface EditorInterface {
      * @throws \Exception
      */
     public function text( &$image, $text, $size = 12, $x = 0, $y = 12, $color = null, $font = '', $angle = 0 );
+
+    /**
+     * @param ImageInterface $image Instance of Image
+     * @param string $text The text to be written
+     * @param string $alignmentX One of EditorInterface::ALIGNMENT_X_*
+     * @param string $alignmentY One of EditorInterface::ALIGNMENT_Y_*
+     * @param Color $color The Color object. Default text color is black.
+     * @param int $size The font size. Defaults to 12.
+     * @param string $font Full path to font file. If blank, will default to Liberation Sans font.
+     * @param int $angle Angle of text from 0 - 359. Defaults to 0.
+     * @return EditorInterface
+     * @throws \Exception
+     */
+    public function textAligned(ImageInterface $image, string $text, string $alignmentX, string $alignmentY, Color $color, int $size = 12, string $font = '', int $angle = 0 ): EditorInterface;
 
 }

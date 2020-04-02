@@ -809,6 +809,107 @@ final class Editor implements EditorInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function textAligned(ImageInterface $image, string $text, string $alignmentX, string $alignmentY, ?Color $color = null, int $size = 12, string $font = '', int $angle = 0): EditorInterface
+    {
+        if (!function_exists('imagettfbbox')) {
+            throw new \Exception('Freetype support is not available.');
+        }
+        $font = $this->getFont($font);
+        $ttfBox = imagettfbbox($size, $angle, $font, $text);
+        $ttfBoxZero = $angle === 0 ? $ttfBox : imagettfbbox($size, 0, $font, $text);
+        if ($ttfBox === false || $ttfBoxZero === false) {
+            throw new \Exception('Failed to measure up text box');
+        }
+        // As per https://www.php.net/manual/en/function.imagettfbbox.php
+        $keys = ['llx', 'lly', 'lrx', 'lry', 'urx', 'ury', 'ulx', 'uly',];
+        $ttfBoxNamed = array_combine($keys, $ttfBox);
+        $ttfBoxZeroNamed = array_combine($keys, $ttfBoxZero);
+
+        $x = $this->getTextXPosition($image, $alignmentX, $ttfBoxNamed, $ttfBoxZeroNamed);
+        $y = $this->getTextYPosition($image, $alignmentY, $ttfBoxNamed, $ttfBoxZeroNamed);
+
+        return $this->text($image, $text, $size, $x, $y, $color, $font, $angle);
+    }
+
+    /**
+     * The coordinates given by x and y will define the basepoint of the first character (roughly the lower-left corner of the character).
+     * @param ImageInterface $image
+     * @param string $alignmentX
+     * @param array $ttfBoxNamed
+     * @param array $ttfBoxZeroNamed
+     * @return int
+     * @throws \Exception
+     */
+    private function getTextXPosition(ImageInterface $image, string $alignmentX, array $ttfBoxNamed, array $ttfBoxZeroNamed): int
+    {
+        switch ($alignmentX) {
+            case self::ALIGNMENT_X_LEFT:
+                $xValues = $this->getValues($ttfBoxNamed, 'x');
+                return abs(min($xValues));
+
+            case self::ALIGNMENT_X_CENTRE:
+                $middle = ($ttfBoxNamed['lrx'] - $ttfBoxNamed['llx']) / 2;
+                $delta = $middle - $ttfBoxNamed['llx'];
+                return ($image->getWidth() / 2) - $delta;
+
+            case self::ALIGNMENT_X_RIGHT:
+                $xValues = $this->getValues($ttfBoxNamed, 'x');
+                return $image->getWidth() - abs(max($xValues));
+
+            default:
+                throw new \Exception('Invalid $alignmentX value');
+        }
+    }
+
+    /**
+     * The y-ordinate. This sets the position of the fonts baseline, not the very bottom of the character.
+     * @param ImageInterface $image
+     * @param string $alignmentY
+     * @param array $ttfBoxNamed
+     * @param array $ttfBoxZeroNamed
+     * @return int
+     * @throws \Exception
+     */
+    private function getTextYPosition(ImageInterface $image, string $alignmentY, array $ttfBoxNamed, array $ttfBoxZeroNamed): int
+    {
+        $textHeight = abs($ttfBoxZeroNamed['uly'] - $ttfBoxZeroNamed['lly']);
+        switch ($alignmentY) {
+            case self::ALIGNMENT_Y_TOP:
+                $yValues = $this->getValues($ttfBoxNamed, 'y');
+                return abs(min($yValues)) - $textHeight;
+
+            case self::ALIGNMENT_Y_MIDDLE:
+                $middle = ($ttfBoxNamed['lly'] - $ttfBoxNamed['ury']) / 2;
+                $delta = $middle - $ttfBoxNamed['lly'];
+                return ($image->getHeight() / 2) - $textHeight + $delta;
+
+            case self::ALIGNMENT_Y_BOTTOM:
+                $yValues = $this->getValues($ttfBoxNamed, 'y');
+                return $image->getHeight() - abs(max($yValues)) - $textHeight;
+
+            default:
+                throw new \Exception('Invalid $alignmentY value');
+        }
+    }
+
+    private function getValues(array $ttfBox, string $keySuffix): array
+    {
+        $keys = ['ll', 'lr', 'ur', 'ul'];
+        $values = [];
+        foreach ($keys as $key) {
+            $values[$key . $keySuffix] = $ttfBox[$key . $keySuffix];
+        }
+        return $values;
+    }
+
+    private function getFont(string $font): string
+    {
+        return ($font !== '') ? $font : Grafika::fontsDir() . DIRECTORY_SEPARATOR . 'LiberationSans-Regular.ttf';
+    }
+
+    /**
      * @param $canvas
      * @param $gd1
      * @param $gd2

@@ -697,6 +697,14 @@ final class Editor implements EditorInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function textAligned(ImageInterface $image, string $text, string $alignmentX, string $alignmentY, Color $color, int $size = 12, string $font = '', int $angle = 0): EditorInterface
+    {
+        return $this;
+    }
+
+    /**
      * Calculate entropy based on histogram.
      *
      * @param array $hist Histogram returned by Image->histogram
