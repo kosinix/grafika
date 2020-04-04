@@ -2,7 +2,7 @@
 require_once 'src/autoloader.php';
 
 
-define('CLEAN_DUMP', 0); // Clear tmp folder after tests?
+define('CLEAN_DUMP', 1); // Clear tmp folder after tests?
 define('DIR_TEST', __DIR__); // /tests/ directory
 define('DIR_TEST_IMG', __DIR__.'/images'); // /tests/images directory
 define('DIR_TMP', __DIR__ . '/tmp'); // Holds test generated images 
