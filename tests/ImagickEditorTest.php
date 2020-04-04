@@ -238,7 +238,6 @@ class ImagickEditorTest extends TestCase {
             180,
             -180,
         ];
-//        $angles = range(0, -355, -5);
         $guideLines = [
             Grafika::createDrawingObject('Line', [0, 12], [400, 12], 1, '#999999'),
             Grafika::createDrawingObject('Line', [0, 200], [400, 200], 1, '#999999'),
@@ -248,7 +247,7 @@ class ImagickEditorTest extends TestCase {
             Grafika::createDrawingObject('Line', [388, 0], [388, 400], 1, '#999999'),
         ];
 
-        $string = 'S' . implode('', range(1, 9)) . 'E';
+        $string = 'A' . str_repeat('G', 9) . 'B';
         foreach ($angles as $angle) {
             foreach ($x as $alignmentX) {
                 foreach ($y as $alignmentY) {
@@ -263,12 +262,10 @@ class ImagickEditorTest extends TestCase {
                     $editor->text($blank, 'A: ' . $angle . ' X: ' . $alignmentX . ' Y: ' . $alignmentY, 12, 20, 320, new Color('#FF0000'));
                     $editor->textAligned($blank, $string, $alignmentX, $alignmentY, $color, 14, '', $angle);
                     $editor->save($blank, $output, 'png');
-                    $diff = $editor->compare($output, $expected);
-                    $this->assertLessThanOrEqual(1, $diff);
+                    $this->assertLessThanOrEqual(1, $editor->compare($output, $expected));
                 }
             }
         }
-        $this->assertTrue(true);
     }
 
     /**

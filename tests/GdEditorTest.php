@@ -264,7 +264,7 @@ class GdEditorTest extends TestCase
         foreach ($angles as $angle) {
             foreach ($x as $alignmentX) {
                 foreach ($y as $alignmentY) {
-                    $file = sprintf('A%dX%sY%s.png', $angle, $alignmentX, $alignmentY);
+                    $file = sprintf('X%sY%sA%d.png', $alignmentX, $alignmentY, $angle);
                     $output = DIR_TMP . '/' . __FUNCTION__ . '/' . $file;
                     $expected = $this->dirAssert . '/' . __FUNCTION__ . '/' . $file;
                     $blank = Grafika::createBlankImage(400, 400);
@@ -275,8 +275,7 @@ class GdEditorTest extends TestCase
                     $editor->text($blank, 'A: ' . $angle . ' X: ' . $alignmentX . ' Y: ' . $alignmentY, 10, 20, 320, new Color('#FF0000'));
                     $editor->textAligned($blank, $string, $alignmentX, $alignmentY, $color, 12, '', $angle);
                     $editor->save($blank, $output, 'png');
-
-                    $this->assertLessThanOrEqual(5, $editor->compare($output, $expected));
+                    $this->assertLessThanOrEqual(1, $editor->compare($output, $expected));
                 }
             }
         }
