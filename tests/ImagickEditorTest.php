@@ -210,6 +210,68 @@ class ImagickEditorTest extends TestCase {
     }
 
     /**
+     * @depends testCreateEditor
+     * @param EditorInterface $editor
+     * @throws Exception
+     */
+    public function testAddAlignedTextOnBlankImage(EditorInterface $editor)
+    {
+        $color = new Color( '#000000' );
+        $x = [
+            EditorInterface::ALIGNMENT_X_LEFT,
+            EditorInterface::ALIGNMENT_X_CENTRE,
+            EditorInterface::ALIGNMENT_X_RIGHT,
+        ];
+        $y = [
+            EditorInterface::ALIGNMENT_Y_TOP,
+            EditorInterface::ALIGNMENT_Y_MIDDLE,
+            EditorInterface::ALIGNMENT_Y_BOTTOM,
+        ];
+        $angles = [
+            0,
+            -30,
+            30,
+            -90,
+            90,
+            135,
+            -135,
+            180,
+            -180,
+        ];
+//        $angles = range(0, -355, -5);
+        $guideLines = [
+            Grafika::createDrawingObject('Line', [0, 12], [400, 12], 1, '#999999'),
+            Grafika::createDrawingObject('Line', [0, 200], [400, 200], 1, '#999999'),
+            Grafika::createDrawingObject('Line', [0, 388], [400, 388], 1, '#999999'),
+            Grafika::createDrawingObject('Line', [12, 0], [12, 400], 1, '#999999'),
+            Grafika::createDrawingObject('Line', [200, 0], [200, 400], 1, '#999999'),
+            Grafika::createDrawingObject('Line', [388, 0], [388, 400], 1, '#999999'),
+        ];
+
+        $string = 'S' . implode('', range(1, 9)) . 'E';
+        foreach ($angles as $angle) {
+            foreach ($x as $alignmentX) {
+                foreach ($y as $alignmentY) {
+                    $file = sprintf('X%sY%sA%d.png', $alignmentX, $alignmentY, $angle);
+                    $output = DIR_TMP . '/' . __FUNCTION__ . '/' . $file;
+                    $expected = $this->dirAssert . '/' . __FUNCTION__ . '/' . $file;
+                    $blank = Grafika::createBlankImage(400, 400);
+                    $editor->fill($blank, new Color('#ffffff'));
+                    foreach ($guideLines as $line) {
+                        $editor->draw($blank, $line);
+                    }
+                    $editor->text($blank, 'A: ' . $angle . ' X: ' . $alignmentX . ' Y: ' . $alignmentY, 12, 20, 320, new Color('#FF0000'));
+                    $editor->textAligned($blank, $string, $alignmentX, $alignmentY, $color, 14, '', $angle);
+                    $editor->save($blank, $output, 'png');
+                    $diff = $editor->compare($output, $expected);
+                    $this->assertLessThanOrEqual(1, $diff);
+                }
+            }
+        }
+        $this->assertTrue(true);
+    }
+
+    /**
      * Test enlarging an image to a dimension larger than its original size.
      * @depends testEqualFalse
      * @param EditorInterface $editor

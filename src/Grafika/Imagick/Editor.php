@@ -647,6 +647,16 @@ final class Editor implements EditorInterface
         return $this;
     }
 
+    private function getColor(?Color $color): Color
+    {
+        return ($color !== null) ? $color : new Color('#000000');
+    }
+
+    private function getFont(string $font): string
+    {
+        return ($font !== '') ? $font : Grafika::fontsDir() . DIRECTORY_SEPARATOR . 'LiberationSans-Regular.ttf';
+    }
+
     /**
      * Write text to image.
      *
@@ -671,8 +681,8 @@ final class Editor implements EditorInterface
 
         $y += $size;
 
-        $color = ($color !== null) ? $color : new Color('#000000');
-        $font  = ($font !== '') ? $font : Grafika::fontsDir() . DIRECTORY_SEPARATOR . 'LiberationSans-Regular.ttf';
+        $color = $this->getColor($color);
+        $font  = $this->getFont($font);
 
         list($r, $g, $b, $alpha) = $color->getRgba();
 
@@ -701,7 +711,201 @@ final class Editor implements EditorInterface
      */
     public function textAligned(ImageInterface $image, string $text, string $alignmentX, string $alignmentY, Color $color, int $size = 12, string $font = '', int $angle = 0): EditorInterface
     {
+        $color = $this->getColor($color);
+        $font  = $this->getFont($font);
+
+        $draw = new \ImagickDraw();
+        list($r, $g, $b, $alpha) = $color->getRgba();
+        // Text color
+        $draw->setFillColor(new \ImagickPixel("rgba($r, $g, $b, $alpha)"));
+        // Font properties
+        $draw->setFont($font);
+        $draw->setFontSize($size);
+        $draw->setGravity($this->getGravity($alignmentX, $alignmentY));
+
+        $metrics = $image->getCore()->queryFontMetrics($draw, $text);
+
+        // Invert to be consistent with GD
+        $angle = $angle * -1;
+
+        if ($alignmentX === self::ALIGNMENT_X_LEFT) {
+            $xOffset = 0;
+            $yOffset = $metrics['textHeight'];
+        } else {
+            $xOffset = -1 * ($metrics['textWidth'] / 2);
+            $yOffset = ($metrics['textHeight'] / 2);
+        }
+
+        $ttfBox = $this->getTTFBox($metrics, $angle, $xOffset, $yOffset);
+
+        $x = $this->getTextXPosition($image, $alignmentX, $ttfBox);
+        $y = $this->getTextYPosition($image, $alignmentX, $alignmentY, $ttfBox);
+
+        // dump(sprintf('A: %d X: %d Y: %d', $angle * -1, $x, $y), ''); // debug
+
+        $image->getCore()->annotateImage(
+            $draw,
+            $x,
+            $y,
+            $angle,
+            $text
+        );
+
         return $this;
+    }
+
+    /**
+     * @param string $alignmentX
+     * @param string $alignmentY
+     * @return int
+     * @throws \Exception
+     */
+    private function getGravity(string $alignmentX, string $alignmentY): int
+    {
+        switch ($alignmentX) {
+            case self::ALIGNMENT_X_LEFT:
+                // Imagick::GRAVITY_CENTER does not work with negative x values. Using Imagick::GRAVITY_NORTHWEST as workaround.
+                return \Imagick::GRAVITY_NORTHWEST;
+
+            case self::ALIGNMENT_X_CENTRE:
+            case self::ALIGNMENT_X_RIGHT:
+                return \Imagick::GRAVITY_CENTER;
+
+            default:
+                throw new \Exception('Invalid $alignmentX value');
+        }
+    }
+
+    /**
+     * X Position, depended on Imagick::GRAVITY_NORTHWEST setting
+     * @param ImageInterface $image
+     * @param string $alignmentX
+     * @param array $ttfBox
+     * @return int
+     * @throws \Exception
+     */
+    private function getTextXPosition(ImageInterface $image, string $alignmentX, array $ttfBox): int
+    {
+        switch ($alignmentX) {
+            case self::ALIGNMENT_X_LEFT:
+                $xValues = $this->getTTFBoxValues($ttfBox, 'x');
+                return abs(min($xValues));
+
+            case self::ALIGNMENT_X_CENTRE:
+                return 0;
+
+            case self::ALIGNMENT_X_RIGHT:
+                $xValues = $this->getTTFBoxValues($ttfBox, 'x');
+                return (($image->getWidth() / 2) - max($xValues));
+
+            default:
+                throw new \Exception('Invalid $alignmentX value');
+        }
+    }
+
+    /**
+     * Y Position, depended on Imagick::GRAVITY_NORTHWEST setting
+     * @param ImageInterface $image
+     * @param string $alignmentX
+     * @param string $alignmentY
+     * @param array $ttfBox
+     * @return int
+     * @throws \Exception
+     */
+    private function getTextYPosition(ImageInterface $image, string $alignmentX, string $alignmentY, array $ttfBox): int
+    {
+        if ($alignmentX === self::ALIGNMENT_X_LEFT) {
+            $yValues = $this->getTTFBoxValues($ttfBox, 'y');
+            switch ($alignmentY) {
+                case self::ALIGNMENT_Y_TOP:
+                    return abs(min($yValues));
+
+                case self::ALIGNMENT_Y_MIDDLE:
+                    $minVal = min($yValues);
+                    $maxVal = max($yValues);
+                    $val = abs($minVal) > abs($maxVal) ? $minVal : $maxVal;
+                    return ($image->getHeight() / 2) - ($val / 2);
+
+                case self::ALIGNMENT_Y_BOTTOM:
+                    return $image->getHeight() - abs(max($yValues));
+
+                default:
+                    throw new \Exception('Invalid $alignmentY value');
+            }
+        }
+        switch ($alignmentY) {
+            case self::ALIGNMENT_Y_TOP:
+                $yValues = $this->getTTFBoxValues($ttfBox, 'y');
+                return -1 * (($image->getHeight() / 2) - max($yValues));
+
+            case self::ALIGNMENT_Y_MIDDLE:
+                return 0;
+
+            case self::ALIGNMENT_Y_BOTTOM:
+                $yValues = $this->getTTFBoxValues($ttfBox, 'y');
+                return (($image->getHeight() / 2) - max($yValues));
+
+            default:
+                throw new \Exception('Invalid $alignmentY value');
+        }
+    }
+
+    private function getTTFBoxValues(array $ttfBox, string $keySuffix): array
+    {
+        $keys = ['ll', 'lr', 'ur', 'ul'];
+        $values = [];
+        foreach ($keys as $key) {
+            $values[$key . $keySuffix] = $ttfBox[$key . $keySuffix];
+        }
+        return $values;
+    }
+
+    private function getTTFBox(array $metrics, int $angle, int $xOffset = 0, int $yOffset = 0): array
+    {
+        $ttfBox0 = [
+            'llx' => 0,
+            'lly' => -1 * $metrics['textHeight'],
+            'lrx' => $metrics['textWidth'],
+            'lry' => -1 * $metrics['textHeight'],
+            'urx' => $metrics['textWidth'],
+            'ury' => 0,
+            'ulx' => 0,
+            'uly' => 0
+        ];
+        $ttfBox0['llx'] += $xOffset;
+        $ttfBox0['lrx'] += $xOffset;
+        $ttfBox0['ulx'] += $xOffset;
+        $ttfBox0['urx'] += $xOffset;
+
+        $ttfBox0['lly'] += $yOffset;
+        $ttfBox0['lry'] += $yOffset;
+        $ttfBox0['uly'] += $yOffset;
+        $ttfBox0['ury'] += $yOffset;
+
+        $ttfBoxRot = $ttfBox0;
+        if ($angle !== 0) {
+
+            list($ttfBoxRot['ulx'], $ttfBoxRot['uly']) = $this->rotatePoint(0, 0, $angle, $ttfBox0['ulx'], $ttfBox0['uly']);
+            list($ttfBoxRot['urx'], $ttfBoxRot['ury']) = $this->rotatePoint(0, 0, $angle, $ttfBox0['urx'], $ttfBox0['ury']);
+            list($ttfBoxRot['llx'], $ttfBoxRot['lly']) = $this->rotatePoint(0, 0, $angle, $ttfBox0['llx'], $ttfBox0['lly']);
+            list($ttfBoxRot['lrx'], $ttfBoxRot['lry']) = $this->rotatePoint(0, 0, $angle, $ttfBox0['lrx'], $ttfBox0['lry']);
+        }
+        // dump(sprintf(str_repeat('(%d, %d) ', 4), ... array_values($ttfBoxRot)));
+        return $ttfBoxRot;
+    }
+
+    private function rotatePoint(int $cx, int $cy, int $angle, int $x, int $y): array
+    {
+        // Thanks: https://stackoverflow.com/a/32376643
+        $cos = cos(deg2rad($angle));
+        $sin = sin(deg2rad($angle));
+
+        // cos(angle) * (p.x - cx) - sin(angle) * (p.y - cy) + cx,
+        $nx = ($cos * ($x - $cx)) - ($sin * ($y - $cy)) + $cx;
+        // sin(angle) * (p.x - cx) + cos(angle) * (p.y - cy) + cy);
+        $ny = ($sin * ($x - $cx)) + ($cos * ($y - $cy)) + $cy;
+
+        return [(int) $nx, (int) $ny];
     }
 
     /**
