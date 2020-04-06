@@ -709,7 +709,7 @@ final class Editor implements EditorInterface
     /**
      * @inheritDoc
      */
-    public function textAligned(ImageInterface $image, string $text, string $alignmentX, string $alignmentY, Color $color, int $size = 12, string $font = '', int $angle = 0): EditorInterface
+    public function textAligned(ImageInterface $image, string $text, string $alignmentX, string $alignmentY, int $paddingX = 0, int $paddingY = 0, ?Color $color = null, int $size = 12, string $font = '', int $angle = 0 ): array
     {
         $color = $this->getColor($color);
         $font  = $this->getFont($font);
@@ -741,6 +741,9 @@ final class Editor implements EditorInterface
         $x = $this->getTextXPosition($image, $alignmentX, $ttfBox);
         $y = $this->getTextYPosition($image, $alignmentX, $alignmentY, $ttfBox);
 
+        $xValues = $this->getValues($ttfBox, 'x');
+        $yValues = $this->getValues($ttfBox, 'y');
+
         // dump(sprintf('A: %d X: %d Y: %d', $angle * -1, $x, $y), ''); // debug
 
         $image->getCore()->annotateImage(
@@ -751,7 +754,12 @@ final class Editor implements EditorInterface
             $text
         );
 
-        return $this;
+        return [
+            'textWidth' => $metrics['textWidth'],
+            'textHeight' => $metrics['textHeight'],
+            'boxWidth' => max($xValues) - min($xValues),
+            'boxHeight' => max($yValues) - min($yValues),
+        ];
     }
 
     /**

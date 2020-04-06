@@ -811,7 +811,7 @@ final class Editor implements EditorInterface
     /**
      * @inheritDoc
      */
-    public function textAligned(ImageInterface $image, string $text, string $alignmentX, string $alignmentY, ?Color $color = null, int $size = 12, string $font = '', int $angle = 0): EditorInterface
+    public function textAligned(ImageInterface $image, string $text, string $alignmentX, string $alignmentY, int $paddingX = 0, int $paddingY = 0, ?Color $color = null, int $size = 12, string $font = '', int $angle = 0 ): array
     {
         if (!function_exists('imagettfbbox')) {
             throw new \Exception('Freetype support is not available.');
@@ -827,10 +827,25 @@ final class Editor implements EditorInterface
         $ttfBoxNamed = array_combine($keys, $ttfBox);
         $ttfBoxZeroNamed = array_combine($keys, $ttfBoxZero);
 
-        $x = $this->getTextXPosition($image, $alignmentX, $ttfBoxNamed, $ttfBoxZeroNamed);
-        $y = $this->getTextYPosition($image, $alignmentY, $ttfBoxNamed, $ttfBoxZeroNamed);
+        $x = $this->getTextXPosition($image, $alignmentX, $paddingX, $ttfBoxNamed, $ttfBoxZeroNamed);
+        $y = $this->getTextYPosition($image, $alignmentY, $paddingY, $ttfBoxNamed, $ttfBoxZeroNamed);
 
-        return $this->text($image, $text, $size, $x, $y, $color, $font, $angle);
+        $xZeroValues = $this->getValues($ttfBoxZeroNamed, 'x');
+        $yZeroValues = $this->getValues($ttfBoxZeroNamed, 'y');
+
+        $xValues = $this->getValues($ttfBoxZeroNamed, 'x');
+        $yValues = $this->getValues($ttfBoxZeroNamed, 'y');
+
+        // dump(sprintf('A: %d X: %d Y: %d', $angle * -1, $x, $y), ''); // debug
+
+        $this->text($image, $text, $size, $x, $y, $color, $font, $angle);
+
+        return [
+            'textWidth' => max($xZeroValues) - min($xZeroValues),
+            'textHeight' => max($yZeroValues) - min($yZeroValues),
+            'boxWidth' => max($xValues) - min($xValues),
+            'boxHeight' => max($yValues) - min($yValues),
+        ];
     }
 
     /**
@@ -842,21 +857,21 @@ final class Editor implements EditorInterface
      * @return int
      * @throws \Exception
      */
-    private function getTextXPosition(ImageInterface $image, string $alignmentX, array $ttfBoxNamed, array $ttfBoxZeroNamed): int
+    private function getTextXPosition(ImageInterface $image, string $alignmentX, int $paddingX, array $ttfBoxNamed, array $ttfBoxZeroNamed): int
     {
         switch ($alignmentX) {
             case self::ALIGNMENT_X_LEFT:
                 $xValues = $this->getValues($ttfBoxNamed, 'x');
-                return abs(min($xValues));
+                return abs(min($xValues)) + $paddingX;
 
             case self::ALIGNMENT_X_CENTRE:
                 $middle = ($ttfBoxNamed['lrx'] - $ttfBoxNamed['llx']) / 2;
                 $delta = $middle - $ttfBoxNamed['llx'];
-                return ($image->getWidth() / 2) - $delta;
+                return ($image->getWidth() / 2) - $delta + $paddingX;
 
             case self::ALIGNMENT_X_RIGHT:
                 $xValues = $this->getValues($ttfBoxNamed, 'x');
-                return $image->getWidth() - abs(max($xValues));
+                return $image->getWidth() - abs(max($xValues)) - $paddingX;
 
             default:
                 throw new \Exception('Invalid $alignmentX value');
@@ -872,22 +887,22 @@ final class Editor implements EditorInterface
      * @return int
      * @throws \Exception
      */
-    private function getTextYPosition(ImageInterface $image, string $alignmentY, array $ttfBoxNamed, array $ttfBoxZeroNamed): int
+    private function getTextYPosition(ImageInterface $image, string $alignmentY, int $paddingY, array $ttfBoxNamed, array $ttfBoxZeroNamed): int
     {
         $textHeight = abs($ttfBoxZeroNamed['uly'] - $ttfBoxZeroNamed['lly']);
         switch ($alignmentY) {
             case self::ALIGNMENT_Y_TOP:
                 $yValues = $this->getValues($ttfBoxNamed, 'y');
-                return abs(min($yValues)) - $textHeight;
+                return abs(min($yValues)) - $textHeight + $paddingY;
 
             case self::ALIGNMENT_Y_MIDDLE:
                 $middle = ($ttfBoxNamed['lly'] - $ttfBoxNamed['ury']) / 2;
                 $delta = $middle - $ttfBoxNamed['lly'];
-                return ($image->getHeight() / 2) - $textHeight + $delta;
+                return ($image->getHeight() / 2) - $textHeight + $delta + $paddingY;
 
             case self::ALIGNMENT_Y_BOTTOM:
                 $yValues = $this->getValues($ttfBoxNamed, 'y');
-                return $image->getHeight() - abs(max($yValues)) - $textHeight;
+                return $image->getHeight() - abs(max($yValues)) - $textHeight - $paddingY;
 
             default:
                 throw new \Exception('Invalid $alignmentY value');

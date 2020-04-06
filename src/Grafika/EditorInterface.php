@@ -85,7 +85,7 @@ interface EditorInterface {
      * @throws \Exception
      */
     public function equal( $image1, $image2 );
-    
+
     /**
      * Fill entire image with color.
      *
@@ -152,7 +152,7 @@ interface EditorInterface {
      * @return EditorInterface An instance of Editor.
      */
     public function open( &$image, $imageFile );
-    
+
     /**
      * Wrapper function for the resizeXXX family of functions. Resize an image to a given width, height and mode.
      *
@@ -265,13 +265,15 @@ interface EditorInterface {
      * @param string $text The text to be written
      * @param string $alignmentX One of EditorInterface::ALIGNMENT_X_*
      * @param string $alignmentY One of EditorInterface::ALIGNMENT_Y_*
+     * @param int $paddingX Pixels to add to next to the text
+     * @param int $paddingY Pixels to add to above/below the text
      * @param Color $color The Color object. Default text color is black.
      * @param int $size The font size. Defaults to 12.
      * @param string $font Full path to font file. If blank, will default to Liberation Sans font.
      * @param int $angle Angle of text from 0 - 359. Defaults to 0.
-     * @return EditorInterface
+     * @return array With keys, textWidth int, textHeight int, boxWidth int, boxHeight int
      * @throws \Exception
      */
-    public function textAligned(ImageInterface $image, string $text, string $alignmentX, string $alignmentY, Color $color, int $size = 12, string $font = '', int $angle = 0 ): EditorInterface;
+    public function textAligned(ImageInterface $image, string $text, string $alignmentX, string $alignmentY, int $paddingX = 0, int $paddingY = 0, ?Color $color = null, int $size = 12, string $font = '', int $angle = 0 ): array;
 
 }
