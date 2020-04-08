@@ -862,22 +862,22 @@ final class Editor implements EditorInterface
      * @param ImageInterface $image
      * @param string $alignmentX
      * @param int $paddingX
-     * @param TTFBox $TTFBox
+     * @param TTFBox $ttfBox
      * @return int
      * @throws \Exception
      */
-    private function getTextXPosition(ImageInterface $image, string $alignmentX, int $paddingX, TTFBox $TTFBox): int
+    private function getTextXPosition(ImageInterface $image, string $alignmentX, int $paddingX, TTFBox $ttfBox): int
     {
         switch ($alignmentX) {
             case self::ALIGNMENT_X_LEFT:
-                return abs(min($TTFBox->getXPoints())) + $paddingX;
+                return abs(min($ttfBox->getXPoints())) + $paddingX;
 
             case self::ALIGNMENT_X_CENTRE:
-                $middle = (abs(max($TTFBox->getXPoints())) - abs(min($TTFBox->getXPoints()))) / 2;
+                $middle = (abs(max($ttfBox->getXPoints())) - abs(min($ttfBox->getXPoints()))) / 2;
                 return ($image->getWidth() / 2) - $middle + $paddingX;
 
             case self::ALIGNMENT_X_RIGHT:
-                return $image->getWidth() - abs(max($TTFBox->getXPoints())) - $paddingX;
+                return $image->getWidth() - abs(max($ttfBox->getXPoints())) - $paddingX;
 
             default:
                 throw new \Exception('Invalid $alignmentX value');
@@ -889,24 +889,24 @@ final class Editor implements EditorInterface
      * @param ImageInterface $image
      * @param string $alignmentY
      * @param int $paddingY
-     * @param TTFBox $TTFBox
-     * @param TTFBox $TTFBoxZero
+     * @param TTFBox $ttfBox
+     * @param TTFBox $ttfBoxZero
      * @return int
      * @throws \Exception
      */
-    private function getTextYPosition(ImageInterface $image, string $alignmentY, int $paddingY, TTFBox $TTFBox, TTFBox $TTFBoxZero): int
+    private function getTextYPosition(ImageInterface $image, string $alignmentY, int $paddingY, TTFBox $ttfBox, TTFBox $ttfBoxZero): int
     {
-        $textHeight = abs(min($TTFBoxZero->getYPoints())) - abs(max($TTFBoxZero->getYPoints()));
+        $textHeight = abs(min($ttfBoxZero->getYPoints())) - abs(max($ttfBoxZero->getYPoints()));
         switch ($alignmentY) {
             case self::ALIGNMENT_Y_TOP:
-                return abs(min($TTFBox->getYPoints())) + $paddingY;
+                return abs(min($ttfBox->getYPoints())) + $paddingY;
 
             case self::ALIGNMENT_Y_MIDDLE:
-                $middle = (($TTFBox->getLowerLeftY() - $TTFBox->getUpperRightY()) / 2) - $TTFBox->getLowerLeftY();
+                $middle = (($ttfBox->getLowerLeftY() - $ttfBox->getUpperRightY()) / 2) - $ttfBox->getLowerLeftY();
                 return ($image->getHeight() / 2) + $middle + $paddingY;
 
             case self::ALIGNMENT_Y_BOTTOM:
-                return $image->getHeight() - abs(max($TTFBox->getYPoints())) - $paddingY;
+                return $image->getHeight() - abs(max($ttfBox->getYPoints())) - $paddingY;
 
             default:
                 throw new \Exception('Invalid $alignmentY value');
