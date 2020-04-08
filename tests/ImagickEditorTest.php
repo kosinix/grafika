@@ -247,7 +247,7 @@ class ImagickEditorTest extends TestCase {
             Grafika::createDrawingObject('Line', [388, 0], [388, 400], 1, '#999999'),
         ];
 
-        $string = 'A' . str_repeat('G', 9) . 'B';
+        $string = 'Ab1234567890yZ';
         foreach ($angles as $angle) {
             foreach ($x as $alignmentX) {
                 foreach ($y as $alignmentY) {

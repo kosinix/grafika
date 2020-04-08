@@ -260,7 +260,7 @@ class GdEditorTest extends TestCase
             Grafika::createDrawingObject('Line', [388, 0], [388, 400], 1, '#999999'),
         ];
 
-        $string = 'A' . str_repeat('G', 9) . 'B';
+        $string = 'y123456789y';
         foreach ($angles as $angle) {
             foreach ($x as $alignmentX) {
                 foreach ($y as $alignmentY) {
@@ -273,9 +273,9 @@ class GdEditorTest extends TestCase
                         $editor->draw($blank, $line);
                     }
                     $editor->text($blank, 'A: ' . $angle . ' X: ' . $alignmentX . ' Y: ' . $alignmentY, 10, 20, 320, new Color('#FF0000'));
-                    $editor->textAligned($blank, $string, $alignmentX, $alignmentY, $color, 12, '', $angle);
+                    $editor->textAligned($blank, $string, $alignmentX, $alignmentY, 0, 0, $color, 12, '', $angle);
                     $editor->save($blank, $output, 'png');
-                    $this->assertLessThanOrEqual(1, $editor->compare($output, $expected));
+                    $this->assertLessThanOrEqual(1, $editor->compare($output, $expected), $file);
                 }
             }
         }
