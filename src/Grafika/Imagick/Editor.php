@@ -11,6 +11,7 @@ use Grafika\ImageType;
 use Grafika\Color;
 use Grafika\Imagick\ImageHash\DifferenceHash;
 use Grafika\Position;
+use Grafika\Util\TTFBox;
 
 /**
  * Imagick Editor class. Uses the PHP Imagick library.
@@ -741,9 +742,6 @@ final class Editor implements EditorInterface
         $x = $this->getTextXPosition($image, $alignmentX, $ttfBox);
         $y = $this->getTextYPosition($image, $alignmentX, $alignmentY, $ttfBox);
 
-        $xValues = $this->getValues($ttfBox, 'x');
-        $yValues = $this->getValues($ttfBox, 'y');
-
         // dump(sprintf('A: %d X: %d Y: %d', $angle * -1, $x, $y), ''); // debug
 
         $image->getCore()->annotateImage(
@@ -753,6 +751,9 @@ final class Editor implements EditorInterface
             $angle,
             $text
         );
+
+        $xValues = $ttfBox->getXPoints();
+        $yValues = $ttfBox->getYPoints();
 
         return [
             'textWidth' => $metrics['textWidth'],
@@ -788,23 +789,21 @@ final class Editor implements EditorInterface
      * X Position, depended on Imagick::GRAVITY_NORTHWEST setting
      * @param ImageInterface $image
      * @param string $alignmentX
-     * @param array $ttfBox
+     * @param TTFBox $ttfBox
      * @return int
      * @throws \Exception
      */
-    private function getTextXPosition(ImageInterface $image, string $alignmentX, array $ttfBox): int
+    private function getTextXPosition(ImageInterface $image, string $alignmentX, TTFBox $ttfBox): int
     {
         switch ($alignmentX) {
             case self::ALIGNMENT_X_LEFT:
-                $xValues = $this->getTTFBoxValues($ttfBox, 'x');
-                return abs(min($xValues));
+                return abs(min($ttfBox->getXPoints()));
 
             case self::ALIGNMENT_X_CENTRE:
                 return 0;
 
             case self::ALIGNMENT_X_RIGHT:
-                $xValues = $this->getTTFBoxValues($ttfBox, 'x');
-                return (($image->getWidth() / 2) - max($xValues));
+                return (($image->getWidth() / 2) - max($ttfBox->getXPoints()));
 
             default:
                 throw new \Exception('Invalid $alignmentX value');
@@ -816,26 +815,25 @@ final class Editor implements EditorInterface
      * @param ImageInterface $image
      * @param string $alignmentX
      * @param string $alignmentY
-     * @param array $ttfBox
+     * @param TTFBox $ttfBox
      * @return int
      * @throws \Exception
      */
-    private function getTextYPosition(ImageInterface $image, string $alignmentX, string $alignmentY, array $ttfBox): int
+    private function getTextYPosition(ImageInterface $image, string $alignmentX, string $alignmentY, TTFBox $ttfBox): int
     {
         if ($alignmentX === self::ALIGNMENT_X_LEFT) {
-            $yValues = $this->getTTFBoxValues($ttfBox, 'y');
             switch ($alignmentY) {
                 case self::ALIGNMENT_Y_TOP:
-                    return abs(min($yValues));
+                    return abs(min($ttfBox->getYPoints()));
 
                 case self::ALIGNMENT_Y_MIDDLE:
-                    $minVal = min($yValues);
-                    $maxVal = max($yValues);
+                    $minVal = min($ttfBox->getYPoints());
+                    $maxVal = max($ttfBox->getYPoints());
                     $val = abs($minVal) > abs($maxVal) ? $minVal : $maxVal;
                     return ($image->getHeight() / 2) - ($val / 2);
 
                 case self::ALIGNMENT_Y_BOTTOM:
-                    return $image->getHeight() - abs(max($yValues));
+                    return $image->getHeight() - abs(max($ttfBox->getYPoints()));
 
                 default:
                     throw new \Exception('Invalid $alignmentY value');
@@ -843,32 +841,20 @@ final class Editor implements EditorInterface
         }
         switch ($alignmentY) {
             case self::ALIGNMENT_Y_TOP:
-                $yValues = $this->getTTFBoxValues($ttfBox, 'y');
-                return -1 * (($image->getHeight() / 2) - max($yValues));
+                return -1 * (($image->getHeight() / 2) - max($ttfBox->getYPoints()));
 
             case self::ALIGNMENT_Y_MIDDLE:
                 return 0;
 
             case self::ALIGNMENT_Y_BOTTOM:
-                $yValues = $this->getTTFBoxValues($ttfBox, 'y');
-                return (($image->getHeight() / 2) - max($yValues));
+                return (($image->getHeight() / 2) - max($ttfBox->getYPoints()));
 
             default:
                 throw new \Exception('Invalid $alignmentY value');
         }
     }
 
-    private function getTTFBoxValues(array $ttfBox, string $keySuffix): array
-    {
-        $keys = ['ll', 'lr', 'ur', 'ul'];
-        $values = [];
-        foreach ($keys as $key) {
-            $values[$key . $keySuffix] = $ttfBox[$key . $keySuffix];
-        }
-        return $values;
-    }
-
-    private function getTTFBox(array $metrics, int $angle, int $xOffset = 0, int $yOffset = 0): array
+    private function getTTFBox(array $metrics, int $angle, int $xOffset = 0, int $yOffset = 0): TTFBox
     {
         $ttfBox0 = [
             'llx' => 0,
@@ -889,31 +875,11 @@ final class Editor implements EditorInterface
         $ttfBox0['lry'] += $yOffset;
         $ttfBox0['uly'] += $yOffset;
         $ttfBox0['ury'] += $yOffset;
-
-        $ttfBoxRot = $ttfBox0;
+        $ttfBox = new TTFBox(array_values($ttfBox0));
         if ($angle !== 0) {
-
-            list($ttfBoxRot['ulx'], $ttfBoxRot['uly']) = $this->rotatePoint(0, 0, $angle, $ttfBox0['ulx'], $ttfBox0['uly']);
-            list($ttfBoxRot['urx'], $ttfBoxRot['ury']) = $this->rotatePoint(0, 0, $angle, $ttfBox0['urx'], $ttfBox0['ury']);
-            list($ttfBoxRot['llx'], $ttfBoxRot['lly']) = $this->rotatePoint(0, 0, $angle, $ttfBox0['llx'], $ttfBox0['lly']);
-            list($ttfBoxRot['lrx'], $ttfBoxRot['lry']) = $this->rotatePoint(0, 0, $angle, $ttfBox0['lrx'], $ttfBox0['lry']);
+            return $ttfBox->rotate(0, 0, $angle);
         }
-        // dump(sprintf(str_repeat('(%d, %d) ', 4), ... array_values($ttfBoxRot)));
-        return $ttfBoxRot;
-    }
-
-    private function rotatePoint(int $cx, int $cy, int $angle, int $x, int $y): array
-    {
-        // Thanks: https://stackoverflow.com/a/32376643
-        $cos = cos(deg2rad($angle));
-        $sin = sin(deg2rad($angle));
-
-        // cos(angle) * (p.x - cx) - sin(angle) * (p.y - cy) + cx,
-        $nx = ($cos * ($x - $cx)) - ($sin * ($y - $cy)) + $cx;
-        // sin(angle) * (p.x - cx) + cos(angle) * (p.y - cy) + cy);
-        $ny = ($sin * ($x - $cx)) + ($cos * ($y - $cy)) + $cy;
-
-        return [(int) $nx, (int) $ny];
+        return $ttfBox;
     }
 
     /**

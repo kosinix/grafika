@@ -247,7 +247,7 @@ class ImagickEditorTest extends TestCase {
             Grafika::createDrawingObject('Line', [388, 0], [388, 400], 1, '#999999'),
         ];
 
-        $string = 'Ab1234567890yZ';
+        $string = 'S123456789E';
         foreach ($angles as $angle) {
             foreach ($x as $alignmentX) {
                 foreach ($y as $alignmentY) {
@@ -260,9 +260,9 @@ class ImagickEditorTest extends TestCase {
                         $editor->draw($blank, $line);
                     }
                     $editor->text($blank, 'A: ' . $angle . ' X: ' . $alignmentX . ' Y: ' . $alignmentY, 12, 20, 320, new Color('#FF0000'));
-                    $editor->textAligned($blank, $string, $alignmentX, $alignmentY, $color, 14, '', $angle);
+                    $editor->textAligned($blank, $string, $alignmentX, $alignmentY, 0, 0, $color, 14, '', $angle);
                     $editor->save($blank, $output, 'png');
-                    $this->assertLessThanOrEqual(1, $editor->compare($output, $expected));
+                    $this->assertLessThanOrEqual(1, $editor->compare($output, $expected), $file);
                 }
             }
         }
