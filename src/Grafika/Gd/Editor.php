@@ -2,6 +2,7 @@
 
 namespace Grafika\Gd;
 
+use Grafika\Color;
 use Grafika\DrawingObjectInterface;
 use Grafika\EditorInterface;
 use Grafika\FilterInterface;
@@ -10,8 +11,8 @@ use Grafika\Gd\ImageHash\DifferenceHash;
 use Grafika\Grafika;
 use Grafika\ImageInterface;
 use Grafika\ImageType;
-use Grafika\Color;
 use Grafika\Position;
+use Grafika\Util\TTFBox;
 
 /**
  * GD Editor class. Uses the PHP GD library.
@@ -806,6 +807,115 @@ final class Editor implements EditorInterface
         );
 
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function textAligned(ImageInterface $image, string $text, string $alignmentX, string $alignmentY, int $paddingX = 0, int $paddingY = 0, ?Color $color = null, int $size = 12, string $font = '', int $angle = 0 ): array
+    {
+        if (!function_exists('imagettfbbox')) {
+            throw new \Exception('Freetype support is not available.');
+        }
+        $font = $this->getFont($font);
+
+        $ttfBoxZero = new TTFBox(imagettfbbox($size, 0, $font, $text));
+        if ($alignmentX === self::ALIGNMENT_X_CENTRE && $alignmentY === self::ALIGNMENT_Y_MIDDLE) {
+            // Remove chars with bits sticking out to so text centers at text body
+            $flatText = preg_replace('/[gjpqy]/', 'a', $text);
+            $ttfBoxV = new TTFBox(imagettfbbox($size, 0, $font, $flatText));
+            $ttfBoxZero = $ttfBoxZero->reduceHeight($ttfBoxV);
+        } else {
+            // Add chars with bits sticking out to ensure consistent height
+            $ttfBoxV = new TTFBox(imagettfbbox($size, 0, $font, $text . 'gjpqy'));
+            $ttfBoxZero = $ttfBoxZero->combineHeight($ttfBoxV);
+        }
+
+        if ($angle != 0) {
+            $ttfBox = $ttfBoxZero->rotate(0, 0, $angle * -1);
+        } else {
+            $ttfBox = $ttfBoxZero;
+        }
+
+        $x = $this->getTextXPosition($image, $alignmentX, $paddingX, $ttfBox);
+        $y = $this->getTextYPosition($image, $alignmentY, $paddingY, $ttfBox, $ttfBoxZero) - $size;
+
+        $this->text($image, $text, $size, $x, $y, $color, $font, $angle);
+
+        $xZeroValues = $ttfBoxZero->getXPoints();
+        $yZeroValues = $ttfBoxZero->getYPoints();
+
+        $xValues = $ttfBox->getXPoints();
+        $yValues = $ttfBox->getYPoints();
+
+        // dump(sprintf('A: %d X: %d Y: %d', $angle * -1, $x, $y), ''); // debug
+        return [
+            'textWidth' => max($xZeroValues) - min($xZeroValues),
+            'textHeight' => max($yZeroValues) - min($yZeroValues),
+            'boxWidth' => max($xValues) - min($xValues),
+            'boxHeight' => max($yValues) - min($yValues),
+        ];
+    }
+
+    /**
+     * The coordinates given by x and y will define the basepoint of the first character (roughly the lower-left corner of the character).
+     * @param ImageInterface $image
+     * @param string $alignmentX
+     * @param int $paddingX
+     * @param TTFBox $ttfBox
+     * @return int
+     * @throws \Exception
+     */
+    private function getTextXPosition(ImageInterface $image, string $alignmentX, int $paddingX, TTFBox $ttfBox): int
+    {
+        switch ($alignmentX) {
+            case self::ALIGNMENT_X_LEFT:
+                return abs(min($ttfBox->getXPoints())) + $paddingX;
+
+            case self::ALIGNMENT_X_CENTRE:
+                $middle = (abs(max($ttfBox->getXPoints())) - abs(min($ttfBox->getXPoints()))) / 2;
+                return ($image->getWidth() / 2) - $middle + $paddingX;
+
+            case self::ALIGNMENT_X_RIGHT:
+                return $image->getWidth() - abs(max($ttfBox->getXPoints())) - $paddingX;
+
+            default:
+                throw new \Exception('Invalid $alignmentX value');
+        }
+    }
+
+    /**
+     * The y-ordinate. This sets the position of the fonts baseline, not the very bottom of the character.
+     * @param ImageInterface $image
+     * @param string $alignmentY
+     * @param int $paddingY
+     * @param TTFBox $ttfBox
+     * @param TTFBox $ttfBoxZero
+     * @return int
+     * @throws \Exception
+     */
+    private function getTextYPosition(ImageInterface $image, string $alignmentY, int $paddingY, TTFBox $ttfBox, TTFBox $ttfBoxZero): int
+    {
+        $textHeight = abs(min($ttfBoxZero->getYPoints())) - abs(max($ttfBoxZero->getYPoints()));
+        switch ($alignmentY) {
+            case self::ALIGNMENT_Y_TOP:
+                return abs(min($ttfBox->getYPoints())) + $paddingY;
+
+            case self::ALIGNMENT_Y_MIDDLE:
+                $middle = (($ttfBox->getLowerLeftY() - $ttfBox->getUpperRightY()) / 2) - $ttfBox->getLowerLeftY();
+                return ($image->getHeight() / 2) + $middle + $paddingY;
+
+            case self::ALIGNMENT_Y_BOTTOM:
+                return $image->getHeight() - abs(max($ttfBox->getYPoints())) - $paddingY;
+
+            default:
+                throw new \Exception('Invalid $alignmentY value');
+        }
+    }
+
+    private function getFont(string $font): string
+    {
+        return ($font !== '') ? $font : Grafika::fontsDir() . DIRECTORY_SEPARATOR . 'LiberationSans-Regular.ttf';
     }
 
     /**

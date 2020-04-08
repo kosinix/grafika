@@ -1,3 +1,5 @@
 # IntelliJ project files
 .idea
 sami-cache/*
+vendor
+composer.lock

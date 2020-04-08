@@ -1,18 +1,18 @@
 <?php
+
 use Grafika\Color;
 use Grafika\EditorInterface;
 use Grafika\Grafika;
 use Grafika\Imagick\Editor;
-use Grafika\Imagick\Filter\Blur;
 use Grafika\Imagick\Filter\Brightness;
 use Grafika\Imagick\Filter\Colorize;
 use Grafika\Imagick\Image;
-use Grafika\Position;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ImagickEditorTest
  */
-class ImagickEditorTest extends PHPUnit_Framework_TestCase {
+class ImagickEditorTest extends TestCase {
 
     protected $dirAssert = DIR_ASSERT_IMAGICK;
 
@@ -207,6 +207,65 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
         $editor->save($image, $output);
 
         $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+    }
+
+    /**
+     * @depends testCreateEditor
+     * @param EditorInterface $editor
+     * @throws Exception
+     */
+    public function testAddAlignedTextOnBlankImage(EditorInterface $editor)
+    {
+        $color = new Color( '#000000' );
+        $x = [
+            EditorInterface::ALIGNMENT_X_LEFT,
+            EditorInterface::ALIGNMENT_X_CENTRE,
+            EditorInterface::ALIGNMENT_X_RIGHT,
+        ];
+        $y = [
+            EditorInterface::ALIGNMENT_Y_TOP,
+            EditorInterface::ALIGNMENT_Y_MIDDLE,
+            EditorInterface::ALIGNMENT_Y_BOTTOM,
+        ];
+        $angles = [
+            0,
+            -30,
+            30,
+            -90,
+            90,
+            135,
+            -135,
+            180,
+            -180,
+        ];
+        $guideLines = [
+            Grafika::createDrawingObject('Line', [0, 12], [400, 12], 1, '#999999'),
+            Grafika::createDrawingObject('Line', [0, 200], [400, 200], 1, '#999999'),
+            Grafika::createDrawingObject('Line', [0, 388], [400, 388], 1, '#999999'),
+            Grafika::createDrawingObject('Line', [12, 0], [12, 400], 1, '#999999'),
+            Grafika::createDrawingObject('Line', [200, 0], [200, 400], 1, '#999999'),
+            Grafika::createDrawingObject('Line', [388, 0], [388, 400], 1, '#999999'),
+        ];
+
+        $string = 'S123456789E';
+        foreach ($angles as $angle) {
+            foreach ($x as $alignmentX) {
+                foreach ($y as $alignmentY) {
+                    $file = sprintf('X%sY%sA%d.png', $alignmentX, $alignmentY, $angle);
+                    $output = DIR_TMP . '/' . __FUNCTION__ . '/' . $file;
+                    $expected = $this->dirAssert . '/' . __FUNCTION__ . '/' . $file;
+                    $blank = Grafika::createBlankImage(400, 400);
+                    $editor->fill($blank, new Color('#ffffff'));
+                    foreach ($guideLines as $line) {
+                        $editor->draw($blank, $line);
+                    }
+                    $editor->text($blank, 'A: ' . $angle . ' X: ' . $alignmentX . ' Y: ' . $alignmentY, 12, 20, 320, new Color('#FF0000'));
+                    $editor->textAligned($blank, $string, $alignmentX, $alignmentY, 0, 0, $color, 14, '', $angle);
+                    $editor->save($blank, $output, 'png');
+                    $this->assertLessThanOrEqual(1, $editor->compare($output, $expected), $file);
+                }
+            }
+        }
     }
 
     /**
@@ -731,6 +790,7 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
         $editor->apply( $image, Grafika::createFilter('Grayscale') );
         $editor->save( $image, $output);
 
+        // TODO It looks like it's animated, however only the first frame is grayscale.
         $this->assertTrue($image->isAnimated()); // It should still be animated GIF
 
     }
@@ -996,7 +1056,7 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
     }
 
     // On before every test
-    protected function setUp()
+    protected function setUp(): void
     {
         $editor = new Editor();
         if (false === $editor->isAvailable()) {
@@ -1007,7 +1067,7 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
     }
 
     // After every test
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if (CLEAN_DUMP) {
             deleteTmpDirectory(); // Delete images created by a test
@@ -1015,12 +1075,12 @@ class ImagickEditorTest extends PHPUnit_Framework_TestCase {
     }
 
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
 
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
 
     }

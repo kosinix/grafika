@@ -15,11 +15,19 @@
         }
     ],
     "require": {
-        "php": ">=5.3"
+        "php": ">=7.3"
+    },
+    "suggest": {
+        "ext-gd": "*",
+        "ext-imagick": "*"
     },
     "autoload": {
         "psr-4": {
             "Grafika\\": "src/Grafika"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9",
+        "symfony/var-dumper": "^5.0"
     }
 }
