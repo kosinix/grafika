@@ -53,8 +53,8 @@ final class Editor implements EditorInterface
      * @return Editor
      * @throws \Exception When added image is outside of canvas or invalid blend type
      */
-    public function blend(&$image1, $image2, $type='normal', $opacity = 1.0, $position = 'top-left', $offsetX = 0, $offsetY = 0 ){
-
+    public function blend(ImageInterface &$image1, ImageInterface $image2, $type = 'normal', float $opacity = 1.0, string $position = 'top-left', int $offsetX = 0, int $offsetY = 0)
+    {
         // Turn into position object
         $position = new Position($position, $offsetX, $offsetY);
 
@@ -86,7 +86,7 @@ final class Editor implements EditorInterface
             $loopStartY += $diff;
         }
 
-        if ( $opacity !== 1 ) {
+        if ( $opacity !== 1.0 ) {
             $this->opacity($image2, $opacity);
         }
 
