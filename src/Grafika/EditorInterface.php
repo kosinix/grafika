@@ -30,7 +30,7 @@ interface EditorInterface {
      *
      * @return EditorInterface An instance of Editor.
      */
-    public function blend(&$image1, $image2, $type='normal', $opacity = 1.0, $position = 'top-left', $offsetX = 0, $offsetY = 0 );
+    public function blend(ImageInterface &$image1, ImageInterface $image2, $type = 'normal', float $opacity = 1.0, string $position = 'top-left', int $offsetX = 0, int $offsetY = 0);
 
     /**
      * Compare two images and returns a hamming distance. A value of 0 indicates a likely similar picture. A value between 1 and 10 is potentially a variation. A value greater than 10 is likely a different image.
