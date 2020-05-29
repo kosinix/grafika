@@ -630,6 +630,11 @@ final class Editor implements EditorInterface
                 $image->getCore()->writeImage($file);
                 break;
 
+	        case ImageType::WEBP:
+		        $image->getCore()->setImageFormat( 'webp' );
+		        $image->getCore()->writeImage( $file );
+                break;
+                
             default: // Defaults to jpeg
                 $quality = ($quality === null) ? 75 : $quality; // Default to 75 (GDs default) if null.
                 $quality = ($quality > 100) ? 100 : $quality;
