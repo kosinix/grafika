@@ -16,13 +16,24 @@ class GdEditorTest extends TestCase
 {
     protected $dirAssert = DIR_ASSERT_GD;
 
-    public function testCreateEditor()
+    /** @var EditorInterface */
+    private $editor;
+
+    protected function setUp(): void
     {
+        $this->editor = new \Grafika\Gd\Editor(); // Explicit GD Editor
+        if (false === $this->editor->isAvailable()) {
+            $this->markTestSkipped(
+                'PHP GD is not available.'
+            );
+        }
+    }
 
-        $editor = new \Grafika\Gd\Editor(); // Explicit GD Editor
-        $this->assertTrue($editor instanceof EditorInterface);
-
-        return $editor;
+    protected function tearDown(): void
+    {
+        if (CLEAN_DUMP) {
+            deleteTmpDirectory(); // Delete images created by a test
+        }
     }
 
     public function testCreateEditorStatic()
@@ -35,11 +46,7 @@ class GdEditorTest extends TestCase
         $this->assertTrue($editor instanceof EditorInterface);
     }
 
-    /**
-     * @depends testCreateEditor
-     * @param EditorInterface $editor
-     */
-    public function testOpenFail(EditorInterface $editor)
+    public function testOpenFail()
     {
         if (version_compare(PHP_VERSION, '5.6', '>=')) {
             $this->expectException('\Exception');
@@ -51,11 +58,7 @@ class GdEditorTest extends TestCase
 
     }
 
-    /**
-     * @depends testCreateEditor
-     * @param EditorInterface $editor
-     */
-    public function testUnknownTypeFail($editor)
+    public function testUnknownTypeFail()
     {
         if (version_compare(PHP_VERSION, '5.6', '>=')) {
             $this->expectException('\Exception');
@@ -66,11 +69,7 @@ class GdEditorTest extends TestCase
         }
     }
 
-    /**
-     * @depends testCreateEditor
-     * @param EditorInterface $editor
-     */
-    public function testOpenJpeg($editor)
+    public function testOpenJpeg()
     {
 
         $input = DIR_TEST_IMG . '/sample.jpg';
@@ -79,11 +78,7 @@ class GdEditorTest extends TestCase
         $this->assertTrue($image instanceof Image);
     }
 
-    /**
-     * @depends testCreateEditor
-     * @param EditorInterface $editor
-     */
-    public function testOpenPng($editor)
+    public function testOpenPng()
     {
 
         $input = DIR_TEST_IMG . '/sample.png';
@@ -92,11 +87,7 @@ class GdEditorTest extends TestCase
         $this->assertTrue($image instanceof Image);
     }
 
-    /**
-     * @depends testCreateEditor
-     * @param EditorInterface $editor
-     */
-    public function testOpenGif($editor)
+    public function testOpenGif()
     {
 
         $input = DIR_TEST_IMG . '/sample.gif';
@@ -105,11 +96,7 @@ class GdEditorTest extends TestCase
         $this->assertTrue($image instanceof Image);
     }
 
-    /**
-     * @depends testCreateEditor
-     * @param EditorInterface $editor
-     */
-    public function testOpenWbmp($editor)
+    public function testOpenWbmp()
     {
 
         $input = DIR_TEST_IMG . '/sample.wbm';
@@ -118,96 +105,69 @@ class GdEditorTest extends TestCase
         $this->assertTrue($image instanceof Image);
     }
 
-    /**
-     * @depends testCreateEditor
-     * @param EditorInterface $editor
-     * @return EditorInterface
-     */
-    public function testEqual($editor)
+    public function testEqual(): void
     {
         $input1 = $this->dirAssert . '/testEqual.jpg';
 
-        $this->assertTrue($editor->equal($input1, $input1));
-
-        return $editor;
+        $this->assertTrue($this->editor->equal($input1, $input1));
     }
 
-    /**
-     * @depends testEqual
-     * @param EditorInterface $editor
-     * @return EditorInterface
-     */
-    public function testEqualFalse($editor)
+    public function testEqualFalse()
     {
         $input1 = $this->dirAssert . '/testEqual.jpg';
         $input2 = $this->dirAssert . '/testEqualFalse.png';
 
-        $this->assertFalse($editor->equal($input1, $input2));
-
-        return $editor;
+        $this->assertFalse($this->editor->equal($input1, $input2));
     }
 
     /**
      * Test similarity
-     * @depends testCreateEditor
-     * @param EditorInterface $editor
      */
-    public function testCompare($editor)
+    public function testCompare()
     {
 
         $input = DIR_TEST_IMG . '/lena.png';
         $input2 = DIR_TEST_IMG . '/lena-gray.png';
 
-        $ham = $editor->compare($input,$input2);
+        $ham = $this->editor->compare($input, $input2);
 
-        $this->assertLessThan(10,$ham); // hamming distance: 0 is equal, 1-10 is similar, 11+ is different image
+        $this->assertLessThan(10, $ham); // hamming distance: 0 is equal, 1-10 is similar, 11+ is different image
     }
 
-    /**
-     * @depends testCreateEditor
-     * @param EditorInterface $editor
-     */
-    public function testSave($editor){
+    public function testSave()
+    {
         $input = DIR_TEST_IMG . '/sample.png';
         $output1 = DIR_TMP . '/' . __FUNCTION__ . '1.jpg';
         $output2 = DIR_TMP . '/' . __FUNCTION__ . '2.jpg';
         $output3 = DIR_TMP . '/' . __FUNCTION__ . '3.png';
 
         $image = Grafika::createImage($input);
-        $editor->save($image, $output1, 'jpg', 100);
-        $this->assertEquals(0, $editor->compare($input, $output1));
+        $this->editor->save($image, $output1, 'jpg', 100);
+        $this->assertEquals(0, $this->editor->compare($input, $output1));
 
-        $editor->save($image, $output2, 'jpg', 0);
-        $this->assertGreaterThan(0, $editor->compare($input, $output2)); // Not exactly similar due to compression
+        $this->editor->save($image, $output2, 'jpg', 0);
+        $this->assertGreaterThan(0, $this->editor->compare($input, $output2)); // Not exactly similar due to compression
 
-        $editor->save($image, $output3, 'png', null);
-        $this->assertEquals(0, $editor->compare($input, $output3));
+        $this->editor->save($image, $output3, 'png', null);
+        $this->assertEquals(0, $this->editor->compare($input, $output3));
 
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testAddTextOnBlankImage($editor)
+    public function testAddTextOnBlankImage()
     {
 
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $blank = Grafika::createBlankImage( 400, 100 );
-        $editor->fill( $blank, new Color( '#ffffff' ) );
-        $editor->text( $blank, 'Lorem ipsum - Liberation Sans');
-        $editor->save( $blank, $output);
+        $blank = Grafika::createBlankImage(400, 100);
+        $this->editor->fill($blank, new Color('#ffffff'));
+        $this->editor->text($blank, 'Lorem ipsum - Liberation Sans');
+        $this->editor->save($blank, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testAddTextOnJpeg($editor)
+    public function testAddTextOnJpeg()
     {
 
         $input = DIR_TEST_IMG . '/sample.jpg';
@@ -215,22 +175,15 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $image = Grafika::createImage($input);
-        $editor->resizeFit($image, 300, 300);
-        $editor->text($image, 'Lorem ipsum - Liberation Sans');
-        $editor->save($image, $output);
+        $this->editor->resizeFit($image, 300, 300);
+        $this->editor->text($image, 'Lorem ipsum - Liberation Sans');
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testCreateEditor
-     * @param EditorInterface $editor
-     * @throws Exception
-     */
-    public function testAddAlignedTextOnBlankImage(EditorInterface $editor)
+    public function addAlignedTextOnBlankImageDataProvider(): Generator
     {
-
-        $color = new Color( '#000000' );
         $x = [
             EditorInterface::ALIGNMENT_X_LEFT,
             EditorInterface::ALIGNMENT_X_CENTRE,
@@ -251,6 +204,32 @@ class GdEditorTest extends TestCase
             -135,
             180,
         ];
+        $offsets = [
+            0,
+            10,
+            20,
+        ];
+
+        foreach ($angles as $angle) {
+            foreach ($x as $alignmentX) {
+                foreach ($y as $alignmentY) {
+                    foreach ($offsets as $offsetX) {
+                        foreach ($offsets as $offsetY) {
+                            yield [$angle, $alignmentX, $alignmentY, $offsetX, $offsetY];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @dataProvider addAlignedTextOnBlankImageDataProvider
+     * @throws Exception
+     */
+    public function testAddAlignedTextOnBlankImage(int $angle, string $alignmentX, string $alignmentY, int $offsetX, int $offsetY): void
+    {
+        $color = new Color('#000000');
         $guideLines = [
             Grafika::createDrawingObject('Line', [0, 12], [400, 12], 1, '#999999'),
             Grafika::createDrawingObject('Line', [0, 200], [400, 200], 1, '#999999'),
@@ -261,32 +240,25 @@ class GdEditorTest extends TestCase
         ];
 
         $string = 'y123456789y';
-        foreach ($angles as $angle) {
-            foreach ($x as $alignmentX) {
-                foreach ($y as $alignmentY) {
-                    $file = sprintf('X%sY%sA%d.png', $alignmentX, $alignmentY, $angle);
-                    $output = DIR_TMP . '/' . __FUNCTION__ . '/' . $file;
-                    $expected = $this->dirAssert . '/' . __FUNCTION__ . '/' . $file;
-                    $blank = Grafika::createBlankImage(400, 400);
-                    $editor->fill($blank, new Color('#ffffff'));
-                    foreach ($guideLines as $line) {
-                        $editor->draw($blank, $line);
-                    }
-                    $editor->text($blank, 'A: ' . $angle . ' X: ' . $alignmentX . ' Y: ' . $alignmentY, 10, 20, 320, new Color('#FF0000'));
-                    $editor->textAligned($blank, $string, $alignmentX, $alignmentY, 0, 0, $color, 12, '', $angle);
-                    $editor->save($blank, $output, 'png');
-                    $this->assertLessThanOrEqual(1, $editor->compare($output, $expected), $file);
-                }
-            }
+        $file = sprintf('X%sY%sA%dPx%dPy%d.png', $alignmentX, $alignmentY, $angle, $offsetX, $offsetY);
+        $output = DIR_TMP . '/' . __FUNCTION__ . '/' . $file;
+        $expected = $this->dirAssert . '/' . __FUNCTION__ . '/' . $file;
+        $blank = Grafika::createBlankImage(400, 400);
+        $this->editor->fill($blank, new Color('#ffffff'));
+        foreach ($guideLines as $line) {
+            $this->editor->draw($blank, $line);
         }
+        $text = sprintf('A: %d X: %s Y: %s p.X: %d p.Y: %d', $angle, $alignmentX, $alignmentY, $offsetX, $offsetY);
+        $this->editor->text($blank, $text, 10, 20, 320, new Color('#FF0000'));
+        $this->editor->textAligned($blank, $string, $alignmentX, $alignmentY, $offsetX, $offsetY, $color, 12, '', $angle);
+        $this->editor->save($blank, $output, 'png');
+        $this->assertLessThanOrEqual(1, $this->editor->compare($output, $expected), $file);
     }
 
     /**
      * Test enlarging an image to a dimension larger than its original size.
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
      */
-    public function testResizeFitEnlarge($editor)
+    public function testResizeFitEnlarge()
     {
 
         $input = DIR_TEST_IMG . '/sample.jpg';
@@ -294,10 +266,10 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $image = Grafika::createImage($input);
-        $editor->resizeFit($image, $image->getWidth() + 100, $image->getHeight() + 100);
-        $editor->save($image, $output);
+        $this->editor->resizeFit($image, $image->getWidth() + 100, $image->getHeight() + 100);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
         // Animated gif
         $input = DIR_TEST_IMG . '/sample.gif';
@@ -305,17 +277,13 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.gif';
 
         $image = Grafika::createImage($input);
-        $editor->resizeFit($image, $image->getWidth() + 100, $image->getHeight() + 100);
-        $editor->save($image, $output);
+        $this->editor->resizeFit($image, $image->getWidth() + 100, $image->getHeight() + 100);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testResizeFitPortrait($editor)
+    public function testResizeFitPortrait()
     {
 
         $input = DIR_TEST_IMG . '/sample.jpg';
@@ -323,17 +291,13 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $image = Grafika::createImage($input);
-        $editor->resizeFit($image, 200, 200);
-        $editor->save($image, $output);
+        $this->editor->resizeFit($image, 200, 200);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testResizeExact($editor)
+    public function testResizeExact()
     {
 
         $input = DIR_TEST_IMG . '/sample.jpg';
@@ -341,10 +305,10 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $image = Grafika::createImage($input);
-        $editor->resizeExact($image, 200, 200);
-        $editor->save($image, $output);
+        $this->editor->resizeExact($image, 200, 200);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
         // Animated gif
         $input = DIR_TEST_IMG . '/sample.gif';
@@ -352,17 +316,13 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.gif';
 
         $image = Grafika::createImage($input);
-        $editor->resizeExact($image, 200, 200);
-        $editor->save($image, $output);
+        $this->editor->resizeExact($image, 200, 200);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct));
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct));
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testResizeExactPortrait($editor)
+    public function testResizeExactPortrait()
     {
 
         $input = DIR_TEST_IMG . '/portrait.jpg';
@@ -370,18 +330,14 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $image = Grafika::createImage($input);
-        $editor->resizeExact($image, 200, 200);
-        $editor->save($image, $output);
+        $this->editor->resizeExact($image, 200, 200);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testResizeFill($editor)
+    public function testResizeFill()
     {
 
         $input = DIR_TEST_IMG . '/sample.jpg';
@@ -389,18 +345,14 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $image = Grafika::createImage($input);
-        $editor->resizeFill($image, 200, 200);
-        $editor->save($image, $output);
+        $this->editor->resizeFill($image, 200, 200);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testResizeFillPortrait($editor)
+    public function testResizeFillPortrait()
     {
 
         $input = DIR_TEST_IMG . '/portrait.jpg';
@@ -408,18 +360,14 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $image = Grafika::createImage($input);
-        $editor->resizeFill($image, 200, 200);
-        $editor->save($image, $output);
+        $this->editor->resizeFill($image, 200, 200);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testResizeExactWidth($editor)
+    public function testResizeExactWidth()
     {
 
         $input = DIR_TEST_IMG . '/sample.jpg';
@@ -427,17 +375,13 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $image = Grafika::createImage($input);
-        $editor->resizeExactWidth($image, 200);
-        $editor->save($image, $output);
+        $this->editor->resizeExactWidth($image, 200);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testResizeExactWidthPortrait($editor)
+    public function testResizeExactWidthPortrait()
     {
 
         $input = DIR_TEST_IMG . '/portrait.jpg';
@@ -445,18 +389,14 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $image = Grafika::createImage($input);
-        $editor->resizeExactWidth($image, 200);
-        $editor->save($image, $output);
+        $this->editor->resizeExactWidth($image, 200);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testResizeExactHeight($editor)
+    public function testResizeExactHeight()
     {
 
         $input = DIR_TEST_IMG . '/sample.jpg';
@@ -464,17 +404,13 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $image = Grafika::createImage($input);
-        $editor->resizeExactHeight($image, 200);
-        $editor->save($image, $output);
+        $this->editor->resizeExactHeight($image, 200);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testResizeExactHeightPortrait($editor)
+    public function testResizeExactHeightPortrait()
     {
 
         $input = DIR_TEST_IMG . '/portrait.jpg';
@@ -482,18 +418,14 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $image = Grafika::createImage($input);
-        $editor->resizeExactHeight($image, 200);
-        $editor->save($image, $output);
+        $this->editor->resizeExactHeight($image, 200);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testRotate($editor)
+    public function testRotate()
     {
 
         $input = DIR_TEST_IMG . '/sample.jpg';
@@ -501,598 +433,459 @@ class GdEditorTest extends TestCase
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
         $image = Grafika::createImage($input);
-        $editor->rotate($image, 45);
-        $editor->save($image, $output);
+        $this->editor->rotate($image, 45);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testCubicBezier($editor)
+    public function testCubicBezier()
     {
-
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createBlankImage( 277, 277 );
-        $editor->fill( $image, new Color( '#FFFFFF' ) );
+        $image = Grafika::createBlankImage(277, 277);
+        $this->editor->fill($image, new Color('#FFFFFF'));
 
         $obj = Grafika::createDrawingObject('CubicBezier', array(42, 230), array(230, 237), array(42, 45), array(230, 43), new Color('#000000'));
-        $editor->draw($image, $obj);
-        $editor->save($image, $output);
+        $this->editor->draw($image, $obj);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testEllipse($editor)
+    public function testEllipse()
     {
-
         $output = DIR_TMP . '/' . __FUNCTION__ . '.png';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.png';
 
-        $image = Grafika::createBlankImage( 200, 200 );
-        $editor->fill( $image, new Color( '#FFFFFF' ) );
+        $image = Grafika::createBlankImage(200, 200);
+        $this->editor->fill($image, new Color('#FFFFFF'));
 
-        $obj = Grafika::createDrawingObject( 'Ellipse', 100, 50, array( 50, 75 ), 1, new Color( '#000000' ), new Color( '#FF0000' ) );
-        $editor->draw($image, $obj);
-        $editor->save($image, $output);
+        $obj = Grafika::createDrawingObject('Ellipse', 100, 50, array(50, 75), 1, new Color('#000000'), new Color('#FF0000'));
+        $this->editor->draw($image, $obj);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testLines($editor)
+    public function testLines()
     {
-
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createBlankImage( 200, 200 );
-        $editor->fill( $image, new Color( '#FFFFFF' ) );
+        $image = Grafika::createBlankImage(200, 200);
+        $this->editor->fill($image, new Color('#FFFFFF'));
 
-        $editor->draw( $image, Grafika::createDrawingObject('Line', array(0, 0), array(200, 200), 1, new Color('#FF0000')));
-        $editor->draw( $image, Grafika::createDrawingObject('Line', array(0, 200), array(200, 0), 1, new Color('#00FF00')));
-        $editor->draw( $image, Grafika::createDrawingObject('Line', array(0, 0), array(200, 100), 1, new Color('#0000FF')));
-        $editor->draw( $image, Grafika::createDrawingObject('Line', array(0, 100), array(200, 100)));
-        $editor->draw( $image, Grafika::createDrawingObject('Line', array(100, 0), array(100, 200)));
+        $this->editor->draw($image, Grafika::createDrawingObject('Line', array(0, 0), array(200, 200), 1, new Color('#FF0000')));
+        $this->editor->draw($image, Grafika::createDrawingObject('Line', array(0, 200), array(200, 0), 1, new Color('#00FF00')));
+        $this->editor->draw($image, Grafika::createDrawingObject('Line', array(0, 0), array(200, 100), 1, new Color('#0000FF')));
+        $this->editor->draw($image, Grafika::createDrawingObject('Line', array(0, 100), array(200, 100)));
+        $this->editor->draw($image, Grafika::createDrawingObject('Line', array(100, 0), array(100, 200)));
 
-        $editor->save( $image, $output);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($correct, $output));
-
+        $this->assertLessThanOrEqual(5, $this->editor->compare($correct, $output));
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testQuadraticBezier($editor)
+    public function testQuadraticBezier()
     {
-
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createBlankImage( 277, 277 );
-        $editor->fill( $image, new Color( '#EEEEEE' ) );
+        $image = Grafika::createBlankImage(277, 277);
+        $this->editor->fill($image, new Color('#EEEEEE'));
 
         $obj = Grafika::createDrawingObject('QuadraticBezier', array(70, 250), array(20, 110), array(220, 60), new Color('#FF0000'));
-        $editor->draw( $image, $obj);
-        $editor->save( $image, $output);
+        $this->editor->draw($image, $obj);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testRectangle($editor)
+    public function testRectangle()
     {
-
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createBlankImage( 200, 200 );
-        $editor->fill( $image, new Color( '#CCCCCC' ) );
+        $image = Grafika::createBlankImage(200, 200);
+        $this->editor->fill($image, new Color('#CCCCCC'));
 
-        $editor->draw( $image, Grafika::createDrawingObject('Rectangle', 85, 50)); // A 85x50 no filled rectangle with a black 1px border on location 0,0.
-        $editor->draw( $image, Grafika::createDrawingObject('Rectangle', 85, 50, array(105, 10), 0, null, new Color('#FF0000'))); // A 85x50 red rectangle with no border.
-        $editor->draw( $image, Grafika::createDrawingObject('Rectangle', 85, 50, array(105, 70), 0, null, new Color('#00FF00'))); // A 85x50 green rectangle with no border.
-        $editor->draw( $image, Grafika::createDrawingObject('Rectangle', 85, 50, array(0, 60), 1, '#000000', null)); // No fill rectangle
+        $this->editor->draw($image, Grafika::createDrawingObject('Rectangle', 85, 50)); // A 85x50 no filled rectangle with a black 1px border on location 0,0.
+        $this->editor->draw($image, Grafika::createDrawingObject('Rectangle', 85, 50, array(105, 10), 0, null, new Color('#FF0000'))); // A 85x50 red rectangle with no border.
+        $this->editor->draw($image, Grafika::createDrawingObject('Rectangle', 85, 50, array(105, 70), 0, null, new Color('#00FF00'))); // A 85x50 green rectangle with no border.
+        $this->editor->draw($image, Grafika::createDrawingObject('Rectangle', 85, 50, array(0, 60), 1, '#000000', null)); // No fill rectangle
 
-        $editor->save( $image, $output);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testPolygon($editor)
+    public function testPolygon()
     {
-
         $output = DIR_TMP . '/' . __FUNCTION__ . '.png';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.png';
 
-        $image = Grafika::createBlankImage( 200, 200 );
-        $editor->fill( $image, new Color( '#FFFFFF' ) );
+        $image = Grafika::createBlankImage(200, 200);
+        $this->editor->fill($image, new Color('#FFFFFF'));
 
-        $editor->draw( $image, Grafika::createDrawingObject('Polygon', array(array(0,0), array(50,0), array(0,50)), 1));
-        $editor->draw( $image, Grafika::createDrawingObject('Polygon', array(array(200-1,0), array(150-1,0), array(200-1,50)), 1));
-        $editor->draw( $image, Grafika::createDrawingObject('Polygon', array(array(100,0), array(140,50), array(100,100), array(60,50)), 1, null, new Color('#FF0000')));
+        $this->editor->draw($image, Grafika::createDrawingObject('Polygon', array(array(0, 0), array(50, 0), array(0, 50)), 1));
+        $this->editor->draw($image, Grafika::createDrawingObject('Polygon', array(array(200 - 1, 0), array(150 - 1, 0), array(200 - 1, 50)), 1));
+        $this->editor->draw($image, Grafika::createDrawingObject('Polygon', array(array(100, 0), array(140, 50), array(100, 100), array(60, 50)), 1, null, new Color('#FF0000')));
 
-        $editor->save( $image, $output);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testDither($editor)
+    public function testDither()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . 'Diffusion.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . 'Diffusion.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, Grafika::createFilter('Dither', 'diffusion') );
-        $editor->save( $image, $output);
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, Grafika::createFilter('Dither', 'diffusion'));
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . 'Ordered.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . 'Ordered.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, Grafika::createFilter('Dither', 'ordered') );
-        $editor->save( $image, $output);
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, Grafika::createFilter('Dither', 'ordered'));
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testSobel($editor)
+    public function testSobel()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, Grafika::createFilter('Sobel') );
-        $editor->save( $image, $output);
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, Grafika::createFilter('Sobel'));
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
-    
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testBlur($editor)
+
+    public function testBlur()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, Grafika::createFilter('Blur', 10) );
-        $editor->save( $image, $output);
-        
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, Grafika::createFilter('Blur', 10));
+        $this->editor->save($image, $output);
 
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testBrightness($editor)
+    public function testBrightness()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, new Brightness(50) );
-        $editor->save( $image, $output);
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, new Brightness(50));
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testColorize($editor)
+    public function testColorize()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, new Colorize(-50, -50, -50) );
-        $editor->save( $image, $output);
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, new Colorize(-50, -50, -50));
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testContrast($editor)
+    public function testContrast()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, Grafika::createFilter('Contrast', 50) );
-        $editor->save( $image, $output);
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, Grafika::createFilter('Contrast', 50));
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testGamma($editor)
+    public function testGamma()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, Grafika::createFilter('Gamma', 2.0) );
-        $editor->save( $image, $output);
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, Grafika::createFilter('Gamma', 2.0));
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
-    
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testGrayscale($editor)
+
+    public function testGrayscale()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, Grafika::createFilter('Grayscale') );
-        $editor->save( $image, $output);
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, Grafika::createFilter('Grayscale'));
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
         // Test on animated GIF
         $input = DIR_TEST_IMG . '/sample.gif';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.gif';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, Grafika::createFilter('Grayscale') );
-        $editor->save( $image, $output);
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, Grafika::createFilter('Grayscale'));
+        $this->editor->save($image, $output);
 
         $this->assertTrue($image->isAnimated()); // It should still be animated GIF
-
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testInvert($editor)
+    public function testInvert()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, Grafika::createFilter('Invert') );
-        $editor->save( $image, $output);
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, Grafika::createFilter('Invert'));
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testPixelate($editor)
+    public function testPixelate()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, Grafika::createFilter('Pixelate',10) );
-        $editor->save( $image, $output);
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, Grafika::createFilter('Pixelate', 10));
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testSharpen($editor)
+    public function testSharpen()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->apply( $image, Grafika::createFilter('Sharpen', 50) );
-        $editor->save( $image, $output);
+        $image = Grafika::createImage($input);
+        $this->editor->apply($image, Grafika::createFilter('Sharpen', 50));
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
-    
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testCrop($editor)
-    {
-        $input   = DIR_TEST_IMG . '/crop-test.jpg';
 
-        $output1  = DIR_TMP . '/' . __FUNCTION__ . '1.jpg';
+    public function testCrop()
+    {
+        $input = DIR_TEST_IMG . '/crop-test.jpg';
+
+        $output1 = DIR_TMP . '/' . __FUNCTION__ . '1.jpg';
         $correct1 = $this->dirAssert . '/' . __FUNCTION__ . '1.jpg';
 
-        $output2  = DIR_TMP . '/' . __FUNCTION__ . '2.jpg';
+        $output2 = DIR_TMP . '/' . __FUNCTION__ . '2.jpg';
         $correct2 = $this->dirAssert . '/' . __FUNCTION__ . '2.jpg';
 
-        $output3  = DIR_TMP . '/' . __FUNCTION__ . '3.jpg';
+        $output3 = DIR_TMP . '/' . __FUNCTION__ . '3.jpg';
         $correct3 = $this->dirAssert . '/' . __FUNCTION__ . '3.jpg';
 
-        $output4  = DIR_TMP . '/' . __FUNCTION__ . '4.jpg';
+        $output4 = DIR_TMP . '/' . __FUNCTION__ . '4.jpg';
         $correct4 = $this->dirAssert . '/' . __FUNCTION__ . '4.jpg';
 
-        $output5  = DIR_TMP . '/' . __FUNCTION__ . '5.jpg';
+        $output5 = DIR_TMP . '/' . __FUNCTION__ . '5.jpg';
         $correct5 = $this->dirAssert . '/' . __FUNCTION__ . '5.jpg';
 
-        $output6  = DIR_TMP . '/' . __FUNCTION__ . '6.jpg';
+        $output6 = DIR_TMP . '/' . __FUNCTION__ . '6.jpg';
         $correct6 = $this->dirAssert . '/' . __FUNCTION__ . '6.jpg';
 
-        $output7  = DIR_TMP . '/' . __FUNCTION__ . '7.jpg';
+        $output7 = DIR_TMP . '/' . __FUNCTION__ . '7.jpg';
         $correct7 = $this->dirAssert . '/' . __FUNCTION__ . '7.jpg';
 
-        $output8  = DIR_TMP . '/' . __FUNCTION__ . '8.jpg';
+        $output8 = DIR_TMP . '/' . __FUNCTION__ . '8.jpg';
         $correct8 = $this->dirAssert . '/' . __FUNCTION__ . '8.jpg';
 
-        $output9  = DIR_TMP . '/' . __FUNCTION__ . '9.jpg';
+        $output9 = DIR_TMP . '/' . __FUNCTION__ . '9.jpg';
         $correct9 = $this->dirAssert . '/' . __FUNCTION__ . '9.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 260, 150, 'top-left' );
-        $editor->save( $image, $output1);
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 260, 150, 'top-left');
+        $this->editor->save($image, $output1);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output1, $correct1));
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output1, $correct1));
 
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 260, 150, 'top-center' );
-        $editor->save( $image, $output2);
-        $this->assertLessThanOrEqual(5, $editor->compare($output2, $correct2));
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 260, 150, 'top-center');
+        $this->editor->save($image, $output2);
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output2, $correct2));
 
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 260, 150, 'top-right' );
-        $editor->save( $image, $output3);
-        $this->assertLessThanOrEqual(5, $editor->compare($output3, $correct3));
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 260, 150, 'top-right');
+        $this->editor->save($image, $output3);
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output3, $correct3));
 
         //
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 260, 150, 'center-left' );
-        $editor->save( $image, $output4);
-        $this->assertLessThanOrEqual(5, $editor->compare($output4, $correct4));
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 260, 150, 'center-left');
+        $this->editor->save($image, $output4);
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output4, $correct4));
 
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 260, 150, 'center' );
-        $editor->save( $image, $output5);
-        $this->assertLessThanOrEqual(5, $editor->compare($output5, $correct5));
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 260, 150, 'center');
+        $this->editor->save($image, $output5);
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output5, $correct5));
 
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 260, 150, 'center-right' );
-        $editor->save( $image, $output6);
-        $this->assertLessThanOrEqual(5, $editor->compare($output6, $correct6));
-        //
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 260, 150, 'bottom-left' );
-        $editor->save( $image, $output7);
-        $this->assertLessThanOrEqual(5, $editor->compare($output7, $correct7));
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 260, 150, 'center-right');
+        $this->editor->save($image, $output6);
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output6, $correct6));
 
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 260, 150, 'bottom-center' );
-        $editor->save( $image, $output8);
-        $this->assertLessThanOrEqual(5, $editor->compare($output8, $correct8));
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 260, 150, 'bottom-left');
+        $this->editor->save($image, $output7);
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output7, $correct7));
 
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 260, 150, 'bottom-right' );
-        $editor->save( $image, $output9);
-        $this->assertLessThanOrEqual(5, $editor->compare($output9, $correct9));
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 260, 150, 'bottom-center');
+        $this->editor->save($image, $output8);
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output8, $correct8));
+
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 260, 150, 'bottom-right');
+        $this->editor->save($image, $output9);
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output9, $correct9));
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testSmartCrop($editor)
+    public function testSmartCrop()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '1.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '1.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 250, 250, 'smart' );
-        $editor->save( $image, $output );
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 250, 250, 'smart');
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
+        $this->assertLessThanOrEqual(5, $this->editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
 
         $input = DIR_TEST_IMG . '/tower.jpg';
         $output = DIR_TMP . '/' . __FUNCTION__ . '2.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '2.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 260, 400, 'smart' );
-        $editor->save( $image, $output );
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 260, 400, 'smart');
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
+        $this->assertLessThanOrEqual(5, $this->editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
 
         $input = DIR_TEST_IMG . '/portal-companion-cube.jpg';
         $output = DIR_TMP . '/' . __FUNCTION__ . '3.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '3.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 200, 200, 'smart' );
-        $editor->save( $image, $output );
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 200, 200, 'smart');
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
+        $this->assertLessThanOrEqual(5, $this->editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
 
         $input = DIR_TEST_IMG . '/sample.jpg';
         $output = DIR_TMP . '/' . __FUNCTION__ . '4.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '4.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 200, 200, 'smart' );
-        $editor->save( $image, $output );
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 200, 200, 'smart');
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
+        $this->assertLessThanOrEqual(5, $this->editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
 
         $input = DIR_TEST_IMG . '/sample.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '5.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '5.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->crop( $image, 200, 200, 'smart' );
-        $editor->save( $image, $output );
+        $image = Grafika::createImage($input);
+        $this->editor->crop($image, 200, 200, 'smart');
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
+        $this->assertLessThanOrEqual(5, $this->editor->compare($correct, $output)); // Account for minor variations due to different GD versions (GD image that gen. asserts is different on the testing site)
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testFlattenAnimatedGif($editor)
+    public function testFlattenAnimatedGif()
     {
-
         // Animated gif
         $input = DIR_TEST_IMG . '/sample.gif';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.gif';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.gif';
 
-        $image = Grafika::createImage( $input );
-        $editor->flatten( $image );
-        $editor->save( $image, $output );
+        $image = Grafika::createImage($input);
+        $this->editor->flatten($image);
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct));
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct));
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testFlip($editor)
+    public function testFlip()
     {
         $input = DIR_TEST_IMG . '/lena.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . 'H.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . 'H.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->flip( $image, 'h' );
-        $editor->save( $image, $output );
+        $image = Grafika::createImage($input);
+        $this->editor->flip($image, 'h');
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
         $output = DIR_TMP . '/' . __FUNCTION__ . 'V.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . 'V.jpg';
 
-        $image = Grafika::createImage( $input );
-        $editor->flip( $image, 'v' );
-        $editor->save( $image, $output );
+        $image = Grafika::createImage($input);
+        $this->editor->flip($image, 'v');
+        $this->editor->save($image, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @depends testEqualFalse
-     * @param EditorInterface $editor
-     */
-    public function testBlend($editor)
+    public function testBlend()
     {
         $input1 = DIR_TEST_IMG . '/lena.png';
         $input2 = DIR_TEST_IMG . '/blend.png';
         $output = DIR_TMP . '/' . __FUNCTION__ . '.jpg';
         $correct = $this->dirAssert . '/' . __FUNCTION__ . '.jpg';
 
-        $image1 = Grafika::createImage( $input1 );
-        $image2 = Grafika::createImage( $input2 );
-        $editor->blend( $image1, $image2, 'overlay', 0.5, 'center' ); // overlay blend, opacity 50%, center position
-        $editor->save( $image1, $output );
+        $image1 = Grafika::createImage($input1);
+        $image2 = Grafika::createImage($input2);
+        $this->editor->blend($image1, $image2, 'overlay', 0.5, 'center'); // overlay blend, opacity 50%, center position
+        $this->editor->save($image1, $output);
 
-        $this->assertLessThanOrEqual(5, $editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
-
-    }
-
-    // On before every test
-    protected function setUp(): void
-    {
-        $editor = new Editor();
-        if (false === $editor->isAvailable()) {
-            $this->markTestSkipped(
-                'PHP GD is not available.'
-            );
-        }
-    }
-
-    // After every test
-    protected function tearDown(): void
-    {
-        if (CLEAN_DUMP) {
-            deleteTmpDirectory(); // Delete images created by a test
-        }
-    }
-
-
-    public static function setUpBeforeClass(): void
-    {
-
-    }
-
-    public static function tearDownAfterClass(): void
-    {
+        $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
 
     }
 }
