@@ -725,6 +725,8 @@ final class Editor implements EditorInterface
         $draw->setGravity($this->getGravity($alignmentX, $alignmentY));
 
         $metrics = $image->getCore()->queryFontMetrics($draw, $text);
+        $metrics['textHeight'] += $paddingY * 2;
+        $metrics['textWidth'] += $paddingX * 2;
 
         // Invert to be consistent with GD
         $angle = $angle * -1;
