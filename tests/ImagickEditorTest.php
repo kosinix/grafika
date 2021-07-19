@@ -175,12 +175,8 @@ class ImagickEditorTest extends TestCase
         $this->assertLessThanOrEqual(5, $this->editor->compare($output, $correct)); // Account for windows and linux generating different text sizes given the same font size.
     }
 
-    /**
-     * @throws Exception
-     */
-    public function testAddAlignedTextOnBlankImage(): void
+    public function addAlignedTextOnBlankImageDataProvider(): Generator
     {
-        $color = new Color('#000000');
         $x = [
             EditorInterface::ALIGNMENT_X_LEFT,
             EditorInterface::ALIGNMENT_X_CENTRE,
@@ -200,8 +196,33 @@ class ImagickEditorTest extends TestCase
             135,
             -135,
             180,
-            -180,
         ];
+        $offsets = [
+            0,
+            10,
+            20,
+        ];
+
+        foreach ($angles as $angle) {
+            foreach ($x as $alignmentX) {
+                foreach ($y as $alignmentY) {
+                    foreach ($offsets as $offsetX) {
+                        foreach ($offsets as $offsetY) {
+                            yield [$angle, $alignmentX, $alignmentY, $offsetX, $offsetY];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @dataProvider addAlignedTextOnBlankImageDataProvider
+     * @throws Exception
+     */
+    public function testAddAlignedTextOnBlankImage(int $angle, string $alignmentX, string $alignmentY, int $offsetX, int $offsetY): void
+    {
+        $color = new Color('#000000');
         $guideLines = [
             Grafika::createDrawingObject('Line', [0, 12], [400, 12], 1, '#999999'),
             Grafika::createDrawingObject('Line', [0, 200], [400, 200], 1, '#999999'),
@@ -212,24 +233,19 @@ class ImagickEditorTest extends TestCase
         ];
 
         $string = 'S123456789E';
-        foreach ($angles as $angle) {
-            foreach ($x as $alignmentX) {
-                foreach ($y as $alignmentY) {
-                    $file = sprintf('X%sY%sA%d.png', $alignmentX, $alignmentY, $angle);
-                    $output = DIR_TMP . '/' . __FUNCTION__ . '/' . $file;
-                    $expected = $this->dirAssert . '/' . __FUNCTION__ . '/' . $file;
-                    $blank = Grafika::createBlankImage(400, 400);
-                    $this->editor->fill($blank, new Color('#ffffff'));
-                    foreach ($guideLines as $line) {
-                        $this->editor->draw($blank, $line);
-                    }
-                    $this->editor->text($blank, 'A: ' . $angle . ' X: ' . $alignmentX . ' Y: ' . $alignmentY, 12, 20, 320, new Color('#FF0000'));
-                    $this->editor->textAligned($blank, $string, $alignmentX, $alignmentY, 0, 0, $color, 14, '', $angle);
-                    $this->editor->save($blank, $output, 'png');
-                    $this->assertLessThanOrEqual(1, $this->editor->compare($output, $expected), $file);
-                }
-            }
+        $file = sprintf('X%sY%sA%dPx%dPy%d.png', $alignmentX, $alignmentY, $angle, $offsetX, $offsetY);
+        $output = DIR_TMP . '/' . __FUNCTION__ . '/' . $file;
+        $expected = $this->dirAssert . '/' . __FUNCTION__ . '/' . $file;
+        $blank = Grafika::createBlankImage(400, 400);
+        $this->editor->fill($blank, new Color('#ffffff'));
+        foreach ($guideLines as $line) {
+            $this->editor->draw($blank, $line);
         }
+        $text = sprintf('A: %d X: %s Y: %s p.X: %d p.Y: %d', $angle, $alignmentX, $alignmentY, $offsetX, $offsetY);
+        $this->editor->text($blank, $text, 10, 20, 320, new Color('#FF0000'));
+        $this->editor->textAligned($blank, $string, $alignmentX, $alignmentY, $offsetX, $offsetY, $color, 14, '', $angle);
+        $this->editor->save($blank, $output, 'png');
+        $this->assertLessThanOrEqual(1, $this->editor->compare($output, $expected), $file);
     }
 
     /**
