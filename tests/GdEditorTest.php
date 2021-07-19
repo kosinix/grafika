@@ -27,6 +27,7 @@ class GdEditorTest extends TestCase
                 'PHP GD is not available.'
             );
         }
+        Grafika::setEditorList(['Gd']);
     }
 
     protected function tearDown(): void
@@ -215,7 +216,8 @@ class GdEditorTest extends TestCase
                 foreach ($y as $alignmentY) {
                     foreach ($offsets as $offsetX) {
                         foreach ($offsets as $offsetY) {
-                            yield [$angle, $alignmentX, $alignmentY, $offsetX, $offsetY];
+                            $text = sprintf('A: %d X: %s Y: %s p.X: %d p.Y: %d', $angle, $alignmentX, $alignmentY, $offsetX, $offsetY);
+                            yield $text => [$text, $angle, $alignmentX, $alignmentY, $offsetX, $offsetY];
                         }
                     }
                 }
@@ -227,7 +229,7 @@ class GdEditorTest extends TestCase
      * @dataProvider addAlignedTextOnBlankImageDataProvider
      * @throws Exception
      */
-    public function testAddAlignedTextOnBlankImage(int $angle, string $alignmentX, string $alignmentY, int $offsetX, int $offsetY): void
+    public function testAddAlignedTextOnBlankImage(string $text, int $angle, string $alignmentX, string $alignmentY, int $offsetX, int $offsetY): void
     {
         $color = new Color('#000000');
         $guideLines = [
@@ -248,7 +250,6 @@ class GdEditorTest extends TestCase
         foreach ($guideLines as $line) {
             $this->editor->draw($blank, $line);
         }
-        $text = sprintf('A: %d X: %s Y: %s p.X: %d p.Y: %d', $angle, $alignmentX, $alignmentY, $offsetX, $offsetY);
         $this->editor->text($blank, $text, 10, 20, 320, new Color('#FF0000'));
         $this->editor->textAligned($blank, $string, $alignmentX, $alignmentY, $offsetX, $offsetY, $color, 12, '', $angle);
         $this->editor->save($blank, $output, 'png');

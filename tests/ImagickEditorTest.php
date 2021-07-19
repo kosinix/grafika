@@ -31,6 +31,7 @@ class ImagickEditorTest extends TestCase
                 'PHP Imagick is not available.'
             );
         }
+        Grafika::setEditorList(['Imagick']);
     }
 
     // After every test
