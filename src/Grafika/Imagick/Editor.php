@@ -11,6 +11,7 @@ use Grafika\ImageType;
 use Grafika\Color;
 use Grafika\Imagick\ImageHash\DifferenceHash;
 use Grafika\Position;
+use Grafika\Util\TTFBox;
 
 /**
  * Imagick Editor class. Uses the PHP Imagick library.
@@ -647,6 +648,16 @@ final class Editor implements EditorInterface
         return $this;
     }
 
+    private function getColor(?Color $color): Color
+    {
+        return ($color !== null) ? $color : new Color('#000000');
+    }
+
+    private function getFont(string $font): string
+    {
+        return ($font !== '') ? $font : Grafika::fontsDir() . DIRECTORY_SEPARATOR . 'LiberationSans-Regular.ttf';
+    }
+
     /**
      * Write text to image.
      *
@@ -671,8 +682,8 @@ final class Editor implements EditorInterface
 
         $y += $size;
 
-        $color = ($color !== null) ? $color : new Color('#000000');
-        $font  = ($font !== '') ? $font : Grafika::fontsDir() . DIRECTORY_SEPARATOR . 'LiberationSans-Regular.ttf';
+        $color = $this->getColor($color);
+        $font  = $this->getFont($font);
 
         list($r, $g, $b, $alpha) = $color->getRgba();
 
@@ -694,6 +705,183 @@ final class Editor implements EditorInterface
         );
 
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function textAligned(ImageInterface $image, string $text, string $alignmentX, string $alignmentY, int $paddingX = 0, int $paddingY = 0, ?Color $color = null, int $size = 12, string $font = '', int $angle = 0 ): array
+    {
+        $color = $this->getColor($color);
+        $font  = $this->getFont($font);
+
+        $draw = new \ImagickDraw();
+        list($r, $g, $b, $alpha) = $color->getRgba();
+        // Text color
+        $draw->setFillColor(new \ImagickPixel("rgba($r, $g, $b, $alpha)"));
+        // Font properties
+        $draw->setFont($font);
+        $draw->setFontSize($size);
+        $draw->setGravity($this->getGravity($alignmentX, $alignmentY));
+
+        $metrics = $image->getCore()->queryFontMetrics($draw, $text);
+        $metrics['textHeight'] += $paddingY * 2;
+        $metrics['textWidth'] += $paddingX * 2;
+
+        // Invert to be consistent with GD
+        $angle = $angle * -1;
+
+        if ($alignmentX === self::ALIGNMENT_X_LEFT) {
+            $xOffset = 0;
+            $yOffset = $metrics['textHeight'];
+        } else {
+            $xOffset = -1 * ($metrics['textWidth'] / 2);
+            $yOffset = ($metrics['textHeight'] / 2);
+        }
+
+        $ttfBox = $this->getTTFBox($metrics, $angle, $xOffset, $yOffset);
+
+        $x = $this->getTextXPosition($image, $alignmentX, $ttfBox);
+        $y = $this->getTextYPosition($image, $alignmentX, $alignmentY, $ttfBox);
+
+        // dump(sprintf('A: %d X: %d Y: %d', $angle * -1, $x, $y), ''); // debug
+
+        $image->getCore()->annotateImage(
+            $draw,
+            $x,
+            $y,
+            $angle,
+            $text
+        );
+
+        $xValues = $ttfBox->getXPoints();
+        $yValues = $ttfBox->getYPoints();
+
+        return [
+            'textWidth' => $metrics['textWidth'],
+            'textHeight' => $metrics['textHeight'],
+            'boxWidth' => max($xValues) - min($xValues),
+            'boxHeight' => max($yValues) - min($yValues),
+        ];
+    }
+
+    /**
+     * @param string $alignmentX
+     * @param string $alignmentY
+     * @return int
+     * @throws \Exception
+     */
+    private function getGravity(string $alignmentX, string $alignmentY): int
+    {
+        switch ($alignmentX) {
+            case self::ALIGNMENT_X_LEFT:
+                // Imagick::GRAVITY_CENTER does not work with negative x values. Using Imagick::GRAVITY_NORTHWEST as workaround.
+                return \Imagick::GRAVITY_NORTHWEST;
+
+            case self::ALIGNMENT_X_CENTRE:
+            case self::ALIGNMENT_X_RIGHT:
+                return \Imagick::GRAVITY_CENTER;
+
+            default:
+                throw new \Exception('Invalid $alignmentX value');
+        }
+    }
+
+    /**
+     * X Position, depended on Imagick::GRAVITY_NORTHWEST setting
+     * @param ImageInterface $image
+     * @param string $alignmentX
+     * @param TTFBox $ttfBox
+     * @return int
+     * @throws \Exception
+     */
+    private function getTextXPosition(ImageInterface $image, string $alignmentX, TTFBox $ttfBox): int
+    {
+        switch ($alignmentX) {
+            case self::ALIGNMENT_X_LEFT:
+                return abs(min($ttfBox->getXPoints()));
+
+            case self::ALIGNMENT_X_CENTRE:
+                return 0;
+
+            case self::ALIGNMENT_X_RIGHT:
+                return (($image->getWidth() / 2) - max($ttfBox->getXPoints()));
+
+            default:
+                throw new \Exception('Invalid $alignmentX value');
+        }
+    }
+
+    /**
+     * Y Position, depended on Imagick::GRAVITY_NORTHWEST setting
+     * @param ImageInterface $image
+     * @param string $alignmentX
+     * @param string $alignmentY
+     * @param TTFBox $ttfBox
+     * @return int
+     * @throws \Exception
+     */
+    private function getTextYPosition(ImageInterface $image, string $alignmentX, string $alignmentY, TTFBox $ttfBox): int
+    {
+        if ($alignmentX === self::ALIGNMENT_X_LEFT) {
+            switch ($alignmentY) {
+                case self::ALIGNMENT_Y_TOP:
+                    return abs(min($ttfBox->getYPoints()));
+
+                case self::ALIGNMENT_Y_MIDDLE:
+                    $minVal = min($ttfBox->getYPoints());
+                    $maxVal = max($ttfBox->getYPoints());
+                    $val = abs($minVal) > abs($maxVal) ? $minVal : $maxVal;
+                    return ($image->getHeight() / 2) - ($val / 2);
+
+                case self::ALIGNMENT_Y_BOTTOM:
+                    return $image->getHeight() - abs(max($ttfBox->getYPoints()));
+
+                default:
+                    throw new \Exception('Invalid $alignmentY value');
+            }
+        }
+        switch ($alignmentY) {
+            case self::ALIGNMENT_Y_TOP:
+                return -1 * (($image->getHeight() / 2) - max($ttfBox->getYPoints()));
+
+            case self::ALIGNMENT_Y_MIDDLE:
+                return 0;
+
+            case self::ALIGNMENT_Y_BOTTOM:
+                return (($image->getHeight() / 2) - max($ttfBox->getYPoints()));
+
+            default:
+                throw new \Exception('Invalid $alignmentY value');
+        }
+    }
+
+    private function getTTFBox(array $metrics, int $angle, int $xOffset = 0, int $yOffset = 0): TTFBox
+    {
+        $ttfBox0 = [
+            'llx' => 0,
+            'lly' => -1 * $metrics['textHeight'],
+            'lrx' => $metrics['textWidth'],
+            'lry' => -1 * $metrics['textHeight'],
+            'urx' => $metrics['textWidth'],
+            'ury' => 0,
+            'ulx' => 0,
+            'uly' => 0
+        ];
+        $ttfBox0['llx'] += $xOffset;
+        $ttfBox0['lrx'] += $xOffset;
+        $ttfBox0['ulx'] += $xOffset;
+        $ttfBox0['urx'] += $xOffset;
+
+        $ttfBox0['lly'] += $yOffset;
+        $ttfBox0['lry'] += $yOffset;
+        $ttfBox0['uly'] += $yOffset;
+        $ttfBox0['ury'] += $yOffset;
+        $ttfBox = new TTFBox(array_values($ttfBox0));
+        if ($angle !== 0) {
+            return $ttfBox->rotate(0, 0, $angle);
+        }
+        return $ttfBox;
     }
 
     /**
