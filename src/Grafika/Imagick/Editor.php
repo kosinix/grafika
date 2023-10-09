@@ -471,7 +471,7 @@ final class Editor implements EditorInterface
         $ratio  = $width / $height;
 
         $resizeHeight = $newHeight;
-        $resizeWidth  = $newHeight * $ratio;
+        $resizeWidth  = intval(round($newHeight * $ratio));
 
         $this->_resize($image, $resizeWidth, $resizeHeight);
 
@@ -494,7 +494,7 @@ final class Editor implements EditorInterface
         $ratio  = $width / $height;
 
         $resizeWidth  = $newWidth;
-        $resizeHeight = round($newWidth / $ratio);
+        $resizeHeight = intval(round($newWidth / $ratio));
 
         $this->_resize($image, $resizeWidth, $resizeHeight);
 
@@ -526,7 +526,7 @@ final class Editor implements EditorInterface
             $optimumHeight = $newHeight;
         }
 
-        $this->_resize($image, $optimumWidth, $optimumHeight);
+        $this->_resize($image, intval(round($optimumWidth)), intval(round($optimumHeight)));
         $this->crop($image, $newWidth, $newHeight); // Trim excess parts
 
         return $this;
@@ -624,6 +624,12 @@ final class Editor implements EditorInterface
                 $image->getCore()->writeImages($file, true); // Support animated image. Eg. GIF
                 break;
 
+            case ImageType::BMP :
+            case ImageType::WEBP :
+                $image->getCore()->setFormat($type);
+                $image->getCore()->setImageCompressionQuality($quality);
+                $image->getCore()->writeImages($file, true);
+                break;
             case ImageType::PNG :
                 // PNG is lossless and does not need compression. Although GD allow values 0-9 (0 = no compression), we leave it alone.
                 $image->getCore()->setImageFormat($type);
@@ -791,7 +797,7 @@ final class Editor implements EditorInterface
 
             // Assign new image with frames
             $image = new Image($imagick->deconstructImages(), $image->getImageFile(), $newWidth, $newHeight,
-                $image->getType());
+                $image->getType(), $image->isAnimated());
         } else { // Single frame image. Eg. JPEG, PNG
 
             $image->getCore()->resizeImage($newWidth, $newHeight, \Imagick::FILTER_LANCZOS, 1, false);
@@ -819,6 +825,10 @@ final class Editor implements EditorInterface
             return ImageType::GIF;
         } else if ('png' == $ext) {
             return ImageType::PNG;
+        } else if ('bmp' == $ext) {
+            return ImageType::BMP;
+        } else if ('webp' == $ext) {
+            return ImageType::WEBP;
         } else {
             return ImageType::UNKNOWN;
         }

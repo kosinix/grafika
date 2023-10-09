@@ -106,6 +106,10 @@ final class Image implements ImageInterface {
 
             imagewbmp( $this->gd );
 
+        } else if ( ImageType::WEBP == $type ) {
+
+            imagewebp( $this->gd );
+
         } else {
             throw new \Exception( sprintf( 'File type "%s" not supported.', $type ) );
         }
@@ -140,6 +144,10 @@ final class Image implements ImageInterface {
         } else if ( ImageType::WBMP == $type ) {
 
             return self::_createWbmp( $imageFile );
+
+        } else if ( ImageType::WEBP == $type ) {
+
+            return self::_createWebp( $imageFile );
 
         } else {
             throw new \Exception( sprintf( 'Could not open "%s". File type not supported.', $imageFile ) );
@@ -418,6 +426,16 @@ final class Image implements ImageInterface {
         return new self( $gd, $imageFile, imagesx( $gd ), imagesy( $gd ), ImageType::WBMP );
     }
 
+    private static function _createWebp( $imageFile ){
+        $gd = @imagecreatefromwebp( $imageFile );
+
+        if(!$gd){
+            throw new \Exception( sprintf('Could not open "%s". Not a valid %s file.', $imageFile, ImageType::WBMP) );
+        }
+
+        return new self( $gd, $imageFile, imagesx( $gd ), imagesy( $gd ), ImageType::WEBP );
+    }
+
     /**
      * @param $imageFile
      *
@@ -450,6 +468,8 @@ final class Image implements ImageInterface {
 
             return ImageType::WBMP;
 
+        } else if ( IMG_WEBP == $type ) {
+            return ImageType::WEBP;
         }
 
         return ImageType::UNKNOWN;

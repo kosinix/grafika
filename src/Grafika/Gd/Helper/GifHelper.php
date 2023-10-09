@@ -504,8 +504,8 @@ final class GifHelper {
                 $dY * $cY, // dy
                 0,
                 0,
-                $image['frames'][0]['imageWidth'] * $cX,
-                $image['frames'][0]['imageHeight'] * $cY,
+                intval(round($image['frames'][0]['imageWidth'] * $cX)),
+                intval(round($image['frames'][0]['imageHeight'] * $cY)),
                 $width,
                 $height
             );

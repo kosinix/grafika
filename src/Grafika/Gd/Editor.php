@@ -575,7 +575,7 @@ final class Editor implements EditorInterface
         $resizeHeight = $newHeight;
         $resizeWidth  = $newHeight * $ratio;
 
-        $this->_resize($image, $resizeWidth, $resizeHeight);
+        $this->_resize($image, intval(round($resizeWidth)), $resizeHeight);
 
         return $this;
     }
@@ -596,7 +596,7 @@ final class Editor implements EditorInterface
         $ratio  = $width / $height;
 
         $resizeWidth  = $newWidth;
-        $resizeHeight = round($newWidth / $ratio);
+        $resizeHeight = intval(round($newWidth / $ratio));
 
         $this->_resize($image, $resizeWidth, $resizeHeight);
 
@@ -628,7 +628,7 @@ final class Editor implements EditorInterface
             $optimumHeight = $newHeight;
         }
 
-        $this->_resize($image, $optimumWidth, $optimumHeight);
+        $this->_resize($image, intval(round($optimumWidth)), intval(round($optimumHeight)));
         $this->crop($image, $newWidth, $newHeight); // Trim excess parts
 
         return $this;
@@ -746,6 +746,14 @@ final class Editor implements EditorInterface
             case ImageType::PNG :
                 // PNG is lossless and does not need compression. Although GD allow values 0-9 (0 = no compression), we leave it alone.
                 imagepng($image->getCore(), $file);
+                break;
+
+            case ImageType::BMP :
+                imagebmp($image->getCore(), $file);
+                break;
+
+            case ImageType::WEBP :
+                imagewebp($image->getCore(), $file, $quality);
                 break;
 
             default: // Defaults to jpeg
@@ -1058,6 +1066,10 @@ final class Editor implements EditorInterface
             return ImageType::PNG;
         } else if ('wbm' === $ext or 'wbmp' === $ext) {
             return ImageType::WBMP;
+        } else if ('bmp' == $ext) {
+            return ImageType::BMP;
+        } else if ('webp' == $ext) {
+            return ImageType::WEBP;
         } else {
             return ImageType::UNKNOWN;
         }

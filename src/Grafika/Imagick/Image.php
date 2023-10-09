@@ -94,7 +94,7 @@ final class Image implements ImageInterface {
 
         $imagick = new \Imagick( realpath($imageFile) );
         $animated = false;
-        if ($imagick->getImageIterations() > 0) {
+        if ($imagick->getNumberImages() > 0) {
             $animated = true;
         }
 

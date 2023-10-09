@@ -18,4 +18,8 @@ class ImageType {
     const PNG = 'PNG';
 
     const WBMP = 'WBMP';
+
+    const BMP = 'BMP';
+
+    const WEBP = 'WEBP';
 }
