@@ -791,7 +791,7 @@ final class Editor implements EditorInterface
 
             // Assign new image with frames
             $image = new Image($imagick->deconstructImages(), $image->getImageFile(), $newWidth, $newHeight,
-                $image->getType());
+                $image->getType(), $image->isAnimated());
         } else { // Single frame image. Eg. JPEG, PNG
 
             $image->getCore()->resizeImage($newWidth, $newHeight, \Imagick::FILTER_LANCZOS, 1, false);
